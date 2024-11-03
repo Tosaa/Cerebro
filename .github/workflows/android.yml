@@ -35,10 +35,6 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-
-      - name: Cache action output
-        uses: actions/cache/output@v2
-        env:
-          CACHE_OUTPUT: ${{ steps.android.outputs.cache-hit }}
 
   second-job:
     needs: android
@@ -47,10 +43,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Load cached project
-        uses: actions/cache/load@v2
+        id: restore-cache
+        uses: actions/cache@v2
         env:
-          CACHE_KEY: ${{ runner.os }}-
+          CACHE_KEY: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+
       - name: List all files
+        if: steps.restore-cache.outputs.cache-hit == 'true'
         run: ls -al
 
 
