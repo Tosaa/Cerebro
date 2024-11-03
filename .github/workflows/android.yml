@@ -7,7 +7,7 @@ on:
     branches: [ "main", "feature/CI_CD" ]
 
 jobs:
-  setup:
+  android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,19 +21,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
       - name: Build with Gradle
         run: ./gradlew build
 
-  static-code-analysis:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Run static code analysis
         run: echo "Run Detekt or something"
