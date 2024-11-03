@@ -25,6 +25,7 @@ jobs:
         run: ./gradlew build
 
       - name: Cache build project
+        id: cache
         uses: actions/cache@v2
         env:
           cache-name: cache-build-project
@@ -44,11 +45,12 @@ jobs:
         id: restore-cache
         uses: actions/cache@v2
         with:
-          restore-keys:
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+          key: ${{ runner.os }}-build-${{ android.steps.cache.env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
 
-      - name: List all files
-        if: steps.restore-cache.outputs.cache-hit == 'true'
-        run: ls -al
+      - if: ${{ steps.restore-cache.outputs.cache-hit != 'true'}}
+        name: Project was reload from cache
+        run: echo "Project was not cached"
+        continue-on-error: false
 
-
+      - name: Final step
+        run: echo "Finished"
