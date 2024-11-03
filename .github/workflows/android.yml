@@ -33,8 +33,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
           restore-keys:
             ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-
 
   second-job:
     needs: android
@@ -45,8 +43,9 @@ jobs:
       - name: Load cached project
         id: restore-cache
         uses: actions/cache@v2
-        env:
-          CACHE_KEY: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+        with:
+          restore-keys:
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
 
       - name: List all files
         if: steps.restore-cache.outputs.cache-hit == 'true'
