@@ -24,5 +24,33 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Run static code analysis
-        run: echo "Run Detekt or something"
+      - name: Cache build project
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-build-project
+        with:
+          path: .
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+          restore-keys:
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-
+      - name: Cache action output
+        uses: actions/cache/output@v2
+        env:
+          CACHE_OUTPUT: ${{ steps.android.outputs.cache-hit }}
+
+  second-job:
+    needs: android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Load cached project
+        uses: actions/cache/load@v2
+        env:
+          CACHE_KEY: ${{ runner.os }}-
+      - name: List all files
+        run: ls -al
+
+
