@@ -2,25 +2,75 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/CI_CD" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "feature/CI_CD" ]
+
+env:
+  cache-var-project: cache-build-project
 
 jobs:
-  build:
-
+  build-android-project:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v4
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x detekt
+
+      - name: Cache build project
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: .
+          key: ${{ runner.os }}-build-${{ env.cache-var-project }}
+          restore-keys:
+            ${{ runner.os }}-build-${{ env.cache-var-project }}
+
+  second-job:
+    needs: build-android-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Load cached project
+        id: restore-cache
+        uses: actions/cache@v3
+        with:
+          path: .
+          key: ${{ runner.os }}-build-${{ env.cache-var-project }}
+
+      - if: ${{ steps.restore-cache.outputs.cache-hit != 'true'}}
+        name: Build Project could not be load from cache
+        run: echo "Project was not cached"
+        continue-on-error: false
+
+      - name: List available APKs
+        run: ls -R ./app/build/outputs/apk
+
+  static-code-analysis:
+    needs: build-android-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Detekt Main
+        run: ./gradlew detektMain
+
