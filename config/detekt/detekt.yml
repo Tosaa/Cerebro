@@ -307,7 +307,7 @@ exceptions:
 naming:
   active: true
   BooleanPropertyNaming:
-    active: false
+    active: true
     allowedPattern: '^(is|has|are)'
   ClassNaming:
     active: true
@@ -507,7 +507,7 @@ style:
   AlsoCouldBeApply:
     active: false
   BracesOnIfStatements:
-    active: false
+    active: true
     singleLine: 'never'
     multiLine: 'always'
   BracesOnWhenStatements:
