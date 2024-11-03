@@ -31,7 +31,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ./allFiles.txt
+          path: .
           key: ${{ runner.os }}-build-${{ env.cache-var-project }}
           restore-keys:
             ${{ runner.os }}-build-${{ env.cache-var-project }}
@@ -41,12 +41,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Load cached project
         id: restore-cache
         uses: actions/cache@v3
         with:
-          path: ./allFiles.txt
+          path: .
           key: ${{ runner.os }}-build-${{ env.cache-var-project }}
 
       - if: ${{ steps.restore-cache.outputs.cache-hit != 'true'}}
@@ -62,12 +62,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Load cached project
         id: restore-cache
         uses: actions/cache@v3
         with:
-          path: ./allFiles.txt
+          path: .
           key: ${{ runner.os }}-build-${{ env.cache-var-project }}
 
       - if: ${{ steps.restore-cache.outputs.cache-hit != 'true'}}
