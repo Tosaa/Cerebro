@@ -45,6 +45,7 @@ internal fun StrategyScreen(strategy: Strategy) {
     StrategyCard(strategy, Modifier.padding(8.dp))
 }
 
+@Suppress("MagicNumber")
 @Composable
 internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
     val editorState = remember { mutableStateOf(StrategyEditorState()) }
@@ -62,7 +63,7 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
         }
     } else {
         Column(Modifier.padding(horizontal = 8.dp)) {
-            TabRow(selectedEditorStep.value, indicator = {}, divider = {}) {
+            TabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
                 (1..4).forEach { stepId ->
                     val isStepSelected = selectedEditorStep.value == stepId
                     val isStepCompleted = when (stepId) {
@@ -88,7 +89,7 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                             )
                         ) {
                             Column {
-                                Text("$stepId", modifier = Modifier.padding(horizontal = 8.dp), textAlign = TextAlign.Center)
+                                Text(text = "$stepId", modifier = Modifier.padding(horizontal = 8.dp), textAlign = TextAlign.Center)
                             }
                         }
                     }
@@ -104,7 +105,15 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                 }
             }
             Spacer(Modifier.height(32.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) { Button({ finalStrategyPreview.value = editorState.value.buildStrategy() }, enabled = editorState.value.buildStrategy() != null) { Text("Preview") } }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    onClick = { finalStrategyPreview.value = editorState.value.buildStrategy() },
+                    enabled = editorState.value.buildStrategy() != null
+                ) { Text("Preview") }
+            }
         }
     }
 }
@@ -112,19 +121,19 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
 @Composable
 fun TitleStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: Title")
-    TextField(editorState.newTitle.value ?: "", { editorState.newTitle.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(value = editorState.newTitle.value.orEmpty(), onValueChange = { editorState.newTitle.value = it }, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
 fun ShortDescriptionStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: ShortDescription")
-    TextField(editorState.newShortDescription.value ?: "", { editorState.newShortDescription.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(value = editorState.newShortDescription.value.orEmpty(), onValueChange = { editorState.newShortDescription.value = it }, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
 fun LongDescriptionStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: LongDescription")
-    TextField(editorState.newLongDescription.value ?: "", { editorState.newLongDescription.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(value = editorState.newLongDescription.value.orEmpty(), onValueChange = { editorState.newLongDescription.value = it }, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -145,8 +154,9 @@ fun CategoryStep(index: Int, editorState: StrategyEditorState) {
     }
 }
 
+@Suppress("MagicNumber")
 private val Int.stepName: String
-    get() = when(this){
+    get() = when (this) {
         1 -> "Title"
         2 -> "Short Description"
         3 -> "Long Description"

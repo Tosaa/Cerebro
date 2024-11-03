@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import redtoss.creativity.cerebro.data.Category
 
 @Composable
-fun CategoryCard(category: Category, modifier: Modifier = Modifier, onClicked: () -> Unit) = PreviewCard(category.title, modifier, onClicked)
+fun CategoryCard(category: Category, modifier: Modifier = Modifier, onClicked: () -> Unit) = PreviewCard(title = category.title, modifier = modifier, onClicked = onClicked)
 
 @Composable
 fun PreviewCard(title: String, modifier: Modifier = Modifier, onClicked: () -> Unit) {
@@ -24,7 +24,7 @@ fun PreviewCard(title: String, modifier: Modifier = Modifier, onClicked: () -> U
             .clickable { onClicked() },
     ) {
         Column(Modifier.padding(vertical = 16.dp)) {
-            Text(title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, maxLines = 1)
+            Text(text = title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, maxLines = 1)
         }
     }
 }

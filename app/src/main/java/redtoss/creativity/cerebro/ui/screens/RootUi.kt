@@ -27,7 +27,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
     val navHost = rememberNavController()
     Scaffold(topBar = { AppBar(navHost) }) { paddingValues ->
         NavHost(
-            navHost, startDestination = Screens.Main.name, modifier = Modifier
+            navController = navHost, startDestination = Screens.Main.name, modifier = Modifier
                 .padding(paddingValues)
                 .padding(8.dp)
                 .fillMaxWidth()
@@ -36,17 +36,25 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 HomeScreen(strategies, navHost)
             }
 
-            composable(Screens.StrategyLibrary.name, arguments = Screens.StrategyLibrary.arguments, enterTransition = { slideInVertically() }) {
+            composable(route = Screens.StrategyLibrary.name, arguments = Screens.StrategyLibrary.arguments, enterTransition = { slideInVertically() }) {
                 LibraryScreen(strategyProvider, navHost)
             }
 
-            composable(Screens.Category.name, arguments = Screens.Category.arguments, popExitTransition = { slideOutHorizontally { -1 * it } }, enterTransition = { slideInHorizontally() { it } }) {
+            composable(
+                route = Screens.Category.name,
+                arguments = Screens.Category.arguments,
+                popExitTransition = { slideOutHorizontally { -1 * it } },
+                enterTransition = { slideInHorizontally() { it } }) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
                 } ?: navHost.popBackStack()
             }
 
-            composable(Screens.Strategy.name, arguments = Screens.Strategy.arguments, popExitTransition = { slideOutHorizontally { -1 * it } }, enterTransition = { slideInHorizontally() { it } }) { navBackStackEntry ->
+            composable(
+                route = Screens.Strategy.name,
+                arguments = Screens.Strategy.arguments,
+                popExitTransition = { slideOutHorizontally { -1 * it } },
+                enterTransition = { slideInHorizontally() { it } }) { navBackStackEntry ->
                 Screens.Strategy.strategyArgument(navBackStackEntry)?.let { strategyHashCode ->
                     strategies.value.firstOrNull { it.hashCode() == strategyHashCode }?.let {
                         StrategyScreen(it)
@@ -54,17 +62,22 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 } ?: navHost.popBackStack()
             }
 
-            composable(Screens.About.name, arguments = Screens.About.arguments, popExitTransition = { slideOutVertically() { -1 * it } }, enterTransition = { slideInVertically() }) {
+            composable(
+                route = Screens.About.name,
+                arguments = Screens.About.arguments,
+                popExitTransition = { slideOutVertically() { -1 * it } },
+                enterTransition = { slideInVertically() }) {
                 AboutScreen()
             }
 
-            composable(Screens.NewStrategy.name, arguments = Screens.NewStrategy.arguments) {
-                StrategyEditorScreen() {
-                    val result = strategyProvider.addCustomStrategy(it)
-                    result.onSuccess { navHost.popBackStack() }
-                    result.onFailure {
-                        it.printStackTrace()
-                        println("failed to create new strategy")
+            composable(route = Screens.NewStrategy.name, arguments = Screens.NewStrategy.arguments) {
+                StrategyEditorScreen { strategy ->
+                    with(strategyProvider.addCustomStrategy(strategy)) {
+                        onSuccess { navHost.popBackStack() }
+                        onFailure { error ->
+                            error.printStackTrace()
+                            println("failed to create new strategy")
+                        }
                     }
                 }
             }

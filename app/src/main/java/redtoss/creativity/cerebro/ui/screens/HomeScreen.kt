@@ -25,6 +25,7 @@ import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.ui.layouts.cards.CategoryCard
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard
 
+@Suppress("MagicNumber")
 @Composable
 internal fun HomeScreen(strategies: State<List<Strategy>>, navHost: NavHostController) {
     val randomSeed = remember {
@@ -77,10 +78,10 @@ internal fun HomeScreen(strategies: State<List<Strategy>>, navHost: NavHostContr
 @Composable
 private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostController) {
     Column {
-        Text("Strategy of the day:", Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleSmall)
+        Text(text = "Strategy of the day:", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleSmall)
         Spacer(Modifier.height(8.dp))
         randomStrategy?.let {
-            StrategyPreviewCard(it, Modifier.padding(start = 8.dp, end = 8.dp)) { navHost.navigateToScreen(Screens.Strategy(it)) }
+            StrategyPreviewCard(strategy = it, modifier = Modifier.padding(start = 8.dp, end = 8.dp)) { navHost.navigateToScreen(Screens.Strategy(it)) }
         }
         Spacer(Modifier.height(16.dp))
     }

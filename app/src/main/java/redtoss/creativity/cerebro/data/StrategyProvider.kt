@@ -39,16 +39,17 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
 
     suspend fun resolveStrategies(forceReload: Boolean = false): List<Strategy> {
         val existingStrategies = resolveStrategies(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)
-        val customStrategies = (customStrategyInputStream?.let {
-            resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies)
-        } ?: emptyList())
+        val customStrategies =
+            customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
         return existingStrategies + customStrategies
 
     }
 
     fun addCustomStrategy(strategy: Strategy): Result<Unit> {
         println("addCustomStrategy(): $strategy")
-        val existingStrategies = runBlocking(ioDispatcher) { customStrategyInputStream?.let { resolveStrategies(it, false, cachedCustomResolvedStrategies) } ?: emptyList() }
+        val existingStrategies = runBlocking(ioDispatcher) {
+            customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
+        }
         val newCustomStrategies = existingStrategies.filter { it.title == strategy.title } + listOf(strategy)
 
         return try {
@@ -96,5 +97,4 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
             }
         }.await()
     }
-
 }

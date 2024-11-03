@@ -30,10 +30,15 @@ fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onCli
             .fillMaxWidth()
             .clickable { onClicked() },
 
-    ) {
+        ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(IntrinsicSize.Max)) {
-                Icon(strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle), "Strategy preview card icon, ${strategy.title}", Modifier.height(20.dp), tint = MaterialTheme.colorScheme.primary)
+                Icon(
+                    painter = strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle),
+                    contentDescription = "Strategy preview card icon, ${strategy.title}",
+                    modifier = Modifier.height(20.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
                 Text(
                     text = strategy.title,
                     color = MaterialTheme.colorScheme.primary,
@@ -44,7 +49,7 @@ fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onCli
                     maxLines = 2
                 )
             }
-            Text(strategy.shortDescription, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxSize())
+            Text(text = strategy.shortDescription, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxSize())
         }
     }
 }

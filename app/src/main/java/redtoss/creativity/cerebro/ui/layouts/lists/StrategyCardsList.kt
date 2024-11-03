@@ -17,16 +17,16 @@ import redtoss.creativity.cerebro.ui.screens.navigateToScreen
 @Composable
 fun StrategyCardsList(title: String, strategies: List<Strategy>, navHost: NavHostController) {
     LazyColumn(Modifier.padding(horizontal = 8.dp)) {
-        strategyCardsList(title, strategies, navHost)
+        strategyCardsList(title = title, strategies = strategies, navHost = navHost)
     }
 }
 
 fun LazyListScope.strategyCardsList(title: String, strategies: List<Strategy>, navHost: NavHostController) {
-    item { Text(title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 8.dp)) }
+    item { Text(text = title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 8.dp)) }
     strategies.forEach { strategy ->
         item {
             StrategyPreviewCard(
-                strategy, modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp)
+                strategy = strategy, modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp)
             ) { navHost.navigateToScreen(Screens.Strategy(strategy)) }
         }
     }

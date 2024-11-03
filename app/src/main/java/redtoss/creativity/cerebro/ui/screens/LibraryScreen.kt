@@ -10,5 +10,5 @@ import redtoss.creativity.cerebro.ui.layouts.lists.StrategyCardsList
 @Composable
 fun LibraryScreen(strategyProvider: StrategyProvider, navHost: NavHostController) {
     val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(emptyList())
-    StrategyCardsList("Library", strategies.value.sortedBy { it.title }, navHost)
+    StrategyCardsList(title = "Library", strategies = strategies.value.sortedBy { it.title }, navHost = navHost)
 }

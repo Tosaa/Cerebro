@@ -30,15 +30,15 @@ fun AppBar(navHost: NavHostController) {
         Column(Modifier.clickable {
             navHost.popBackStack(Screens.Main.route, false)
         }) {
-            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)
+            Text(text = stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)
             // Not sure whether second line looks better
             // Text(stringResource(R.string.app_motto), style = MaterialTheme.typography.titleSmall, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.secondary)
         }
     }, actions = {
         val isMenuOpen = remember { mutableStateOf(false) }
         DropdownMenu(
-            isMenuOpen.value,
-            { isMenuOpen.value = false },
+            expanded = isMenuOpen.value,
+            onDismissRequest = { isMenuOpen.value = false },
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.padding(4.dp),
         ) {
