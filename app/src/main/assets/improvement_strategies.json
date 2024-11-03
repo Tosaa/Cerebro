@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Enhancing Collaboration",
+    "short_description": "What could I do or stop doing that would make it easier to work with me?",
+    "long_description": "What could I do or stop doing that would make it easier to work with me?\nUse this question to understand detailed behavior of yourself that is challenging the collaboration between you and your colleagues.",
+    "category": "Improvement"
+  },
+  {
+    "title": "Question the task",
+    "short_description": "What’s not working for you in this process, project or task?",
+    "long_description": "What’s not working for you in this process, project or task?\nUse this question to understand specific pain points or challenges your colleague is facing, and work together to identify solutions.",
+    "category": "Improvement"
+  },
+  {
+    "title": "Encouraging Decision-Making",
+    "short_description": "What would make you feel more supported, valued or included in this team, decision-making process?",
+    "long_description": "What would make you feel more supported, valued or included in this team, decision-making process?\nUse this question to gather feedback on how you can improve your leadership or management style to better support your colleagues.",
+    "category": "Improvement"
+  },
+  {
+    "title": "Support Roles",
+    "short_description": "What’s one thing I can do differently to help you succeed in your role?",
+    "long_description": "What’s one thing I can do differently to help you succeed in your role?\nUse this question to solicit specific, actionable feedback from your colleague on how you can improve your guidance or direction.",
+    "category": "Improvement"
+  },
+  {
+    "title": "Identify Barriers",
+    "short_description": "What’s holding you back from taking on more responsibility or ownership of this task or project?",
+    "long_description": "What’s holding you back from taking on more responsibility or ownership of this task or project?\nUse this question to identify potential barriers or concerns your colleague may have, and work together to address them.",
+    "category": "Improvement"
+  }
+]
