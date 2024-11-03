@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/CI_CD" ]
   pull_request:
     branches: [ "main", "feature/CI_CD" ]
 
@@ -25,6 +25,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
 
