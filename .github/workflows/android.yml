@@ -21,8 +21,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Log all files
+        run: ls -al > ./allFiles.txt
+
+#      - name: Build with Gradle
+#        run: ./gradlew build
 
       - name: Cache build project
         id: cache
@@ -30,10 +33,10 @@ jobs:
         env:
           cache-name: cache-build-project
         with:
-          path: .
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+          path: ./allFiles.txt
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('./allFiles.txt')}}
           restore-keys:
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('./allFiles.txt')}}
 
   second-job:
     needs: android
@@ -47,7 +50,8 @@ jobs:
         env:
           cache-name: cache-build-project
         with:
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('**/app/build/outputs/apk/release/app-release/unsigned.apk')}}
+          path: ./allFiles.txt
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{hashFiles('./allFiles.txt')}}
 
       - if: ${{ steps.restore-cache.outputs.cache-hit != 'true'}}
         name: Project was reload from cache
