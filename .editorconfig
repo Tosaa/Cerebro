@@ -1,0 +1,42 @@
+# EditorConfig - https://editorconfig.org
+#
+# Mirrors kotlin.code.style=official from gradle.properties so that editors,
+# IDEs and CI agree on formatting without anyone having to import IDE settings.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{kt,kts}]
+indent_size = 4
+max_line_length = 140
+# Official Kotlin style permits trailing commas; keeping them allowed produces
+# smaller diffs when arguments or parameters are added.
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+[*.{yml,yaml,json,toml}]
+indent_size = 2
+
+[*.md]
+# Two trailing spaces are a hard line break in Markdown - never strip them.
+trim_trailing_whitespace = false
+
+[{Makefile,makefile,*.mk}]
+# Make requires literal tabs in recipe lines.
+indent_style = tab
+
+[*.bat]
+end_of_line = crlf
+
+[gradlew.bat]
+# Exception to the rule above: the committed Gradle wrapper script is generated
+# with LF endings (verified with `file gradlew.bat`). Forcing CRLF here would
+# rewrite a generated, tracked file on the next save for no benefit.
+end_of_line = lf
