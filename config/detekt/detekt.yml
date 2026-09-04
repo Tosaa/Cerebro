@@ -1,0 +1,56 @@
+# ---------------------------------------------------------------------------
+# Cerebro - detekt configuration
+#
+# This file is a *delta* over the defaults shipped with the detekt version
+# pinned in gradle/libs.versions.toml (`buildUponDefaultConfig = true`).
+# Only rules the project knowingly deviates from are listed. Everything else
+# follows detekt's defaults and moves with the detekt upgrade, so upgrading
+# never means diffing an 800-line dump.
+#
+# Every entry below states *why* it deviates. If a reason stops applying,
+# delete the entry rather than growing the file.
+# ---------------------------------------------------------------------------
+
+complexity:
+  CyclomaticComplexMethod:
+    # A Compose screen's complexity is dominated by flat `when` dispatch over
+    # UI state (`1 -> Title`, `2 -> Description`, ...). Those branches carry no
+    # logic, so counting them measures the number of UI states, not the code's
+    # difficulty.
+    ignoreSimpleWhenEntries: true
+  LongMethod:
+    # @Composable functions are declarative UI trees, not procedures. Splitting
+    # them purely to satisfy a line budget produces indirection, not clarity.
+    ignoreAnnotated: ['Composable']
+
+naming:
+  FunctionNaming:
+    # @Composable functions are PascalCase by Compose convention.
+    ignoreAnnotated: ['Composable']
+
+style:
+  MagicNumber:
+    # Compose UI code is dense with layout literals (8.dp, 32.dp, 0.5f) and the
+    # theme layer with colour tokens (Color(0xFF87521B)). Naming each one adds a
+    # constant per value without adding meaning.
+    ignoreAnnotated: ['Composable', 'Preview']
+    ignorePropertyDeclaration: true
+  ReturnCount:
+    # Guard clauses (`... ?: return null` when required input is missing) are the
+    # idiomatic Kotlin alternative to a nested if-pyramid.
+    excludeGuardClauses: true
+  MaxLineLength:
+    # Matches `max_line_length = 140` in .editorconfig so editors, ktlint and
+    # detekt all agree on one number.
+    maxLineLength: 140
+  WildcardImport:
+    # `import org.junit.Assert.*` is the conventional way to bring assertions
+    # into a test file.
+    excludes: ['**/test/**', '**/androidTest/**']
+
+formatting:
+  MaximumLineLength:
+    # Same source of truth as style>MaxLineLength above: .editorconfig.
+    maxLineLength: 140
+  NoWildcardImports:
+    excludes: ['**/test/**', '**/androidTest/**']

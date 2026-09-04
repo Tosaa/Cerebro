@@ -33,6 +33,12 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # Runs before the build so a style regression fails in seconds instead of
+      # after a full assemble. `build` depends on `check` and would run detekt
+      # again, but the up-to-date check makes the second run free.
+      - name: Static analysis with detekt
+        run: ./gradlew detekt
+
       - name: Build with Gradle
         run: ./gradlew build
 
@@ -41,5 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-reports
+          # Covers detekt's HTML and SARIF output (app/build/reports/detekt/)
+          # alongside the unit test and lint reports.
           path: app/build/reports/
           retention-days: 7
