@@ -1,10 +1,11 @@
 [versions]
 agp = "8.6.1"
-kotlin = "2.0.20"
+kotlin = "2.1.21"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kspPlantumlGenerator = "0.0.+"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.09.03"
@@ -28,6 +29,7 @@ androidx-google-fonts = {group = "androidx.compose.ui", name = "ui-text-google-f
 
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.8.2" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.7.1" }
+ksp-plantuml-generator = { module = "io.github.tosaa.puml.ksp:ksp-plantuml-generator", version.ref = "kspPlantumlGenerator" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

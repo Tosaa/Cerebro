@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
+    id("com.google.devtools.ksp") version "2.1.21-2.0.1"
 }
 
 android {
@@ -45,7 +46,21 @@ android {
     }
 }
 
+tasks {
+    register("generatePlantumlWithMySettings") {
+        ksp {
+            // arg("puml.excludedPackages", "android,androidx")
+            // arg("puml.includedPackages", "redtoss")
+            arg("puml.showPrivateClasses", "false")
+            arg("puml.showPrivateProperties", "false")
+            arg("puml.showPrivateFunctions", "false")
+        }
+        dependsOn(findByName("kspDebugKotlin"))
+    }
+}
+
 dependencies {
+    ksp(libs.ksp.plantuml.generator)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
