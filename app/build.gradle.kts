@@ -36,7 +36,9 @@ android {
         warningsAsErrors = true
         checkReleaseBuilds = true
         checkDependencies = true
-        // English-only app by product decision; see docs/project-setup-backlog.md
+        // Cerebro is English-only by product decision, so user-facing strings live
+        // inline in the Composables rather than in strings.xml. Revisit this if
+        // localisation ever becomes a goal.
         disable += "HardcodedText"
         // Always a false positive here: lint spell-checks the base64 Google Fonts
         // certificate blob in res/values/font_certs.xml. Nothing to fix, ever.
