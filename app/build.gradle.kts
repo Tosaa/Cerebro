@@ -28,8 +28,27 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    lint {
+        abortOnError = true
+        warningsAsErrors = true
+        checkReleaseBuilds = true
+        checkDependencies = true
+        // English-only app by product decision; see docs/project-setup-backlog.md
+        disable += "HardcodedText"
+        // Always a false positive here: lint spell-checks the base64 Google Fonts
+        // certificate blob in res/values/font_certs.xml. Nothing to fix, ever.
+        disable += "Typos"
+
+        // Real but deferred: demoted to hints so they stay visible in the lint report
+        // without gating the build. Each needs a res/ change, tracked as follow-up work.
+        informational += "PrivateResource"        // app re-declares ui-text-google-fonts' cert arrays
+        informational += "UnusedResources"        // leftover template colors, drawables and app_motto
+        informational += "IconDuplicates"         // ic_launcher and ic_launcher_round are identical
+        informational += "MonochromeLauncherIcon" // adaptive icon has no monochrome layer yet
+        informational += "IconLocation"           // cerebro_logo.png lives in densityless res/drawable
     }
     buildFeatures {
         compose = true
