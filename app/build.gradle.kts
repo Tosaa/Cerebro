@@ -28,8 +28,29 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    lint {
+        abortOnError = true
+        warningsAsErrors = true
+        checkReleaseBuilds = true
+        checkDependencies = true
+        // Cerebro is English-only by product decision, so user-facing strings live
+        // inline in the Composables rather than in strings.xml. Revisit this if
+        // localisation ever becomes a goal.
+        disable += "HardcodedText"
+        // Always a false positive here: lint spell-checks the base64 Google Fonts
+        // certificate blob in res/values/font_certs.xml. Nothing to fix, ever.
+        disable += "Typos"
+
+        // Real but deferred: demoted to hints so they stay visible in the lint report
+        // without gating the build. Each needs a res/ change, tracked as follow-up work.
+        informational += "PrivateResource"        // app re-declares ui-text-google-fonts' cert arrays
+        informational += "UnusedResources"        // leftover template colors, drawables and app_motto
+        informational += "IconDuplicates"         // ic_launcher and ic_launcher_round are identical
+        informational += "MonochromeLauncherIcon" // adaptive icon has no monochrome layer yet
+        informational += "IconLocation"           // cerebro_logo.png lives in densityless res/drawable
     }
     buildFeatures {
         compose = true
