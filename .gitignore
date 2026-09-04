@@ -1,51 +1,56 @@
-*.iml
+# ---------------------------------------------------------------------------
+# Cerebro - root .gitignore
+#
+# One entry per concept. Names are deliberately written without a trailing
+# slash where the old file also used the bare form, so they keep matching both
+# files and directories and nothing previously ignored can slip back into
+# version control.
+#
+# Module-specific output is additionally covered by app/.gitignore.
+# ---------------------------------------------------------------------------
+
+# --- Gradle ----------------------------------------------------------------
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
+build
+
+# --- Android build output --------------------------------------------------
+captures
 .externalNativeBuild
 .cxx
-local.properties
-/material-theme.zip
-
-## Android
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
 *.apk
 output.json
 
-# IntelliJ
-*.iml
+# --- Kotlin tooling --------------------------------------------------------
+# The Kotlin daemon writes .kotlin/errors/*.log and .kotlin/sessions/.
+# Previously only the *.log files were caught, and only incidentally.
+.kotlin/
+
+# --- IDE / editor ----------------------------------------------------------
+# The blanket .idea/ rule already covers caches/, libraries/, modules.xml,
+# workspace.xml, navEditor.xml and assetWizardSettings.xml, which used to be
+# listed individually as well.
 .idea/
+*.iml
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-# Keystore files
+# --- Local configuration ---------------------------------------------------
+# Machine-specific settings such as the Android SDK path.
+local.properties
+
+# --- Secrets ---------------------------------------------------------------
 *.jks
 *.keystore
-
-# Google Services (e.g. APIs or Firebase)
 google-services.json
 
-# Android Profiling
+# --- Logs & profiling ------------------------------------------------------
+*.log
 *.hprof
+
+# --- OS files --------------------------------------------------------------
+.DS_Store
+
+# --- Stray local artefacts -------------------------------------------------
+# Leftover design asset download (Oct 2024); safe to delete locally.
+/material-theme.zip
