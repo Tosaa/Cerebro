@@ -22,6 +22,5 @@ enum class Category(customTitle: String? = null) {
             Clarity -> R.drawable.clarity
             DecisionMaking -> R.drawable.decision
             Improvement -> R.drawable.brain
-            else -> null
         }
 }

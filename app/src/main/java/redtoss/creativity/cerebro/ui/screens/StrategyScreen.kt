@@ -23,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -63,7 +62,7 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
         }
     } else {
         Column(Modifier.padding(horizontal = 8.dp)) {
-            TabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
+            SecondaryTabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
                 (1..4).forEach { stepId ->
                     val isStepSelected = selectedEditorStep.value == stepId
                     val isStepCompleted = when (stepId) {
