@@ -12,7 +12,7 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 Pick the next unreviewed batch from the queue at the bottom, review those ten, move
 them into a "Reviewed" section with a verdict, and update the progress line.
 
-**Progress: 10 of 115 inactive rules reviewed.**
+**Progress: 20 of 115 inactive rules reviewed.**
 
 ---
 
@@ -145,14 +145,98 @@ fire here. Listed only so it is not revisited.
 
 ---
 
+## Batch 2 — naming (all 6 usable) and the documentation question (4 of 10)
+
+`comments` has 10 usable rules; the four that decide policy are here, the remaining
+six are in batch 3.
+
+| # | Rule | Set | Verdict |
+| --- | --- | --- | --- |
+| 11 | `LambdaParameterNaming` | naming | **Enable** |
+| 12 | `FunctionMinLength` | naming | Optional |
+| 13 | `FunctionMaxLength` | naming | Optional |
+| 14 | `ForbiddenClassName` | naming | **No-op at defaults** |
+| 15 | `VariableMinLength` | naming | **No-op at defaults** |
+| 16 | `VariableMaxLength` | naming | **Skip** |
+| 17 | `OutdatedDocumentation` | comments | **Enable** |
+| 18 | `UndocumentedPublicClass` | comments | **Skip** |
+| 19 | `UndocumentedPublicFunction` | comments | **Skip** |
+| 20 | `UndocumentedPublicProperty` | comments | **Skip** |
+
+### Two rules that do nothing at their defaults
+
+Worth knowing as a general trap: a rule can be enabled and still never fire.
+
+- **`ForbiddenClassName`** — bans class names containing given substrings, but
+  `forbiddenName: []` is empty by default. Turning it on changes nothing until the
+  list is filled. Only worth enabling alongside an actual taboo, e.g.
+  `forbiddenName: ['Manager', 'Util', 'Helper']`.
+- **`VariableMinLength`** — `minimumVariableNameLength: 1`, so no name can violate it.
+  It would need raising to 2 or 3 to mean anything, and then it starts objecting to
+  `i` and `it`, which are idiomatic. Leave it off.
+
+### 11. `LambdaParameterNaming` — naming
+Requires lambda parameters to match `[a-z][A-Za-z0-9]*|_` — camelCase, or `_` for
+deliberately unused. **Config:** `parameterPattern`. **Verdict: enable.** Low noise,
+and the `_` allowance means it does not fight idiomatic code.
+
+### 12. `FunctionMinLength` — naming
+Flags function names shorter than `minimumFunctionNameLength` (default 3), catching
+`f`, `fn`. **Config:** `minimumFunctionNameLength`. **Verdict: optional.** Harmless
+here — Composable names are long — but it catches little in practice.
+
+### 13. `FunctionMaxLength` — naming
+Flags names longer than `maximumFunctionNameLength` (default 30). **Config:**
+`maximumFunctionNameLength`. **Verdict: optional, leaning skip.** The limit is
+arbitrary, and descriptive Composable names are a feature rather than a defect.
+
+### 16. `VariableMaxLength` — naming
+Flags variable names longer than 64 characters. **Config:**
+`maximumVariableNameLength`. **Verdict: skip.** Effectively never fires; pure config
+noise.
+
+### 17. `OutdatedDocumentation` — comments
+Checks that KDoc `@param` / `@property` tags actually match the declaration —
+right names, right count, and optionally right order. **Config:**
+`matchTypeParameters` (true), `matchDeclarationsOrder` (true),
+`allowParamOnConstructorProperties` (false). **Verdict: enable.**
+
+This is the one documentation rule worth having. It only fires where KDoc already
+exists, so with zero KDoc in the codebase today it costs nothing — but it means any
+documentation written later cannot silently drift out of sync with its signature.
+Consider `allowParamOnConstructorProperties: true` if `@param` on constructor
+properties is preferred over `@property`.
+
+### 18–20. `UndocumentedPublicClass` / `UndocumentedPublicFunction` / `UndocumentedPublicProperty` — comments
+Require KDoc on every public class, function and property.
+**Config (all three):** `excludes` (already excludes test source sets),
+plus `searchInNestedClass` / `searchInInnerClass` / `searchInInnerObject` /
+`searchInInnerInterface` / `ignoreDefaultCompanionObject` for the class rule, and
+`searchProtectedFunction` / `searchProtectedProperty` for the other two.
+
+**Verdict: skip all three.** Cerebro has **zero KDoc** in `app/src/main/java`, against
+23 top-level public declarations and 24 `@Composable` functions — and Composables are
+public by default. Enabling these would demand KDoc on essentially the whole UI layer
+at once.
+
+More fundamentally, these rules exist for **libraries with a public API consumed by
+strangers**. Cerebro is an application: its "public" surface is public only because
+Kotlin defaults that way, not because anyone calls it from outside. The cost is a
+large mechanical documentation burden; the benefit is close to zero.
+
+The pairing to remember: **do not mandate documentation, but do keep whatever
+documentation gets written honest** — skip 18–20, enable `OutdatedDocumentation`.
+
+---
+
 ## Queue
 
 Remaining inactive rules to review, in suggested order:
 
 | Batch | Contents | Count |
 | --- | --- | ---: |
-| 2 | `naming` (6 usable) + `comments` (10 usable) — mostly KDoc policy | 16 |
-| 3 | `complexity` remainder + `potential-bugs` inert ones, for the record | ~10 |
-| 4–8 | `style` (31 usable) — the largest block, opinionated | 31 |
+| 3 | `comments` remainder: AbsentOrWrongFileLicense, CommentOverPrivateFunction, CommentOverPrivateProperty, DeprecatedBlockTag, EndOfSentenceFormat, KDocReferencesNonPublicProperty | 6 |
+| 4 | `complexity` remainder: ComplexInterface, LabeledExpression, MethodOverloading | 3 |
+| 5–8 | `style` (31 usable) — the largest block, opinionated | 31 |
 | 9–10 | `formatting` / ktlint (21 usable) | 21 |
 | — | The 34 inactive rules blocked by type resolution, recorded but not enableable | 34 |
