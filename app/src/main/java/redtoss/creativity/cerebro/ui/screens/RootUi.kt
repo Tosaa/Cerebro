@@ -1,5 +1,6 @@
 package redtoss.creativity.cerebro.ui.screens
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
@@ -75,8 +76,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
                     with(strategyProvider.addCustomStrategy(strategy)) {
                         onSuccess { navHost.popBackStack() }
                         onFailure { error ->
-                            error.printStackTrace()
-                            println("failed to create new strategy")
+                            Log.e(TAG, "Could not save the new strategy", error)
                         }
                     }
                 }
@@ -85,3 +85,4 @@ fun AppUi(strategyProvider: StrategyProvider) {
     }
 }
 
+private const val TAG = "RootUi"
