@@ -52,7 +52,7 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
     }
 
     fun addCustomStrategy(strategy: Strategy): Result<Unit> {
-        println("addCustomStrategy(): $strategy")
+        Log.d(TAG, "addCustomStrategy(): $strategy")
         val existingStrategies = runBlocking(ioDispatcher) {
             customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
         }
