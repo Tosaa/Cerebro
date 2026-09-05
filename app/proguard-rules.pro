@@ -31,3 +31,16 @@
 # The kotlinx-serialization runtime ships its own consumer rules and they are
 # doing the work. Re-check this if the models gain polymorphic or contextual
 # serializers, which reflect far more aggressively.
+
+# -- Navigation routes -------------------------------------------------------
+# Screens.name derives every navigation route from `this.javaClass.simpleName`
+# (ui/screens/Screens.kt). R8 renaming those classes rewrites the start
+# destination and every composable() route into short obfuscated names that no
+# longer agree with each other, so the app launches on an arbitrary screen and
+# navigation silently does nothing. Keeping the names restores the routes.
+#
+# This is a workaround for fragile code, not a fix: routes should be explicit
+# string constants rather than reflected class names. Remove these rules once
+# Screens.kt no longer reflects on its own class names.
+-keepnames class redtoss.creativity.cerebro.ui.screens.Screens
+-keepnames class redtoss.creativity.cerebro.ui.screens.Screens$**
