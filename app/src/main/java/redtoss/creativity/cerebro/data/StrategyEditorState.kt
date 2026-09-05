@@ -14,6 +14,11 @@ class StrategyEditorState(
         val newShortDescription = newShortDescription.value ?: return null
         val newLongDescription = newLongDescription.value ?: return null
         val newCategory = newCategory.value ?: return null
-        return Strategy(category = newCategory, title = newTitle, shortDescription = newShortDescription, longDescription = newLongDescription)
+        return Strategy(
+            category = newCategory,
+            title = newTitle,
+            shortDescription = newShortDescription,
+            longDescription = newLongDescription
+        )
     }
 }

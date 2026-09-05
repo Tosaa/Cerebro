@@ -1,6 +1,5 @@
 package redtoss.creativity.cerebro.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -9,8 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
@@ -20,11 +17,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +32,6 @@ import redtoss.creativity.cerebro.data.Category
 import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.data.StrategyEditorState
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyCard
-
 
 @Composable
 internal fun StrategyScreen(strategy: Strategy) {
@@ -88,7 +82,11 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                             )
                         ) {
                             Column {
-                                Text(text = "$stepId", modifier = Modifier.padding(horizontal = 8.dp), textAlign = TextAlign.Center)
+                                Text(
+                                    text = "$stepId",
+                                    modifier = Modifier.padding(horizontal = 8.dp),
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }
@@ -120,19 +118,31 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
 @Composable
 fun TitleStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: Title")
-    TextField(value = editorState.newTitle.value.orEmpty(), onValueChange = { editorState.newTitle.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(
+        value = editorState.newTitle.value.orEmpty(),
+        onValueChange = { editorState.newTitle.value = it },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
 fun ShortDescriptionStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: ShortDescription")
-    TextField(value = editorState.newShortDescription.value.orEmpty(), onValueChange = { editorState.newShortDescription.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(
+        value = editorState.newShortDescription.value.orEmpty(),
+        onValueChange = { editorState.newShortDescription.value = it },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
 fun LongDescriptionStep(index: Int, editorState: StrategyEditorState) {
     Text("Step $index: LongDescription")
-    TextField(value = editorState.newLongDescription.value.orEmpty(), onValueChange = { editorState.newLongDescription.value = it }, modifier = Modifier.fillMaxWidth())
+    TextField(
+        value = editorState.newLongDescription.value.orEmpty(),
+        onValueChange = { editorState.newLongDescription.value = it },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable

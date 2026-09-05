@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import redtoss.creativity.cerebro.data.Strategy
 
-
 @Composable
 fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onClicked: () -> Unit) {
     Card(
@@ -30,7 +29,7 @@ fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onCli
             .fillMaxWidth()
             .clickable { onClicked() },
 
-        ) {
+    ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(IntrinsicSize.Max)) {
                 Icon(
@@ -49,7 +48,11 @@ fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onCli
                     maxLines = 2
                 )
             }
-            Text(text = strategy.shortDescription, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxSize())
+            Text(
+                text = strategy.shortDescription,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
