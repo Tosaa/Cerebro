@@ -24,8 +24,31 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            // ###################################################################
+            // ##  INTERIM — NOT SHIPPABLE. DO NOT DISTRIBUTE THIS BUILD TYPE.  ##
+            // ###################################################################
+            // The project has no release signing config yet, and an unsigned APK
+            // cannot be installed, which makes R8 impossible to verify on a device.
+            // Debug-signing keeps the release variant installable for testing.
+            //
+            // The debug keystore is auto-generated, shared across every Android
+            // project on the machine, and its password is public knowledge. An APK
+            // signed with it can be trivially re-signed by anyone.
+            //
+            // This MUST be replaced with a real signing config before any
+            // distribution (Play Store, side-load, internal testing track).
+            // ###################################################################
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug {
+            // Distinct application id so a debug build can sit next to a release
+            // build on the same device instead of replacing it.
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
     compileOptions {
@@ -118,4 +141,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     detektPlugins(libs.detekt.formatting)
+}
+// Workaround for AGP 9.4.0 + R8 + Compose.
+//
+// Enabling minification registers `produceReleaseComposeMapping`, which resolves
+// org.jetbrains.kotlin:compose-group-mapping. AGP asks for that artifact at its own
+// bundled Kotlin version, 2.2.10 — a version that was never published to Maven
+// Central, where the artifact only starts at 2.3.0-Beta1. The build therefore fails
+// to resolve it the moment `isMinifyEnabled` is turned on.
+//
+// Pin it to the Kotlin version this project actually compiles with, which does exist.
+// Remove once AGP requests a published version by itself.
+configurations.configureEach {
+    if (name.contains("composeMapping", ignoreCase = true)) {
+        resolutionStrategy.force("org.jetbrains.kotlin:compose-group-mapping:${libs.versions.kotlin.get()}")
+    }
 }
