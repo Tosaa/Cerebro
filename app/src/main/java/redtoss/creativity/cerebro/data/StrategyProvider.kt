@@ -20,7 +20,6 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-
 class StrategyProvider(private val assetManager: AssetManager, private val context: Context, private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
     private val existingStrategyFilename = "strategies.json"
     private val existingStrategyInputStream: InputStream
@@ -44,17 +43,32 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
     val resolvedStrategies: Flow<List<Strategy>> = _resolvedStrategies.onStart { this.emit(resolveStrategies(true)) }
 
     suspend fun resolveStrategies(forceReload: Boolean = false): List<Strategy> {
-        val existingStrategies = resolveStrategies(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)
+        val existingStrategies = resolveStrategies(
+            fileInputStream = existingStrategyInputStream,
+            forceReload = forceReload,
+            strategyCache = cachedExistingResolvedStrategies
+        )
         val customStrategies =
-            customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
+            customStrategyInputStream?.let {
+                resolveStrategies(
+                    fileInputStream = it,
+                    forceReload = forceReload,
+                    strategyCache = cachedCustomResolvedStrategies
+                )
+            }.orEmpty()
         return existingStrategies + customStrategies
-
     }
 
     fun addCustomStrategy(strategy: Strategy): Result<Unit> {
         Log.d(TAG, "addCustomStrategy(): $strategy")
         val existingStrategies = runBlocking(ioDispatcher) {
-            customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
+            customStrategyInputStream?.let {
+                resolveStrategies(
+                    fileInputStream = it,
+                    forceReload = false,
+                    strategyCache = cachedCustomResolvedStrategies
+                )
+            }.orEmpty()
         }
         val newCustomStrategies = existingStrategies.filter { it.title == strategy.title } + listOf(strategy)
 

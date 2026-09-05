@@ -5,8 +5,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import kotlinx.serialization.json.Json
-import redtoss.creativity.cerebro.data.serialized
 
 public fun NavHostController.navigateToScreen(screen: Screens) {
     navigate(route = screen.route)
@@ -41,20 +39,20 @@ sealed interface Screens {
         }
     }
 
-
     class Strategy(val strategy: redtoss.creativity.cerebro.data.Strategy) : Screens {
         override val route: String
             get() = "strategy/${strategy.hashCode()}"
-
 
         companion object : Screens {
             override val name: String
                 get() = "strategy/{strategy}"
 
             override val arguments: List<NamedNavArgument>
-                get() = listOf(navArgument("strategy") {
-                    type = NavType.IntType
-                })
+                get() = listOf(
+                    navArgument("strategy") {
+                        type = NavType.IntType
+                    }
+                )
 
             fun strategyArgument(it: NavBackStackEntry): Int? {
                 return it.arguments?.getInt("strategy")
@@ -67,7 +65,6 @@ sealed interface Screens {
             get() = name
 
         override val arguments: List<NamedNavArgument> = emptyList()
-
     }
 
     object NewStrategy : Screens {

@@ -1,7 +1,6 @@
 package redtoss.creativity.cerebro.ui.screens
 
 import android.util.Log
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -9,11 +8,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -28,7 +24,9 @@ fun AppUi(strategyProvider: StrategyProvider) {
     val navHost = rememberNavController()
     Scaffold(topBar = { AppBar(navHost) }) { paddingValues ->
         NavHost(
-            navController = navHost, startDestination = Screens.Main.name, modifier = Modifier
+            navController = navHost,
+            startDestination = Screens.Main.name,
+            modifier = Modifier
                 .padding(paddingValues)
                 .padding(8.dp)
                 .fillMaxWidth()
@@ -37,7 +35,9 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 HomeScreen(strategies, navHost)
             }
 
-            composable(route = Screens.StrategyLibrary.name, arguments = Screens.StrategyLibrary.arguments, enterTransition = { slideInVertically() }) {
+            composable(route = Screens.StrategyLibrary.name, arguments = Screens.StrategyLibrary.arguments, enterTransition = {
+                slideInVertically()
+            }) {
                 LibraryScreen(strategyProvider, navHost)
             }
 
@@ -45,7 +45,8 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 route = Screens.Category.name,
                 arguments = Screens.Category.arguments,
                 popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally() { it } }) {
+                enterTransition = { slideInHorizontally { it } }
+            ) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
                 } ?: navHost.popBackStack()
@@ -55,7 +56,8 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 route = Screens.Strategy.name,
                 arguments = Screens.Strategy.arguments,
                 popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally() { it } }) { navBackStackEntry ->
+                enterTransition = { slideInHorizontally { it } }
+            ) { navBackStackEntry ->
                 Screens.Strategy.strategyArgument(navBackStackEntry)?.let { strategyHashCode ->
                     strategies.value.firstOrNull { it.hashCode() == strategyHashCode }?.let {
                         StrategyScreen(it)
@@ -66,8 +68,9 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.About.name,
                 arguments = Screens.About.arguments,
-                popExitTransition = { slideOutVertically() { -1 * it } },
-                enterTransition = { slideInVertically() }) {
+                popExitTransition = { slideOutVertically { -1 * it } },
+                enterTransition = { slideInVertically() }
+            ) {
                 AboutScreen()
             }
 

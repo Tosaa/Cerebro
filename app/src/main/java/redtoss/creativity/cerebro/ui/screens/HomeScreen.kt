@@ -16,14 +16,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import java.time.LocalDate
-import kotlin.random.Random
 import redtoss.creativity.cerebro.data.Category
 import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.ui.layouts.cards.CategoryCard
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard
+import java.time.LocalDate
+import kotlin.random.Random
 
 @Suppress("MagicNumber")
 @Composable
@@ -57,31 +56,39 @@ internal fun HomeScreen(strategies: State<List<Strategy>>, navHost: NavHostContr
                 ) {
                     first?.let { category ->
                         CategoryCard(
-                            category, modifier = Modifier
+                            category,
+                            modifier = Modifier
                                 .weight(1f)
                         ) { navHost.navigateToScreen(Screens.Category(category)) }
                     }
                     second?.let { category ->
                         Spacer(Modifier.width(8.dp))
                         CategoryCard(
-                            category, modifier = Modifier
+                            category,
+                            modifier = Modifier
                                 .weight(1f)
                         ) { navHost.navigateToScreen(Screens.Category(category)) }
                     }
                 }
             }
         }
-
     }
 }
 
 @Composable
 private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostController) {
     Column {
-        Text(text = "Strategy of the day:", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleSmall)
+        Text(
+            text = "Strategy of the day:",
+            modifier = Modifier.fillMaxWidth(),
+            style = MaterialTheme.typography.titleSmall
+        )
         Spacer(Modifier.height(8.dp))
         randomStrategy?.let {
-            StrategyPreviewCard(strategy = it, modifier = Modifier.padding(start = 8.dp, end = 8.dp)) { navHost.navigateToScreen(Screens.Strategy(it)) }
+            StrategyPreviewCard(
+                strategy = it,
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            ) { navHost.navigateToScreen(Screens.Strategy(it)) }
         }
         Spacer(Modifier.height(16.dp))
     }
