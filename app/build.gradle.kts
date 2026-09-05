@@ -50,7 +50,43 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
+
+        // The everyday testing variant, and the IDE default.
+        //
+        // `initWith(release)` rather than a hand-copied config, so dev keeps
+        // tracking release automatically as release changes — minification,
+        // shrinking, proguard files and signing all come across. Only the
+        // differences are spelled out below.
+        //
+        // The point of dev is that it is minified: R8 problems surface while
+        // testing rather than after a store upload. The navigation routes broke
+        // under obfuscation exactly this way, and only a minified build shows it.
+        create("dev") {
+            initWith(getByName("release"))
+
+            // Deliberately NOT debuggable. AGP switches R8 out of obfuscation mode
+            // for debuggable build types: measured here, isDebuggable = true left
+            // class names intact, produced no mapping.txt and inflated the APK from
+            // 1.4 MB to 4.0 MB. A debuggable dev build would therefore shrink but
+            // not rename — and renaming is precisely what broke the navigation
+            // routes, so dev would have missed the one bug it exists to catch.
+            //
+            // Logcat still works without this; only attaching a debugger does not.
+            // Use the debug variant for breakpoints.
+            isDebuggable = false
+
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+
+            // Selected by default in Android Studio's build variant picker.
+            isDefault = true
+        }
     }
+
+    // Instrumented tests run against the minified dev build rather than debug, so
+    // androidTest exercises the same shrinking that ships. This is the check that
+    // would have caught the obfuscated navigation routes automatically.
+    testBuildType = "dev"
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -139,6 +175,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // testBuildType is dev, and Compose UI tests need the empty activity this
+    // artifact injects into the manifest of the variant under test. Without it
+    // createAndroidComposeRule has nothing to launch.
+    "devImplementation"(libs.androidx.ui.test.manifest)
 
     detektPlugins(libs.detekt.formatting)
 }
