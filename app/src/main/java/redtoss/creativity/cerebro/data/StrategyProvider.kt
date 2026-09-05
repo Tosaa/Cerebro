@@ -2,11 +2,7 @@ package redtoss.creativity.cerebro.data
 
 import android.content.Context
 import android.content.res.AssetManager
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +13,12 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 
 
 class StrategyProvider(private val assetManager: AssetManager, private val context: Context, private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
@@ -29,7 +31,11 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
     private val customStrategyInputStream: InputStream?
         get() = try {
             context.openFileInput(customStrategyFilename)
-        } catch (e: Exception) {
+        } catch (_: FileNotFoundException) {
+            // Expected until the user saves their first custom strategy.
+            null
+        } catch (e: IOException) {
+            Log.e(TAG, "Could not open $customStrategyFilename", e)
             null
         }
     private val cachedCustomResolvedStrategies = mutableListOf<Strategy>()
@@ -84,7 +90,7 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                     )
                 ).readText()
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e(TAG, "Could not read strategy JSON", e)
                 ""
             }
             return@async try {
@@ -92,9 +98,15 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                     strategyCache.addAll(it)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                // A SerializationException here on a minified build usually means R8
+                // stripped the generated serializers; check proguard-rules.pro.
+                Log.e(TAG, "Could not parse strategy JSON", e)
                 emptyList<Strategy>()
             }
         }.await()
+    }
+
+    private companion object {
+        const val TAG = "StrategyProvider"
     }
 }
