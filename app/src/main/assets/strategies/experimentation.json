@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Subvert Assumptions",
+    "short_description": "Challenge fundamental beliefs",
+    "long_description": "Question the underlying assumptions that govern your experiment. Identify areas where you've taken things for granted and intentionally subvert them to create novel possibilities.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Reverse Engineering",
+    "short_description": "Start with the end result",
+    "long_description": "Begin with the desired outcome and work backwards to identify the necessary steps and variables. This can help you uncover innovative approaches and avoid getting stuck in traditional methods.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Sensory Disruption",
+    "short_description": "Alter your perception",
+    "long_description": "Intentionally alter your sensory experience to gain a fresh perspective. This could involve changing your environment, using unusual materials, or manipulating your physical sensations.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Iterative Abandonment",
+    "short_description": "Let go and restart",
+    "long_description": "Identify areas where your experiment is stuck or stagnant. Abandon those approaches and restart with a new direction, incorporating lessons learned from the previous attempt.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Unlikely Analogies",
+    "short_description": "Find unexpected connections",
+    "long_description": "Seek out analogies between your experiment and seemingly unrelated domains. This can help you uncover innovative solutions by leveraging unexpected similarities.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Micro-Experiments",
+    "short_description": "Test small, refine large",
+    "long_description": "Design and conduct numerous small, focused experiments to refine specific aspects of your larger experiment. This can help you identify and mitigate risks before scaling up.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Experimental Constraints",
+    "short_description": "Limitations can foster creativity",
+    "long_description": "Intentionally impose constraints on your experiment, such as limited resources or specific rules. This can stimulate creative problem-solving and innovative thinking.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Blind Variation",
+    "short_description": "Randomize and observe",
+    "long_description": "Introduce random variations into your experiment to observe and learn from the outcomes. This can help you identify patterns and relationships that might not be apparent through deliberate design.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Reverse Problem-Solving",
+    "short_description": "Start with the solution",
+    "long_description": "Begin with the desired outcome and work backwards to identify the problems or obstacles that need to be overcome. This can help you focus on the most critical aspects of your experiment.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Experimental Feedback Loops",
+    "short_description": "Iterate and refine",
+    "long_description": "Design feedback loops into your experiment to continuously refine and adjust your approach based on the results. This can help you optimize your experiment and achieve better outcomes.",
+    "category": "Experimentation"
+  },
+  {
+    "title": "Abandon Normal Instruments",
+    "short_description": "Experiment with unconventional tools",
+    "long_description": "When stuck in a creative rut, abandon your usual instruments or methods and experiment with unconventional tools or approaches. This can help you break free from habitual thinking and discover new possibilities.",
+    "category": "Experimentation"
+  }
+]

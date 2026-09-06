@@ -22,9 +22,7 @@ import java.io.OutputStreamWriter
 
 
 class StrategyProvider(private val assetManager: AssetManager, private val context: Context, private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
-    private val existingStrategyFilename = "strategies.json"
-    private val existingStrategyInputStream: InputStream
-        get() = assetManager.open(existingStrategyFilename)
+    private val bundledStrategyDirectory = "strategies"
     private val cachedExistingResolvedStrategies = mutableListOf<Strategy>()
 
     private val customStrategyFilename = "custom_strategies.json"
@@ -44,11 +42,10 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
     val resolvedStrategies: Flow<List<Strategy>> = _resolvedStrategies.onStart { this.emit(resolveStrategies(true)) }
 
     suspend fun resolveStrategies(forceReload: Boolean = false): List<Strategy> {
-        val existingStrategies = resolveStrategies(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)
+        val existingStrategies = resolveBundledStrategies(forceReload = forceReload)
         val customStrategies =
             customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()
         return existingStrategies + customStrategies
-
     }
 
     fun addCustomStrategy(strategy: Strategy): Result<Unit> {
@@ -74,6 +71,42 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
         } catch (e: IOException) {
             Result.failure(e)
         }
+    }
+
+    private suspend fun resolveBundledStrategies(forceReload: Boolean): List<Strategy> {
+        if (!forceReload && cachedExistingResolvedStrategies.isNotEmpty()) {
+            return cachedExistingResolvedStrategies
+        }
+
+        val jsonFiles = try {
+            assetManager.list(bundledStrategyDirectory)?.filter { it.endsWith(".json") }?.sorted() ?: emptyList()
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not list $bundledStrategyDirectory", e)
+            emptyList()
+        }
+
+        if (jsonFiles.isEmpty()) {
+            Log.w(TAG, "No strategy JSON files found in $bundledStrategyDirectory")
+            return emptyList()
+        }
+
+        cachedExistingResolvedStrategies.clear()
+        for (fileName in jsonFiles) {
+            val filePath = "$bundledStrategyDirectory/$fileName"
+            try {
+                val inputStream = assetManager.open(filePath)
+                val strategies = resolveStrategies(
+                    fileInputStream = inputStream,
+                    forceReload = false,
+                    strategyCache = mutableListOf()
+                )
+                cachedExistingResolvedStrategies.addAll(strategies)
+            } catch (e: Exception) {
+                Log.e(TAG, "Could not load strategy file $filePath", e)
+            }
+        }
+
+        return cachedExistingResolvedStrategies
     }
 
     private suspend fun resolveStrategies(fileInputStream: InputStream, forceReload: Boolean = false, strategyCache: MutableList<Strategy>): List<Strategy> {

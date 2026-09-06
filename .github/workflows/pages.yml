@@ -1,0 +1,65 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'app/src/main/assets/strategies/**'
+      - 'site/**'
+      - '.github/workflows/pages.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'app/src/main/assets/strategies/**'
+      - 'site/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# Least privilege: read code, write Pages artifact, obtain deployment token.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Don't cancel in-progress runs for Pages deployments.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Validate strategy data
+        run: python site/generate.py --check
+
+      - name: Generate site
+        run: python site/generate.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/_build
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -9,6 +9,8 @@ stuck on — so you can step outside your usual framing, question assumptions an
 work through a situation from a different angle. You can also add your own
 strategies to the library.
 
+**[Browse the strategy library online →](https://tosaa.github.io/Cerebro/)**
+
 ## What it does
 
 Strategies are grouped into six categories: **Perspective**, **Experimentation**,
@@ -29,9 +31,10 @@ The app is a single-activity Compose app with these screens:
 Library, About and New Strategy are reached from the overflow menu in the top
 app bar ([`ui/screens/AppBar.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AppBar.kt)).
 
-The bundled strategies ship as a JSON asset and are parsed with
-kotlinx.serialization. Strategies you create yourself are written to a private
-file in the app's internal storage, then merged with the bundled ones — see
+The bundled strategies ship as JSON assets (one file per category in
+`app/src/main/assets/strategies/`) and are parsed with kotlinx.serialization.
+Strategies you create yourself are written to a private file in the app's
+internal storage, then merged with the bundled ones — see
 [`data/StrategyProvider.kt`](app/src/main/java/redtoss/creativity/cerebro/data/StrategyProvider.kt).
 
 ## Tech stack
@@ -87,7 +90,8 @@ Lint reports from `./gradlew build` end up in `app/build/reports/`.
 
 ```
 app/src/main/
-├── assets/                     # bundled strategy JSON
+├── assets/
+│   └── strategies/             # bundled strategy JSON (one file per category)
 ├── java/redtoss/creativity/cerebro/
 │   ├── MainActivity.kt         # single activity, sets up Compose content
 │   ├── data/                   # Strategy, Category, StrategyProvider, editor state
@@ -98,6 +102,9 @@ app/src/main/
 │       └── theme2/             # a second Compose theme
 └── res/                        # strings, drawables, icons
 ```
+
+The website (published to [GitHub Pages](https://tosaa.github.io/Cerebro/)) is
+generated from the strategy JSONs at build time; see [`site/`](site/) for details.
 
 Application ID and namespace are both `redtoss.creativity.cerebro`.
 
