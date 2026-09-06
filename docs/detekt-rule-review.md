@@ -12,7 +12,7 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 Pick the next unreviewed batch from the queue at the bottom, review those ten, move
 them into a "Reviewed" section with a verdict, and update the progress line.
 
-**Progress: 29 of 115 inactive rules reviewed. 10 enabled and shipped (PR #18).**
+**Progress: 39 of 115 inactive rules reviewed. 10 enabled and shipped (PR #18).**
 
 ## Applied so far
 
@@ -320,12 +320,87 @@ rule is doing nothing useful.
 
 ---
 
+## Batch 4 — `style`, part 1 of 4
+
+`style` is the largest set: 46 inactive rules, of which **15 need type resolution** and
+are inert here, leaving 31 to review. These ten were each enabled temporarily and run
+against the real codebase, so the "findings" column is measured, not predicted.
+
+| # | Rule | Findings | Verdict |
+| --- | --- | ---: | --- |
+| 30 | `BracesOnIfStatements` | 0 | **Enable** |
+| 31 | `MandatoryBracesLoops` | 0 | **Enable** |
+| 32 | `ClassOrdering` | 0 | **Enable** |
+| 33 | `UnnecessaryParentheses` | 0 | **Enable** |
+| 34 | `DataClassShouldBeImmutable` | 0 | **Enable** |
+| 35 | `BracesOnWhenStatements` | 1 | Enable, one fix |
+| 36 | `RedundantVisibilityModifierRule` | 0 | Enable, but see the gap |
+| 37 | `ExpressionBodySyntax` | 2 | Optional |
+| 38 | `UseDataClass` | 2 | Optional |
+| 39 | `UnusedImports` | 0 | **Skip — duplicate** |
+
+### The five free ones: 30-34
+All measured zero findings.
+
+- **`BracesOnIfStatements`** — `singleLine: 'never'`, `multiLine: 'always'` by default,
+  which the codebase already satisfies (`ui/theme/Theme.kt:45` is a braceless
+  single-line if, exactly as the default wants).
+- **`MandatoryBracesLoops`** — braces required on loop bodies. **Config:** none.
+- **`ClassOrdering`** — enforces properties → initialisers → constructors → methods →
+  companion. **Config:** none. Verified live with a probe: it correctly flagged a
+  property declared after a method.
+- **`UnnecessaryParentheses`** — **Config:** `allowForUnclearPrecedence` (false), which
+  can be set true to permit clarifying parentheses.
+- **`DataClassShouldBeImmutable`** — flags `var` in a data class. `Strategy` is all
+  `val`, so this is purely preventive.
+
+### 35. `BracesOnWhenStatements` — 1 finding
+`singleLine: 'necessary'`, `multiLine: 'consistent'`. Flags
+`ui/theme/Theme.kt:42` — a `when` whose branches inconsistently use braces. One
+trivial fix. **Verdict: enable.**
+
+### 36. `RedundantVisibilityModifierRule` — 0 findings, with a caveat
+Flags an explicit `public`, which is already the default. **Config:** none.
+
+Measured behaviour: it fires on `public class` and on `public fun` **members**, but
+**not on top-level declarations**. So it does *not* catch
+`ui/screens/Screens.kt:11`'s `public fun NavHostController.navigateToScreen(...)` —
+the one genuinely redundant modifier in the codebase. **Verdict: enable anyway**
+(free, and it covers members), but do not expect it to find that case.
+
+### 37. `ExpressionBodySyntax` — 2 findings
+Prefers `fun f() = expr` over `fun f() { return expr }`. Flags
+`Screens.kt:37` and `:58` (`categoryArgument`, `strategyArgument`).
+**Config:** `includeLineWrapping` (false) — set true to also flag bodies that wrap
+across lines. **Verdict: optional.** Pure preference; the two fixes are trivial if
+the concise form is wanted.
+
+### 38. `UseDataClass` — 2 findings
+Flags classes that only hold data. Hits `Screens.Category` (`:25`) and
+`Screens.Strategy` (`:42`), the two parameterised route classes.
+**Config:** `allowVars` (false). **Verdict: optional.** Converting them is harmless
+and would add `equals`/`hashCode`/`copy`, but it is a source change for little gain,
+and both classes may be rewritten anyway when the routes stop being derived from
+class names.
+
+### 39. `UnusedImports` — skip, it is a duplicate
+**Verdict: skip.** `formatting/NoUnusedImports` is already active and does the same
+job — the detekt-autocorrect pass removed six unused imports through it. Enabling the
+`style` twin means the same import reported twice.
+
+This project already demonstrates the problem: `style/MaxLineLength` and
+`formatting/MaximumLineLength` are both on, and the baseline carried entries from
+**both** for the same lines of `StrategyProvider.kt`. Worth treating as a general
+rule — check for a `formatting` twin before enabling a `style` rule.
+
+---
+
 ## Queue
 
 Remaining inactive rules to review, in suggested order:
 
 | Batch | Contents | Count |
 | --- | --- | ---: |
-| 5–8 | `style` (31 usable) — the largest block, opinionated | 31 |
+| 5–7 | `style` remainder — 21 rules across three batches | 21 |
 | 9–10 | `formatting` / ktlint (21 usable) | 21 |
 | — | The 34 inactive rules blocked by type resolution, recorded but not enableable | 34 |
