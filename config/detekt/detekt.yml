@@ -81,6 +81,36 @@ naming:
     ignoreAnnotated: ['Composable']
 
 style:
+  # --- Batch 4 (docs/detekt-rule-review.md). Braces and structure. ---
+  BracesOnIfStatements:
+    # Defaults: no braces on a single-line if, braces always on a multi-line one.
+    active: true
+  BracesOnWhenStatements:
+    active: true
+  MandatoryBracesLoops:
+    active: true
+  ClassOrdering:
+    # properties -> initialisers -> constructors -> methods -> companion.
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  DataClassShouldBeImmutable:
+    # Preventive: Strategy is all `val` today.
+    active: true
+  RedundantVisibilityModifierRule:
+    # Measured limitation: catches `public` on classes and members, but NOT on
+    # top-level declarations, so it does not flag Screens.kt's
+    # `public fun NavHostController.navigateToScreen`.
+    active: true
+  ExpressionBodySyntax:
+    active: true
+  UseDataClass:
+    active: true
+  UnusedImports:
+    # Overlaps formatting/NoUnusedImports, which is also active, so an unused
+    # import is reported twice. Enabled deliberately; see MaxLineLength /
+    # MaximumLineLength below for the same duplication already in effect.
+    active: true
   MagicNumber:
     # Compose UI code is dense with layout literals (8.dp, 32.dp, 0.5f) and the
     # theme layer with colour tokens (Color(0xFF87521B)). Naming each one adds a
