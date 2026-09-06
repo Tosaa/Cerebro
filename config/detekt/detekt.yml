@@ -11,6 +11,49 @@
 # delete the entry rather than growing the file.
 # ---------------------------------------------------------------------------
 
+comments:
+  OutdatedDocumentation:
+    # Does not require KDoc anywhere; only checks that KDoc which *does* exist
+    # still matches its signature. Free today (the codebase has none) and stops
+    # future docs drifting away from the code they describe.
+    active: true
+
+coroutines:
+  GlobalCoroutineUsage:
+    # GlobalScope coroutines are tied to no lifecycle and are never cancelled.
+    # Note this matches `GlobalScope` literally: it does NOT catch the
+    # unstructured `CoroutineScope(Dispatchers.IO)` in StrategyProvider, which
+    # has the same hazard and needs fixing separately.
+    active: true
+
+exceptions:
+  NotImplementedDeclaration:
+    # TODO() throws NotImplementedError at runtime. Catches a stub reaching a
+    # release build.
+    active: true
+
+performance:
+  UnnecessaryPartOfBinaryExpression:
+    # Operands that cannot affect the result (`a && a`), usually a paste slip.
+    active: true
+
+potential-bugs:
+  CastToNullableType:
+    # `x as Foo?` is nearly always a confusion with the safe cast `x as? Foo`;
+    # the nullable-type cast still throws on a type mismatch.
+    active: true
+  LateinitUsage:
+    # lateinit trades compile-time null safety for a runtime
+    # UninitializedPropertyAccessException. The codebase has none today, so this
+    # holds the line rather than demanding cleanup.
+    active: true
+  MissingPackageDeclaration:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    # A break/continue/return that always fires on the first iteration, so the
+    # loop body runs exactly once. Almost always a real mistake.
+    active: true
+
 complexity:
   CyclomaticComplexMethod:
     # A Compose screen's complexity is dominated by flat `when` dispatch over
@@ -18,17 +61,56 @@ complexity:
     # logic, so counting them measures the number of UI states, not the code's
     # difficulty.
     ignoreSimpleWhenEntries: true
+  CognitiveComplexMethod:
+    # Nesting-weighted complexity, so it tracks how hard code is to follow rather
+    # than how many branches it has. Exempts Composables for the same reason
+    # LongMethod does.
+    active: true
+    ignoreAnnotated: ['Composable']
   LongMethod:
     # @Composable functions are declarative UI trees, not procedures. Splitting
     # them purely to satisfy a line budget produces indirection, not clarity.
     ignoreAnnotated: ['Composable']
 
 naming:
+  LambdaParameterNaming:
+    # camelCase, or `_` for a deliberately unused parameter.
+    active: true
   FunctionNaming:
     # @Composable functions are PascalCase by Compose convention.
     ignoreAnnotated: ['Composable']
 
 style:
+  # --- Batch 4 (docs/detekt-rule-review.md). Braces and structure. ---
+  BracesOnIfStatements:
+    # Defaults: no braces on a single-line if, braces always on a multi-line one.
+    active: true
+  BracesOnWhenStatements:
+    active: true
+  MandatoryBracesLoops:
+    active: true
+  ClassOrdering:
+    # properties -> initialisers -> constructors -> methods -> companion.
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  DataClassShouldBeImmutable:
+    # Preventive: Strategy is all `val` today.
+    active: true
+  RedundantVisibilityModifierRule:
+    # Measured limitation: catches `public` on classes and members, but NOT on
+    # top-level declarations, so it does not flag Screens.kt's
+    # `public fun NavHostController.navigateToScreen`.
+    active: true
+  ExpressionBodySyntax:
+    active: true
+  UseDataClass:
+    active: true
+  UnusedImports:
+    # Overlaps formatting/NoUnusedImports, which is also active, so an unused
+    # import is reported twice. Enabled deliberately; see MaxLineLength /
+    # MaximumLineLength below for the same duplication already in effect.
+    active: true
   MagicNumber:
     # Compose UI code is dense with layout literals (8.dp, 32.dp, 0.5f) and the
     # theme layer with colour tokens (Color(0xFF87521B)). Naming each one adds a
