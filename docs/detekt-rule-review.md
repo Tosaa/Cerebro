@@ -7,29 +7,78 @@ The point is to decide deliberately which rules are on, rather than inheriting
 `buildUponDefaultConfig` and never looking at the rest. Each batch records what a
 rule does, whether it is worth enabling *here*, and what can be tuned.
 
-## How to resume
+## State of play
 
-Pick the next unreviewed batch from the queue at the bottom, review those ten, move
-them into a "Reviewed" section with a verdict, and update the progress line.
+**Paused 2026-09-06 after batch 5. 49 of 115 inactive rules reviewed; 20 enabled.**
 
-**Progress: 49 of 115 inactive rules reviewed. 20 enabled and shipped (PR #18).**
+### Where the work lives
 
-## Applied so far
+| Branch | PR | Contains | Status |
+| --- | --- | --- | --- |
+| `docs/detekt-rule-review` | — | this document | living doc, not for merge |
+| `chore/detekt-autocorrect` | #17 | `detekt --auto-correct` over 18 files, baseline 119 -> 9 | ready to merge |
+| `chore/detekt-enable-rules` | #18 | the 20 enabled rules, baseline 9 -> 14 | **draft — hold until the review is finished** |
 
-Twenty rules from batches 1-2 and 4 are enabled in `config/detekt/detekt.yml` (PR #18):
-`UnconditionalJumpStatementInLoop`, `CastToNullableType`, `MissingPackageDeclaration`,
-`LateinitUsage`, `NotImplementedDeclaration`, `UnnecessaryPartOfBinaryExpression`,
-`GlobalCoroutineUsage`, `CognitiveComplexMethod`, `LambdaParameterNaming`,
-`OutdatedDocumentation`.
+PR #18 is stacked on #17, so #17 merges first. Note that #18 gets **no CI** while it
+targets a non-`main` branch: the workflow only triggers on pull requests into `main`.
+It has been verified locally with `./gradlew build`.
 
-Zero findings against the codebase, so nothing entered the baseline. Each was
-verified to actually fire by feeding detekt a file with a deliberate violation —
-a green run alone cannot distinguish "found nothing" from "never ran".
+### Enabled so far (20, all in PR #18)
 
-Declined from those batches: `FunctionMinLength`, `FunctionMaxLength` (arbitrary
-limits), `ForbiddenClassName`, `VariableMinLength` (inert at their defaults),
-`VariableMaxLength`, `StringLiteralDuplication`, `ThrowingExceptionInMain`,
-`UndocumentedPublicClass` / `Function` / `Property`.
+Batches 1-2: `UnconditionalJumpStatementInLoop`, `CastToNullableType`,
+`MissingPackageDeclaration`, `LateinitUsage`, `NotImplementedDeclaration`,
+`UnnecessaryPartOfBinaryExpression`, `GlobalCoroutineUsage`, `CognitiveComplexMethod`,
+`LambdaParameterNaming`, `OutdatedDocumentation`.
+
+Batch 4: `BracesOnIfStatements`, `BracesOnWhenStatements`, `MandatoryBracesLoops`,
+`ClassOrdering`, `UnnecessaryParentheses`, `DataClassShouldBeImmutable`,
+`RedundantVisibilityModifierRule`, `ExpressionBodySyntax`, `UseDataClass`,
+`UnusedImports`.
+
+### Reviewed but NOT yet applied
+
+These have verdicts but no config change. Decide before or alongside the remaining
+batches:
+
+- **Batch 3** — enable `DeprecatedBlockTag`, `KDocReferencesNonPublicProperty`,
+  `MethodOverloading`, `ComplexInterface`.
+- **Batch 5** — enable `CollapsibleIfStatements`, `UseIfInsteadOfWhen`,
+  `AlsoCouldBeApply`, `DoubleNegativeLambda`, `UntilInsteadOfRangeTo`,
+  `UnnecessaryBackticks`, `UnnecessaryAnnotationUseSiteTarget`, and optionally
+  `UseLet` (unverified), `OptionalUnit` and `EqualsOnSignatureLine` (both duplicates).
+
+### Open findings parked in the baseline
+
+`config/detekt/baseline.xml` holds 14 entries. Nine predate this review; five were
+added by batch 4 and are deliberately **not fixed**:
+
+- `BracesOnWhenStatements` — `ui/theme/Theme.kt`, inconsistent braces in a `when`.
+- `ExpressionBodySyntax` x2 — `Screens.kt`, `categoryArgument` and `strategyArgument`.
+- `UseDataClass` x2 — `Screens.Category` and `Screens.Strategy`.
+
+### Next step
+
+Batch 6: eleven remaining usable `style` rules — `CascadingCallWrapping`,
+`DataClassContainsFunctions`, `ForbiddenImport`, `ForbiddenSuppress`,
+`MultilineRawStringIndentation`, `NoTabs`, `SpacingBetweenPackageAndImports`,
+`StringShouldBeRawString`, `TrailingWhitespace`, `TrimMultilineRawString`,
+`UnderscoresInNumericLiterals`.
+
+Then batches 7-8: the 21 usable `formatting` (ktlint) rules.
+
+### Method that has been working
+
+1. Pull the rule's real defaults from `default-detekt-config.yml` inside the
+   `detekt-core` jar. Never describe a rule from memory.
+2. Enable the batch temporarily and run `./gradlew detekt --rerun-tasks` to get a
+   **measured** finding count against the codebase.
+3. **Probe every rule with a deliberate violation.** A green run cannot distinguish
+   "found nothing" from "never ran". This caught
+   `RedundantVisibilityModifierRule` ignoring top-level declarations and left `UseLet`
+   correctly marked unverified.
+4. Check for an active `formatting` twin before enabling a `style` rule — three
+   duplicate pairs have been confirmed so far.
+5. Record the verdict here, then revert the probe config.
 
 ---
 
