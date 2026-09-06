@@ -217,8 +217,9 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
             by_category[cat] = []
         by_category[cat].append(strat)
 
-    # Build category filter chips
+    # Build category filter chips and slug-to-category mapping
     category_chips = []
+    slug_to_category = {}
     for const_name in (
         "Perspective",
         "Experimentation",
@@ -231,6 +232,7 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
         category_chips.append(
             f'<button class="filter-chip" data-category="{const_name}">{title}</button>'
         )
+        slug_to_category[slug] = const_name
 
     # Build strategy cards (pre-rendered HTML)
     strategy_cards = []
@@ -309,6 +311,9 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
         const cards = document.querySelectorAll(".strategy-card");
         const noResults = document.getElementById("no-results");
 
+        // Map from slug (from URL) to category constant name (from data)
+        const slugToCategoryMap = {json.dumps(slug_to_category)};
+
         let activeCategory = "all";
         let searchQuery = "";
 
@@ -334,7 +339,11 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
 
         function updateHash() {{
             if (activeCategory !== "all") {{
-                window.location.hash = activeCategory;
+                // Use the slug (from the category's URL) not the constant name
+                const slugEntry = Object.entries(slugToCategoryMap).find(
+                    ([_, cat]) => cat === activeCategory
+                );
+                window.location.hash = slugEntry ? slugEntry[0] : activeCategory;
             }} else {{
                 window.location.hash = "";
             }}
@@ -358,11 +367,13 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
         window.addEventListener("hashchange", () => {{
             const hash = window.location.hash.slice(1);
             if (hash) {{
-                const chip = Array.from(filterChips).find((c) => (c.dataset.category || "all") === hash);
+                // Translate slug to category name
+                const categoryName = slugToCategoryMap[hash] || hash;
+                const chip = Array.from(filterChips).find((c) => c.dataset.category === categoryName);
                 if (chip) {{
                     filterChips.forEach((c) => c.classList.remove("active"));
                     chip.classList.add("active");
-                    activeCategory = hash;
+                    activeCategory = categoryName;
                     updateDisplay();
                 }}
             }}
@@ -371,11 +382,13 @@ def generate_library(build_dir: Path, strategies: list[dict]) -> None:
         // Initial hash restore
         const initialHash = window.location.hash.slice(1);
         if (initialHash) {{
-            const chip = Array.from(filterChips).find((c) => (c.dataset.category || "all") === initialHash);
+            // Translate slug to category name
+            const categoryName = slugToCategoryMap[initialHash] || initialHash;
+            const chip = Array.from(filterChips).find((c) => c.dataset.category === categoryName);
             if (chip) {{
                 filterChips.forEach((c) => c.classList.remove("active"));
                 chip.classList.add("active");
-                activeCategory = initialHash;
+                activeCategory = categoryName;
             }}
         }}
     </script>
