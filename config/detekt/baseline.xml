@@ -2,6 +2,9 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
+    <ID>BracesOnWhenStatements:Theme.kt$when</ID>
+    <ID>ExpressionBodySyntax:Screens.kt$Screens.Category.Companion$return it.arguments?.getString("category")?.let { redtoss.creativity.cerebro.data.Category.valueOf(it) }</ID>
+    <ID>ExpressionBodySyntax:Screens.kt$Screens.Strategy.Companion$return it.arguments?.getInt("strategy")</ID>
     <ID>ForEachOnRange:StrategyScreen.kt$1..4</ID>
     <ID>MaxLineLength:AppBar.kt$// Text(stringResource(R.string.app_motto), style = MaterialTheme.typography.titleSmall, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.secondary)</ID>
     <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$class</ID>
@@ -11,5 +14,7 @@
     <ID>TooGenericExceptionCaught:StrategyProvider.kt$StrategyProvider$e: Exception</ID>
     <ID>UnusedPrivateMember:HomeScreen.kt$@Composable private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostController)</ID>
     <ID>UnusedPrivateProperty:StrategyScreen.kt$@Suppress("MagicNumber") private val Int.stepName: String get() = when (this) { 1 -&gt; "Title" 2 -&gt; "Short Description" 3 -&gt; "Long Description" 4 -&gt; "Category" else -&gt; "Unknown" }</ID>
+    <ID>UseDataClass:Screens.kt$Screens$Category : Screens</ID>
+    <ID>UseDataClass:Screens.kt$Screens$Strategy : Screens</ID>
   </CurrentIssues>
 </SmellBaseline>
