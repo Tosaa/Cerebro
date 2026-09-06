@@ -12,7 +12,24 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 Pick the next unreviewed batch from the queue at the bottom, review those ten, move
 them into a "Reviewed" section with a verdict, and update the progress line.
 
-**Progress: 20 of 115 inactive rules reviewed.**
+**Progress: 29 of 115 inactive rules reviewed. 10 enabled and shipped (PR #18).**
+
+## Applied so far
+
+Ten rules from batches 1-2 are enabled in `config/detekt/detekt.yml` (PR #18):
+`UnconditionalJumpStatementInLoop`, `CastToNullableType`, `MissingPackageDeclaration`,
+`LateinitUsage`, `NotImplementedDeclaration`, `UnnecessaryPartOfBinaryExpression`,
+`GlobalCoroutineUsage`, `CognitiveComplexMethod`, `LambdaParameterNaming`,
+`OutdatedDocumentation`.
+
+Zero findings against the codebase, so nothing entered the baseline. Each was
+verified to actually fire by feeding detekt a file with a deliberate violation —
+a green run alone cannot distinguish "found nothing" from "never ran".
+
+Declined from those batches: `FunctionMinLength`, `FunctionMaxLength` (arbitrary
+limits), `ForbiddenClassName`, `VariableMinLength` (inert at their defaults),
+`VariableMaxLength`, `StringLiteralDuplication`, `ThrowingExceptionInMain`,
+`UndocumentedPublicClass` / `Function` / `Property`.
 
 ---
 
@@ -229,14 +246,86 @@ documentation gets written honest** — skip 18–20, enable `OutdatedDocumentat
 
 ---
 
+## Batch 3 — the rest of `comments`, and `complexity`
+
+Nine rules, which exhausts both rule sets. After this only `style` (31) and
+`formatting` (21) remain.
+
+| # | Rule | Set | Verdict |
+| --- | --- | --- | --- |
+| 21 | `DeprecatedBlockTag` | comments | **Enable** |
+| 22 | `KDocReferencesNonPublicProperty` | comments | **Enable** |
+| 23 | `MethodOverloading` | complexity | Enable |
+| 24 | `ComplexInterface` | complexity | Enable |
+| 25 | `EndOfSentenceFormat` | comments | Skip |
+| 26 | `AbsentOrWrongFileLicense` | comments | Skip |
+| 27 | `CommentOverPrivateFunction` | comments | **Skip** |
+| 28 | `CommentOverPrivateProperty` | comments | **Skip** |
+| 29 | `LabeledExpression` | complexity | **Skip** |
+
+### 21. `DeprecatedBlockTag` — comments
+Flags the KDoc block tag `@deprecated`, which Kotlin ignores entirely — the
+`@Deprecated` *annotation* is the real mechanism. A `@deprecated` tag therefore
+silently does nothing while looking like it works. **Config:** none beyond universal.
+**Verdict: enable.** Zero cost, and the failure mode is invisible.
+
+### 22. `KDocReferencesNonPublicProperty` — comments
+Flags KDoc on a public declaration that `[references]` a private or internal member,
+which a reader of the public API cannot see. **Config:** `excludes` (test sources
+already excluded by default). **Verdict: enable.** Free today, since there is no KDoc.
+
+### 23. `MethodOverloading` — complexity
+Flags more than `threshold` overloads of the same function name. Heavy overloading is
+usually better expressed with default arguments in Kotlin. **Config:** `threshold`
+(default 6). **Verdict: enable.** Six is generous and nothing here approaches it.
+
+### 24. `ComplexInterface` — complexity
+Flags interfaces declaring more than `threshold` members, as a proxy for a type doing
+too much. **Config:** `threshold` (10), `includeStaticDeclarations` (false),
+`includePrivateDeclarations` (false), `ignoreOverloaded` (false).
+**Verdict: enable.** The only interface in the codebase is `Screens`
+(`ui/screens/Screens.kt:13`), well under the limit. Worth noting that if the routes
+are ever refactored into explicit constants, that file grows — so this rule may start
+to have an opinion later, which is arguably the point.
+
+### 25. `EndOfSentenceFormat` — comments
+Requires the first sentence of a KDoc block to end with `.`, `?` or `!`.
+**Config:** `endOfSentenceFormat` (a regex). **Verdict: skip.** Pure prose styling
+with no correctness value, and it only bites once documentation exists.
+
+### 26. `AbsentOrWrongFileLicense` — comments
+Requires every file to begin with a license header matching a template.
+**Config:** `licenseTemplateFile` (`license.template`), `licenseTemplateIsRegex`.
+**Verdict: skip.** The repo has an Apache-2.0 `LICENSE` file and zero per-file
+headers, which is a perfectly normal arrangement. Enabling this means adding a header
+to all ~25 source files and maintaining a template, for no practical gain on a single
+application repo. Reconsider only if per-file headers become a requirement.
+
+### 27-28. `CommentOverPrivateFunction` / `CommentOverPrivateProperty` — comments
+Flag *any* comment above a private function or property, on the argument that private
+implementation should be self-explanatory. **Config:** none beyond universal.
+**Verdict: skip both — actively harmful here.** This codebase deliberately uses
+explanatory comments on non-obvious internals, and the same instinct produced the
+comments in `proguard-rules.pro` and `detekt.yml` that record *why* a decision was
+made. Penalising that is backwards: the answer to a confusing private function is
+rarely to delete the sentence explaining it.
+
+### 29. `LabeledExpression` — complexity
+Flags labelled expressions such as `return@async`, treating labels as a complexity
+smell. **Config:** `ignoredLabels`. **Verdict: skip.** `StrategyProvider.kt:96` and
+`:110` use `return@async` inside a coroutine builder, where the label is the only way
+to return a value from the lambda. Enabling this would flag idiomatic, correct code,
+and the workaround would be to list `async` in `ignoredLabels` — at which point the
+rule is doing nothing useful.
+
+---
+
 ## Queue
 
 Remaining inactive rules to review, in suggested order:
 
 | Batch | Contents | Count |
 | --- | --- | ---: |
-| 3 | `comments` remainder: AbsentOrWrongFileLicense, CommentOverPrivateFunction, CommentOverPrivateProperty, DeprecatedBlockTag, EndOfSentenceFormat, KDocReferencesNonPublicProperty | 6 |
-| 4 | `complexity` remainder: ComplexInterface, LabeledExpression, MethodOverloading | 3 |
 | 5–8 | `style` (31 usable) — the largest block, opinionated | 31 |
 | 9–10 | `formatting` / ktlint (21 usable) | 21 |
 | — | The 34 inactive rules blocked by type resolution, recorded but not enableable | 34 |
