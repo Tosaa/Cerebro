@@ -12,11 +12,11 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 Pick the next unreviewed batch from the queue at the bottom, review those ten, move
 them into a "Reviewed" section with a verdict, and update the progress line.
 
-**Progress: 39 of 115 inactive rules reviewed. 10 enabled and shipped (PR #18).**
+**Progress: 49 of 115 inactive rules reviewed. 20 enabled and shipped (PR #18).**
 
 ## Applied so far
 
-Ten rules from batches 1-2 are enabled in `config/detekt/detekt.yml` (PR #18):
+Twenty rules from batches 1-2 and 4 are enabled in `config/detekt/detekt.yml` (PR #18):
 `UnconditionalJumpStatementInLoop`, `CastToNullableType`, `MissingPackageDeclaration`,
 `LateinitUsage`, `NotImplementedDeclaration`, `UnnecessaryPartOfBinaryExpression`,
 `GlobalCoroutineUsage`, `CognitiveComplexMethod`, `LambdaParameterNaming`,
@@ -395,12 +395,69 @@ rule — check for a `formatting` twin before enabling a `style` rule.
 
 ---
 
+## Batch 5 — `style`, part 2 of 4
+
+**All ten measured zero findings against the codebase.** Nine were confirmed live by
+probe; one could not be triggered and is marked unverified.
+
+| # | Rule | Live? | Verdict |
+| --- | --- | --- | --- |
+| 40 | `CollapsibleIfStatements` | confirmed | **Enable** |
+| 41 | `UseIfInsteadOfWhen` | confirmed | **Enable** |
+| 42 | `AlsoCouldBeApply` | confirmed | **Enable** |
+| 43 | `DoubleNegativeLambda` | confirmed | **Enable** |
+| 44 | `UntilInsteadOfRangeTo` | confirmed | **Enable** |
+| 45 | `UnnecessaryBackticks` | confirmed | **Enable** |
+| 46 | `UnnecessaryAnnotationUseSiteTarget` | confirmed | **Enable** |
+| 47 | `UseLet` | **unverified** | Enable, unproven |
+| 48 | `OptionalUnit` | confirmed | Duplicate - see below |
+| 49 | `EqualsOnSignatureLine` | confirmed | Duplicate - see below |
+
+### 40-46: the seven clean ones
+All confirmed firing on deliberate violations, all silent on the real codebase.
+
+- **`CollapsibleIfStatements`** - nested `if` that could be merged. **Config:** none.
+- **`UseIfInsteadOfWhen`** - a `when` with only two branches reads better as `if`.
+  **Config:** `ignoreWhenContainingVariableDeclaration` (false).
+- **`AlsoCouldBeApply`** - an `also` block whose every statement starts with `it` is
+  really an `apply`. **Config:** none.
+- **`DoubleNegativeLambda`** - `none { !it... }` is `all { it... }`. **Config:**
+  `negativeFunctions`, `negativeFunctionNameParts`.
+- **`UntilInsteadOfRangeTo`** - `0..n - 1` should be `0 until n`. **Config:** none.
+- **`UnnecessaryBackticks`** - backticked identifiers that need no escaping.
+- **`UnnecessaryAnnotationUseSiteTarget`** - `@property:` on something that is not a
+  constructor parameter.
+
+### 47. `UseLet` - unverified
+Should suggest `?.let` in place of an `if (x != null)` block. **Config:** none.
+It did **not** fire on a probe written to trigger it, and it is not on the
+type-resolution list, so the reason is unclear - possibly a narrower trigger than
+expected. **Verdict: harmless to enable, but do not count it as coverage** until it
+has been seen to fire.
+
+### 48-49: two more style/formatting duplicates
+Both confirmed live, both redundant with `formatting` rules that are **already active**:
+
+- **`OptionalUnit`** - on the probe, `formatting/NoUnitReturn` flagged the *same line*,
+  reported twice, once by each rule.
+- **`EqualsOnSignatureLine`** - overlapped `formatting/NoLineBreakBeforeAssignment` and
+  `FunctionStartOfBodySpacing` on the same construct.
+
+This is the third confirmed instance of the pattern, after
+`UnusedImports`/`NoUnusedImports` and `MaxLineLength`/`MaximumLineLength`.
+
+**The general rule this establishes: before enabling anything from `style`, check
+whether an active `formatting` rule already covers it.** The `formatting` set is
+ktlint, it is on by default, and it overlaps `style` heavily.
+
+---
+
 ## Queue
 
 Remaining inactive rules to review, in suggested order:
 
 | Batch | Contents | Count |
 | --- | --- | ---: |
-| 5–7 | `style` remainder — 21 rules across three batches | 21 |
+| 6–7 | `style` remainder — 11 rules across two batches | 11 |
 | 9–10 | `formatting` / ktlint (21 usable) | 21 |
 | — | The 34 inactive rules blocked by type resolution, recorded but not enableable | 34 |
