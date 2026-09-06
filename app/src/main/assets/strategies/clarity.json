@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Reframe the Question",
+    "short_description": "Rethink the problem's context",
+    "long_description": "Challenge assumptions and rephrase the question to gain a fresh perspective, revealing new avenues for exploration.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Simplify the Message",
+    "short_description": "Distill complex ideas",
+    "long_description": "Break down intricate concepts into their essence, stripping away unnecessary complexity to reveal the core message.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Identify the Core Issue",
+    "short_description": "Pinpoint the root cause",
+    "long_description": "Focus on the underlying problem, rather than symptoms, to develop targeted solutions and achieve lasting clarity.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Cut to the Chase",
+    "short_description": "Eliminate distractions",
+    "long_description": "Discard non-essential information and concentrate on the most critical aspects, streamlining your approach and achieving clarity.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Seek Analogies",
+    "short_description": "Find parallels",
+    "long_description": "Explore analogous situations or concepts to illuminate the current challenge, fostering a deeper understanding and clarity.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Reverse Engineer",
+    "short_description": "Start from the end",
+    "long_description": "Work backwards from the desired outcome to identify the necessary steps, gaining clarity on the path forward.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Use Visual Aids",
+    "short_description": "Illustrate the concept",
+    "long_description": "Employ diagrams, flowcharts, or other visual tools to clarify complex ideas, making them more accessible and understandable.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Define the Terms",
+    "short_description": "Establish clear language",
+    "long_description": "Precisely define key terms and concepts to eliminate ambiguity, ensuring a shared understanding and clarity among stakeholders.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Focus on the Essential",
+    "short_description": "Prioritize the vital",
+    "long_description": "Discern the most critical elements and concentrate on those, disregarding secondary concerns, to achieve clarity and direction.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Consider the Obvious",
+    "short_description": "Look for the obvious solution",
+    "long_description": "Examine the challenge from a straightforward perspective, acknowledging the potential for simplicity and clarity in the solution.",
+    "category": "Clarity"
+  },
+  {
+    "title": "Consider the Obvious",
+    "short_description": "Look for the most straightforward solution",
+    "long_description": "In the midst of complexity, sometimes the most obvious solution is overlooked. Take a step back and consider the most straightforward approach to a problem or creative challenge. You may be surprised by the simplicity and effectiveness of this approach.",
+    "category": "Clarity"
+  }
+]

@@ -54,3 +54,6 @@ google-services.json
 # --- Stray local artefacts -------------------------------------------------
 # Leftover design asset download (Oct 2024); safe to delete locally.
 /material-theme.zip
+
+# --- Site generation ------------------------------------------------------
+site/_build

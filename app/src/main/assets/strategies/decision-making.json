@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Reframe the Question",
+    "short_description": "Rethink the problem's parameters",
+    "long_description": "Challenge your initial assumptions and rephrase the question to uncover new perspectives and potential solutions.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Seek Dissent",
+    "short_description": "Encourage opposing views",
+    "long_description": "Invite diverse opinions and actively seek out contrarian perspectives to identify potential flaws and strengthen your decision-making process.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Consider the Unintended Consequences",
+    "short_description": "Think beyond immediate outcomes",
+    "long_description": "Anticipate and evaluate potential long-term effects of your decision, including both positive and negative repercussions, to make a more informed choice.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Prioritize Values",
+    "short_description": "Align with core principles",
+    "long_description": "Reflect on your core values and prioritize decisions that align with them, ensuring your choices are consistent with your personal and professional ethos.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Take a Break",
+    "short_description": "Step away from the decision",
+    "long_description": "Temporarily disengage from the decision-making process to clear your mind, recharge, and return with a fresh perspective.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Seek Analogies",
+    "short_description": "Find parallels in other domains",
+    "long_description": "Look for similarities between your decision-making challenge and analogous situations in other fields or contexts, applying insights and lessons learned to inform your choice.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Embrace Uncertainty",
+    "short_description": "Acknowledge the unknown",
+    "long_description": "Recognize that uncertainty is inherent in decision-making and be willing to adapt and adjust as new information emerges, rather than clinging to a single, fixed plan.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Consider Multiple Scenarios",
+    "short_description": "Imagine alternative outcomes",
+    "long_description": "Envision and evaluate multiple possible scenarios, including both best-case and worst-case scenarios, to prepare for a range of potential outcomes and make more resilient decisions.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Involve Others",
+    "short_description": "Collaborate with stakeholders",
+    "long_description": "Engage with relevant stakeholders, including experts and affected parties, to gather diverse perspectives, share knowledge, and build consensus around your decision.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Reflect on Past Decisions",
+    "short_description": "Learn from past choices",
+    "long_description": "Reflect on the outcomes of previous decisions, identifying what worked well and what didn't, to inform and improve your current decision-making process.",
+    "category": "DecisionMaking"
+  },
+  {
+    "title": "Make a Series of Small Decisions",
+    "short_description": "Break down complex choices into manageable steps",
+    "long_description": "When faced with a daunting creative decision, break it down into a series of smaller, more manageable choices. This can help you build momentum and confidence, ultimately leading to a more effective and creative outcome.",
+    "category": "DecisionMaking"
+  }
+]

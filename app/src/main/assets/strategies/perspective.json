@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Reframe the Question",
+    "short_description": "Rethink the problem's context",
+    "long_description": "Challenge your assumptions and rephrase the question to uncover new possibilities. Consider alternative perspectives, contexts, or scales to shift your focus.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Imagine the Opposite",
+    "short_description": "Flip your thinking",
+    "long_description": "Envision a scenario where the opposite of your current situation holds true. This can help you identify blind spots, reveal hidden assumptions, and gain a fresh understanding.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Step Back in Time",
+    "short_description": "Reflect on past experiences",
+    "long_description": "Recall a similar situation from your past and re-examine how you approached it. This can help you recognize patterns, identify areas for improvement, and gain a new perspective on the current challenge.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Look Through Different Eyes",
+    "short_description": "Empathize with others",
+    "long_description": "Put yourself in someone else's shoes and consider their perspective, values, and goals. This can help you understand their needs, anticipate potential conflicts, and find mutually beneficial solutions.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Consider the Bigger Picture",
+    "short_description": "Take a step back",
+    "long_description": "View your challenge within the context of a larger system, organization, or ecosystem. This can help you identify interconnected factors, prioritize goals, and develop a more holistic approach.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Reverse Your Focus",
+    "short_description": "Shift attention",
+    "long_description": "Instead of focusing on the problem, concentrate on the desired outcome or solution. This can help you redirect your energy, prioritize efforts, and uncover new opportunities.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Seek Out Contrasting Views",
+    "short_description": "Explore opposing opinions",
+    "long_description": "Engage with individuals holding differing perspectives and listen actively to their arguments. This can help you identify flaws in your own thinking, challenge assumptions, and develop a more nuanced understanding.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Imagine a Different Culture",
+    "short_description": "Cultural reframing",
+    "long_description": "Envision a scenario where your challenge is approached from a different cultural or societal perspective. This can help you recognize universal principles, identify cultural biases, and develop more inclusive solutions.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Look for Analogies",
+    "short_description": "Find parallels",
+    "long_description": "Seek out situations or domains where similar challenges or principles apply. This can help you leverage existing knowledge, identify transferable solutions, and develop a more comprehensive understanding.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Consider the Unstated",
+    "short_description": "Uncover implicit assumptions",
+    "long_description": "Reflect on the implicit values, assumptions, or biases underlying your challenge. This can help you identify hidden obstacles, challenge assumptions, and develop more informed solutions.",
+    "category": "Perspective"
+  },
+  {
+    "title": "Reverse Your Perspective",
+    "short_description": "Shift your viewpoint to challenge assumptions",
+    "long_description": "When faced with a creative block or dilemma, try reversing your perspective to challenge your assumptions and gain a fresh insight. Ask yourself what the opposite viewpoint would be and explore the possibilities.",
+    "category": "Perspective"
+  }
+]
