@@ -57,7 +57,7 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
     } else {
         Column(Modifier.padding(horizontal = 8.dp)) {
             SecondaryTabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
-                (1..4).forEach { stepId ->
+                for (stepId in 1..4) {
                     val isStepSelected = selectedEditorStep.value == stepId
                     val isStepCompleted = when (stepId) {
                         1 -> !editorState.value.newTitle.value.isNullOrBlank()
@@ -156,13 +156,3 @@ fun CategoryStep(index: Int, editorState: StrategyEditorState) {
         }
     }
 }
-
-@Suppress("MagicNumber")
-private val Int.stepName: String
-    get() = when (this) {
-        1 -> "Title"
-        2 -> "Short Description"
-        3 -> "Long Description"
-        4 -> "Category"
-        else -> "Unknown"
-    }

@@ -20,7 +20,11 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class StrategyProvider(private val assetManager: AssetManager, private val context: Context, private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class StrategyProvider(
+    private val assetManager: AssetManager,
+    private val context: Context,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) {
     private val bundledStrategyDirectory = "strategies"
     private val cachedExistingResolvedStrategies = mutableListOf<Strategy>()
 
@@ -120,7 +124,11 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
         return cachedExistingResolvedStrategies
     }
 
-    private suspend fun resolveStrategies(fileInputStream: InputStream, forceReload: Boolean = false, strategyCache: MutableList<Strategy>): List<Strategy> {
+    private suspend fun resolveStrategies(
+        fileInputStream: InputStream,
+        forceReload: Boolean = false,
+        strategyCache: MutableList<Strategy>,
+    ): List<Strategy> {
         return CoroutineScope(Dispatchers.IO).async {
             if (!forceReload && strategyCache.isNotEmpty()) {
                 return@async strategyCache

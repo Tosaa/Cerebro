@@ -40,21 +40,26 @@ batches:
 
 ### Open findings parked in the baseline
 
-`config/detekt/baseline.xml` holds **11** entries, deliberately **not fixed**:
+`config/detekt/baseline.xml` holds **2** entries, down from 11 once the easily-fixed
+findings were actually fixed rather than suppressed:
 
-- `MaximumLineLength` x2 — `StrategyProvider.kt`.
-- `TooGenericExceptionCaught` — `StrategyProvider.kt`, the broad catches.
-- `ForEachOnRange` — `StrategyScreen.kt`, `(1..4).forEach`.
-- `UnusedPrivateProperty` — `StrategyScreen.kt`, the dead `Int.stepName` extension.
-- `UnusedPrivateMember` — `HomeScreen.kt`, a **false positive**: `StrategyOfTheDay`
-  is called at line 40, but detekt cannot see `@Composable` call sites without type
+- `TooGenericExceptionCaught` — one entry covering **four** `catch (e: Exception)`
+  blocks in `StrategyProvider.kt` (detekt collapses them to a single signature).
+  Narrowing them changes behaviour, so it is a deliberate decision rather than a
+  cleanup.
+- `UnusedPrivateMember` — `HomeScreen.kt`, a **false positive**: `StrategyOfTheDay` is
+  called at line 40, but detekt cannot see `@Composable` call sites without type
   resolution.
-- `BracesOnWhenStatements` — `ui/theme/Theme.kt`, inconsistent braces in a `when`.
-- `ExpressionBodySyntax` x2 — `Screens.kt`, `categoryArgument` and `strategyArgument`.
-- `UseDataClass` x2 — `Screens.Category` and `Screens.Strategy`.
 
-It dropped from 14 to 11 when the duplicate rules were removed: three
-`MaxLineLength` entries were duplicates of two `MaximumLineLength` ones.
+Nine findings were fixed instead of baselined: two over-long signatures in
+`StrategyProvider.kt` wrapped, inconsistent `when` braces in `ui/theme/Theme.kt` made
+consistent, two `Screens.kt` companions converted to expression bodies, `Screens.Category`
+and `Screens.Strategy` made data classes, `(1..4).forEach` in `StrategyScreen.kt` turned
+into a `for` loop, and the dead `Int.stepName` extension deleted.
+
+The baseline never contained exact duplicate IDs. What looked like duplication was
+distinct findings sharing a rule name — two different long lines, two different classes.
+Fixing them removed the repetition anyway.
 
 ### Next step
 
