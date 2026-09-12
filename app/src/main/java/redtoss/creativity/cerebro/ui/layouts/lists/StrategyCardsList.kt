@@ -22,11 +22,18 @@ fun StrategyCardsList(title: String, strategies: List<Strategy>, navHost: NavHos
 }
 
 fun LazyListScope.strategyCardsList(title: String, strategies: List<Strategy>, navHost: NavHostController) {
-    item { Text(text = title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 8.dp)) }
+    item {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+    }
     strategies.forEach { strategy ->
         item {
             StrategyPreviewCard(
-                strategy = strategy, modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp)
+                strategy = strategy,
+                modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp)
             ) { navHost.navigateToScreen(Screens.Strategy(strategy)) }
         }
     }

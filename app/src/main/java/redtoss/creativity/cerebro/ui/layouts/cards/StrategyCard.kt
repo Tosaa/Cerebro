@@ -1,10 +1,8 @@
 package redtoss.creativity.cerebro.ui.layouts.cards
 
-import android.text.Editable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,10 +24,18 @@ import androidx.compose.ui.unit.dp
 import redtoss.creativity.cerebro.data.Strategy
 
 @Composable
-fun EditableStrategyCard(strategy: Strategy, modifier: Modifier = Modifier, onEditStrategy: (Strategy) -> Unit) = StrategyCard(strategy, modifier) {
+fun EditableStrategyCard(
+    strategy: Strategy,
+    modifier: Modifier = Modifier,
+    onEditStrategy: (Strategy) -> Unit
+) = StrategyCard(strategy, modifier) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         IconButton({ onEditStrategy(strategy) }) {
-            Icon(imageVector = Icons.Default.Create, contentDescription = "Edit button", tint = MaterialTheme.colorScheme.primary)
+            Icon(
+                imageVector = Icons.Default.Create,
+                contentDescription = "Edit button",
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -42,10 +48,12 @@ fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: 
     ) {
         Column(Modifier.padding(vertical = 16.dp, horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(painter = strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle),
+                Icon(
+                    painter = strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle),
                     contentDescription = "Strategy preview card icon, ${strategy.title}",
                     modifier = Modifier.height(30.dp),
-                    tint = MaterialTheme.colorScheme.primary)
+                    tint = MaterialTheme.colorScheme.primary
+                )
                 Text(
                     text = strategy.title,
                     color = MaterialTheme.colorScheme.primary,
@@ -62,7 +70,11 @@ fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: 
                 label = { Text(strategy.category.title, style = MaterialTheme.typography.labelMedium) },
                 modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
             )
-            Text(text = strategy.longDescription, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 8.dp))
+            Text(
+                text = strategy.longDescription,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(start = 8.dp)
+            )
             cardFooter()
         }
     }
