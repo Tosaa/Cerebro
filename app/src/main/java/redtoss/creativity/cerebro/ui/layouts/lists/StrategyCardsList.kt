@@ -14,10 +14,10 @@ import androidx.navigation.NavHostController
 import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.ui.layouts.EmptyState
 import redtoss.creativity.cerebro.ui.layouts.LoadingState
-import redtoss.creativity.cerebro.ui.layouts.Spacing
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard
 import redtoss.creativity.cerebro.ui.screens.Screens
 import redtoss.creativity.cerebro.ui.screens.navigateToScreen
+import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 @Composable
 fun StrategyCardsList(

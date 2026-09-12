@@ -1,4 +1,4 @@
-package redtoss.creativity.cerebro.ui.layouts
+package redtoss.creativity.cerebro.ui.theme2
 
 import androidx.compose.ui.unit.dp
 

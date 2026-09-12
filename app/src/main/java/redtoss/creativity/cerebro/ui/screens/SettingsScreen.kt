@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import redtoss.creativity.cerebro.ui.layouts.Spacing
 import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 // Not implemented. Rough ideas for what could live here:
 //

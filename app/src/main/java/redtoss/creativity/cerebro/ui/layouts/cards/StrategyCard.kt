@@ -24,9 +24,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import redtoss.creativity.cerebro.data.Category
 import redtoss.creativity.cerebro.data.Strategy
-import redtoss.creativity.cerebro.ui.layouts.Spacing
 import redtoss.creativity.cerebro.ui.sampleStrategy
 import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 private val TitleIconSize = 30.dp
 private val BadgeIconSize = 16.dp

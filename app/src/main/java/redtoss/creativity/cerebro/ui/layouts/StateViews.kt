@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 private val EmptyIconSize = 48.dp
 

@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import redtoss.creativity.cerebro.R
-import redtoss.creativity.cerebro.ui.layouts.Spacing
+import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

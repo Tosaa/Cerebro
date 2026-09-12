@@ -105,10 +105,10 @@ app/src/main/
 │   ├── data/                   # Strategy, Category, StrategyProvider, editor state
 │   └── ui/
 │       ├── PreviewData.kt      # sample data for @Preview composables only
-│       ├── layouts/            # cards, lists, loading/empty states, spacing scale
+│       ├── layouts/            # cards, lists, loading/empty states
 │       ├── screens/            # the screens above + navigation graph (RootUi.kt, Screens.kt)
 │       ├── theme/              # Compose theme
-│       └── theme2/             # a second Compose theme
+│       └── theme2/             # a second Compose theme, plus the spacing scale
 └── res/                        # strings, drawables, icons
 ```
 
