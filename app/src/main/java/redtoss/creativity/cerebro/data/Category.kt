@@ -10,7 +10,8 @@ enum class Category(customTitle: String? = null) {
     Clarity,
     Mindset,
     DecisionMaking("Decision Making"),
-    Improvement;
+    Improvement,
+    ;
 
     val title: String = customTitle ?: name
 

@@ -9,7 +9,7 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 
 ## State of play
 
-**Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 19 enabled, 2 disabled as duplicates.**
+**Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 35 enabled, 2 disabled as duplicates.**
 
 ### Where the work lives
 
@@ -88,7 +88,7 @@ Generated from `config/detekt/detekt.yml`. Covers every rule the project makes a
 explicit decision about; the remaining rules follow detekt's defaults via
 `buildUponDefaultConfig = true`.
 
-### Enabled — turned on, were off by default (19)
+### Enabled — turned on, were off by default (35)
 
 | Rule | Set | Why |
 | --- | --- | --- |
@@ -111,6 +111,22 @@ explicit decision about; the remaining rules follow detekt's defaults via
 | `RedundantVisibilityModifierRule` | style | Explicit `public` (members only) |
 | `ExpressionBodySyntax` | style | `= expr` over `{ return expr }` |
 | `UseDataClass` | style | Data-only classes |
+| `TrailingCommaOnCallSite` | formatting | Trailing commas on calls — house style |
+| `TrailingCommaOnDeclarationSite` | formatting | Trailing commas on declarations — house style |
+| `EnumWrapping` | formatting | — |
+| `IfElseBracing` | formatting | — |
+| `IfElseWrapping` | formatting | — |
+| `NoBlankLineInList` | formatting | — |
+| `NoEmptyFirstLineInClassBody` | formatting | — |
+| `NoSingleLineBlockComment` | formatting | — |
+| `StringTemplateIndent` | formatting | — |
+| `TryCatchFinallySpacing` | formatting | — |
+| `DiscouragedCommentLocation` | formatting | — |
+| `NoConsecutiveComments` | formatting | — |
+| `ParameterListSpacing` | formatting | — |
+| `TypeArgumentListSpacing` | formatting | — |
+| `TypeParameterListSpacing` | formatting | — |
+| `ContextReceiverMapping` | formatting | `maxLineLength` set to 140, not its default 120 |
 
 ### Disabled — turned off, were on by default (2)
 
@@ -154,6 +170,11 @@ explicit decision about; the remaining rules follow detekt's defaults via
 | `CommentOverPrivateFunction` / `Property` | comments | Would penalise explanatory comments this repo wants |
 | `LabeledExpression` | complexity | Would flag idiomatic `return@async` |
 | `UseLet` | style | Could not be made to fire; unverified |
+| `FunctionName` | formatting | Duplicate of `naming/FunctionNaming`; all 20 findings were Composables |
+| `ClassName` | formatting | Duplicate of `naming/ClassNaming` |
+| `PropertyName` | formatting | Wants SCREAMING_SNAKE for `ui/theme` colour tokens; Compose uses PascalCase |
+| `FunctionSignature` | formatting | Default `maxLineLength: 120` conflicts with the project's 140 |
+| `MultilineExpressionWrapping` | formatting | 24 findings; not adopted as house style |
 
 ### Pending — reviewed, verdict "enable", not yet applied
 
@@ -167,6 +188,9 @@ Batch 5: `CollapsibleIfStatements`, `UseIfInsteadOfWhen`, `AlsoCouldBeApply`,
 Batch 6: `MultilineRawStringIndentation`, `SpacingBetweenPackageAndImports`,
 `StringShouldBeRawString`, `UnderscoresInNumericLiterals`, `CascadingCallWrapping`,
 `TrimMultilineRawString`, `DataClassContainsFunctions`.
+
+Batch 7 has been **applied**: 16 rules enabled, trailing commas adopted and
+auto-corrected across the codebase.
 
 ### Android Lint, for completeness
 

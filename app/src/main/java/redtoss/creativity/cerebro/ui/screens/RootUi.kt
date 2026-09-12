@@ -29,7 +29,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(8.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             composable(Screens.Main.name) {
                 HomeScreen(strategies, navHost)
@@ -38,7 +38,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.StrategyLibrary.name,
                 arguments = Screens.StrategyLibrary.arguments,
-                enterTransition = { slideInVertically() }
+                enterTransition = { slideInVertically() },
             ) {
                 LibraryScreen(strategyProvider, navHost)
             }
@@ -47,7 +47,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 route = Screens.Category.name,
                 arguments = Screens.Category.arguments,
                 popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally { it } }
+                enterTransition = { slideInHorizontally { it } },
             ) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
@@ -58,7 +58,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 route = Screens.Strategy.name,
                 arguments = Screens.Strategy.arguments,
                 popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally { it } }
+                enterTransition = { slideInHorizontally { it } },
             ) { navBackStackEntry ->
                 Screens.Strategy.strategyArgument(navBackStackEntry)?.let { strategyHashCode ->
                     strategies.value.firstOrNull { it.hashCode() == strategyHashCode }?.let {
@@ -71,7 +71,7 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 route = Screens.About.name,
                 arguments = Screens.About.arguments,
                 popExitTransition = { slideOutVertically { -1 * it } },
-                enterTransition = { slideInVertically() }
+                enterTransition = { slideInVertically() },
             ) {
                 AboutScreen()
             }

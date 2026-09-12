@@ -52,13 +52,13 @@ internal fun HomeScreen(strategies: State<List<Strategy>>, navHost: NavHostContr
                 Row(
                     Modifier
                         .padding(bottom = 8.dp, start = 4.dp, end = 4.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     first?.let { category ->
                         CategoryCard(
                             category,
                             modifier = Modifier
-                                .weight(1f)
+                                .weight(1f),
                         ) { navHost.navigateToScreen(Screens.Category(category)) }
                     }
                     second?.let { category ->
@@ -66,7 +66,7 @@ internal fun HomeScreen(strategies: State<List<Strategy>>, navHost: NavHostContr
                         CategoryCard(
                             category,
                             modifier = Modifier
-                                .weight(1f)
+                                .weight(1f),
                         ) { navHost.navigateToScreen(Screens.Category(category)) }
                     }
                 }
@@ -81,7 +81,7 @@ private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostControll
         Text(
             text = "Strategy of the day:",
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleSmall,
         )
         Spacer(Modifier.height(8.dp))
         randomStrategy?.let {

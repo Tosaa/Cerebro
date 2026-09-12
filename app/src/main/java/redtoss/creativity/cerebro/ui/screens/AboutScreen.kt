@@ -18,12 +18,12 @@ fun AboutScreen() {
             text = "About",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Text(
             text = stringResource(R.string.about_screen_app_description),
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
         )
     }
 }

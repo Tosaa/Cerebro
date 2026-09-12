@@ -7,7 +7,7 @@ class StrategyEditorState(
     val newTitle: MutableState<String?> = mutableStateOf(null),
     val newShortDescription: MutableState<String?> = mutableStateOf(null),
     val newLongDescription: MutableState<String?> = mutableStateOf(null),
-    val newCategory: MutableState<Category?> = mutableStateOf(null)
+    val newCategory: MutableState<Category?> = mutableStateOf(null),
 ) {
     fun buildStrategy(): Strategy? {
         val newTitle = newTitle.value ?: return null
@@ -18,7 +18,7 @@ class StrategyEditorState(
             category = newCategory,
             title = newTitle,
             shortDescription = newShortDescription,
-            longDescription = newLongDescription
+            longDescription = newLongDescription,
         )
     }
 }

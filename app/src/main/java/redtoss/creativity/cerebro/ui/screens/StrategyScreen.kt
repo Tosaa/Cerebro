@@ -79,13 +79,13 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                                     isStepSelected -> MaterialTheme.colorScheme.onPrimaryContainer
                                     else -> MaterialTheme.colorScheme.onSurface
                                 },
-                            )
+                            ),
                         ) {
                             Column {
                                 Text(
                                     text = "$stepId",
                                     modifier = Modifier.padding(horizontal = 8.dp),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
                                 )
                             }
                         }
@@ -104,11 +104,11 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
             Spacer(Modifier.height(32.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 Button(
                     onClick = { finalStrategyPreview.value = editorState.value.buildStrategy() },
-                    enabled = editorState.value.buildStrategy() != null
+                    enabled = editorState.value.buildStrategy() != null,
                 ) { Text("Preview") }
             }
         }

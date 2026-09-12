@@ -47,7 +47,7 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                 resolveStrategies(
                     fileInputStream = it,
                     forceReload = forceReload,
-                    strategyCache = cachedCustomResolvedStrategies
+                    strategyCache = cachedCustomResolvedStrategies,
                 )
             }.orEmpty()
         return existingStrategies + customStrategies
@@ -60,7 +60,7 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                 resolveStrategies(
                     fileInputStream = it,
                     forceReload = false,
-                    strategyCache = cachedCustomResolvedStrategies
+                    strategyCache = cachedCustomResolvedStrategies,
                 )
             }.orEmpty()
         }
@@ -109,7 +109,7 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                 val strategies = resolveStrategies(
                     fileInputStream = inputStream,
                     forceReload = false,
-                    strategyCache = mutableListOf()
+                    strategyCache = mutableListOf(),
                 )
                 cachedExistingResolvedStrategies.addAll(strategies)
             } catch (e: Exception) {
@@ -130,8 +130,8 @@ class StrategyProvider(private val assetManager: AssetManager, private val conte
                 BufferedReader(
                     InputStreamReader(
                         fileInputStream,
-                        "UTF-8"
-                    )
+                        "UTF-8",
+                    ),
                 ).readText()
             } catch (e: Exception) {
                 Log.e(TAG, "Could not read strategy JSON", e)

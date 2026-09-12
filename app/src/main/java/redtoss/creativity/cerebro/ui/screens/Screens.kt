@@ -51,7 +51,7 @@ sealed interface Screens {
                 get() = listOf(
                     navArgument("strategy") {
                         type = NavType.IntType
-                    }
+                    },
                 )
 
             fun strategyArgument(it: NavBackStackEntry): Int? {

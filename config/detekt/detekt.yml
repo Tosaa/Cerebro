@@ -129,6 +129,47 @@ style:
     active: false
 
 formatting:
+  # --- Batch 7 (docs/detekt-rule-review.md). ktlint rules, all auto-correctable. ---
+  # Trailing commas: a deliberate house-style choice. `detekt --auto-correct` applied
+  # them across the codebase in the same commit that enabled these.
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
+
+  # Zero or trivial findings; enabled to hold the line rather than to clean up.
+  EnumWrapping:
+    active: true
+  IfElseBracing:
+    active: true
+  IfElseWrapping:
+    active: true
+  NoBlankLineInList:
+    active: true
+  NoEmptyFirstLineInClassBody:
+    active: true
+  NoSingleLineBlockComment:
+    active: true
+  StringTemplateIndent:
+    active: true
+  TryCatchFinallySpacing:
+    active: true
+  DiscouragedCommentLocation:
+    active: true
+  NoConsecutiveComments:
+    active: true
+  ParameterListSpacing:
+    active: true
+  TypeArgumentListSpacing:
+    active: true
+  TypeParameterListSpacing:
+    active: true
+  ContextReceiverMapping:
+    # Finds nothing today (no context receivers), but its default maxLineLength is
+    # 120. Set to 140 so it cannot introduce a third line-length number alongside
+    # .editorconfig and MaximumLineLength.
+    active: true
+    maxLineLength: 140
   MaximumLineLength:
     # Same source of truth as style>MaxLineLength above: .editorconfig.
     maxLineLength: 140
