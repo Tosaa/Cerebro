@@ -2,6 +2,7 @@ package redtoss.creativity.cerebro.ui.theme2
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.googlefonts.Font
 import redtoss.creativity.cerebro.R
@@ -12,19 +13,23 @@ val provider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-val bodyFontFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Montserrat Alternates"),
-        fontProvider = provider,
+// Every weight the M3 type scale actually asks for is requested explicitly. With a
+// single Regular face registered, Compose synthesises bold and medium by smearing the
+// outlines, which is why the scale reads flat. Downloadable fonts resolve
+// asynchronously; if the provider is unreachable the platform default is used instead.
+private fun googleFontFamily(name: String): FontFamily {
+    val googleFont = GoogleFont(name)
+    return FontFamily(
+        Font(googleFont = googleFont, fontProvider = provider, weight = FontWeight.Normal),
+        Font(googleFont = googleFont, fontProvider = provider, weight = FontWeight.Medium),
+        Font(googleFont = googleFont, fontProvider = provider, weight = FontWeight.SemiBold),
+        Font(googleFont = googleFont, fontProvider = provider, weight = FontWeight.Bold),
     )
-)
+}
 
-val displayFontFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Roboto Mono"),
-        fontProvider = provider,
-    )
-)
+val bodyFontFamily = googleFontFamily("Montserrat Alternates")
+
+val displayFontFamily = googleFontFamily("Roboto Mono")
 
 // Default Material 3 typography values
 val baseline = Typography()
@@ -46,4 +51,3 @@ val AppTypography = Typography(
     labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
     labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
 )
-

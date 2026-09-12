@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Window backgrounds, kept in sync with backgroundLight/backgroundDark in
+         ui/theme2/Color.kt. These paint the window before Compose draws its first
+         frame; without them a cold start in dark mode flashes white. -->
+    <color name="window_background">#FFF8F5</color>
+    <color name="window_background_dark">#19120C</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

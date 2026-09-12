@@ -81,6 +81,12 @@ naming:
     ignoreAnnotated: ['Composable']
 
 style:
+  UnusedPrivateMember:
+    # @Preview composables are entry points for the IDE preview renderer, not dead
+    # code: nothing in the app calls them, by design. Without this every preview
+    # added to the project is a finding. Matching is by annotation simple name, so
+    # the multi-preview variants have to be listed alongside plain @Preview.
+    ignoreAnnotated: ['Preview', 'PreviewLightDark', 'PreviewScreenSizes', 'PreviewFontScale', 'PreviewDynamicColors']
   # --- Batch 4 (docs/detekt-rule-review.md). Braces and structure. ---
   BracesOnIfStatements:
     # Defaults: no braces on a single-line if, braces always on a multi-line one.

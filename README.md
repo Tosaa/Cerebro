@@ -27,9 +27,17 @@ The app is a single-activity Compose app with these screens:
 | Library | [`ui/screens/LibraryScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/LibraryScreen.kt) | All strategies, bundled and custom, sorted by title |
 | New Strategy | [`ui/screens/StrategyScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/StrategyScreen.kt) | A four-step editor (title, short description, long description, category) with a preview before saving |
 | About | [`ui/screens/AboutScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AboutScreen.kt) | App description |
+| Settings | [`ui/screens/SettingsScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/SettingsScreen.kt) | Placeholder — see below |
+| Unlock all | [`ui/screens/UnlockAllScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/UnlockAllScreen.kt) | Placeholder — see below |
 
-Library, About and New Strategy are reached from the overflow menu in the top
-app bar ([`ui/screens/AppBar.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AppBar.kt)).
+Library, About, New Strategy, Settings and Unlock all are reached from the
+overflow menu in the top app bar
+([`ui/screens/AppBar.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AppBar.kt)).
+
+Settings and Unlock all are deliberately **not implemented**. They exist so the
+menu items lead somewhere honest rather than doing nothing, and each file
+carries a comment block sketching what could go there and what it would cost.
+Read those before building either one.
 
 The bundled strategies ship as JSON assets (one file per category in
 `app/src/main/assets/strategies/`) and are parsed with kotlinx.serialization.
@@ -96,7 +104,8 @@ app/src/main/
 │   ├── MainActivity.kt         # single activity, sets up Compose content
 │   ├── data/                   # Strategy, Category, StrategyProvider, editor state
 │   └── ui/
-│       ├── layouts/            # cards and lists
+│       ├── PreviewData.kt      # sample data for @Preview composables only
+│       ├── layouts/            # cards, lists, loading/empty states, spacing scale
 │       ├── screens/            # the screens above + navigation graph (RootUi.kt, Screens.kt)
 │       ├── theme/              # Compose theme
 │       └── theme2/             # a second Compose theme
@@ -109,7 +118,10 @@ generated from the strategy JSONs at build time; see [`site/`](site/) for detail
 Application ID and namespace are both `redtoss.creativity.cerebro`.
 
 Note that two theme packages exist side by side (`ui/theme` and `ui/theme2`);
-both are present in the source tree.
+both are present in the source tree. Only `ui/theme2` is wired up — it is a
+Material Theme Builder export (a warm amber palette, with Montserrat Alternates
+and Roboto Mono pulled in as downloadable Google Fonts). `ui/theme` is the
+untouched Android Studio template and is not referenced by anything.
 
 ## License
 

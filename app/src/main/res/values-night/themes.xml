@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Same theme, dark window background. The activity's Compose content picks its
+         own scheme from isSystemInDarkTheme(); this only covers the window behind it. -->
+    <style name="Theme.Cerebro" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/window_background_dark</item>
+    </style>
+</resources>

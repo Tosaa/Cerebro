@@ -5,31 +5,45 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import redtoss.creativity.cerebro.data.StrategyProvider
+import redtoss.creativity.cerebro.ui.layouts.LoadingState
 
 @Composable
 fun AppUi(strategyProvider: StrategyProvider) {
-    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(emptyList())
+    // null until the first emission arrives, so screens can distinguish "still loading"
+    // from "loaded, and there is genuinely nothing here".
+    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
 
     val navHost = rememberNavController()
-    Scaffold(topBar = { AppBar(navHost) }) { paddingValues ->
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = { AppBar(navHost) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+    ) { paddingValues ->
         NavHost(
             navController = navHost,
             startDestination = Screens.Main.name,
+            // Only the scaffold insets here. Each screen owns its own content padding,
+            // rather than stacking another margin on top of the one it already applies.
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(8.dp)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .padding(paddingValues),
         ) {
             composable(Screens.Main.name) {
                 HomeScreen(strategies, navHost)
@@ -38,7 +52,10 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.StrategyLibrary.name,
                 arguments = Screens.StrategyLibrary.arguments,
-                enterTransition = { slideInVertically() },
+                enterTransition = { slideInVertically { it } },
+                exitTransition = { slideOutVertically { it } },
+                popEnterTransition = { slideInVertically { it } },
+                popExitTransition = { slideOutVertically { it } },
             ) {
                 LibraryScreen(strategyProvider, navHost)
             }
@@ -46,8 +63,10 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.Category.name,
                 arguments = Screens.Category.arguments,
-                popExitTransition = { slideOutHorizontally { -1 * it } },
                 enterTransition = { slideInHorizontally { it } },
+                exitTransition = { slideOutHorizontally { -it } },
+                popEnterTransition = { slideInHorizontally { -it } },
+                popExitTransition = { slideOutHorizontally { it } },
             ) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
@@ -57,31 +76,62 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.Strategy.name,
                 arguments = Screens.Strategy.arguments,
-                popExitTransition = { slideOutHorizontally { -1 * it } },
                 enterTransition = { slideInHorizontally { it } },
+                exitTransition = { slideOutHorizontally { -it } },
+                popEnterTransition = { slideInHorizontally { -it } },
+                popExitTransition = { slideOutHorizontally { it } },
             ) { navBackStackEntry ->
-                Screens.Strategy.strategyArgument(navBackStackEntry)?.let { strategyHashCode ->
-                    strategies.value.firstOrNull { it.hashCode() == strategyHashCode }?.let {
-                        StrategyScreen(it)
-                    }
-                } ?: navHost.popBackStack()
+                // While the list is still null the strategy simply cannot be resolved
+                // yet. Popping here would kick the user off a screen they just opened —
+                // which is exactly what happened when restoring into this route after
+                // process death.
+                val loadedStrategies = strategies.value
+                val strategyHashCode = Screens.Strategy.strategyArgument(navBackStackEntry)
+                if (loadedStrategies == null) {
+                    LoadingState()
+                } else {
+                    val strategy = loadedStrategies.firstOrNull { it.hashCode() == strategyHashCode }
+                    strategy?.let { StrategyScreen(it) } ?: navHost.popBackStack()
+                }
             }
 
             composable(
                 route = Screens.About.name,
                 arguments = Screens.About.arguments,
-                popExitTransition = { slideOutVertically { -1 * it } },
-                enterTransition = { slideInVertically() },
+                enterTransition = { slideInVertically { it } },
+                exitTransition = { slideOutVertically { it } },
+                popEnterTransition = { slideInVertically { it } },
+                popExitTransition = { slideOutVertically { it } },
             ) {
                 AboutScreen()
             }
 
-            composable(route = Screens.NewStrategy.name, arguments = Screens.NewStrategy.arguments) {
+            composable(route = Screens.Settings.name, arguments = Screens.Settings.arguments) {
+                SettingsScreen()
+            }
+
+            composable(route = Screens.UnlockAll.name, arguments = Screens.UnlockAll.arguments) {
+                UnlockAllScreen()
+            }
+
+            composable(
+                route = Screens.NewStrategy.name,
+                arguments = Screens.NewStrategy.arguments,
+                enterTransition = { slideInVertically { it } },
+                exitTransition = { slideOutVertically { it } },
+                popEnterTransition = { slideInVertically { it } },
+                popExitTransition = { slideOutVertically { it } },
+            ) {
                 StrategyEditorScreen { strategy ->
                     with(strategyProvider.addCustomStrategy(strategy)) {
                         onSuccess { navHost.popBackStack() }
                         onFailure { error ->
                             Log.e(TAG, "Could not save the new strategy", error)
+                            // The user stays on the editor with their draft intact, so
+                            // they can retry rather than losing what they typed.
+                            scope.launch {
+                                snackbarHostState.showSnackbar("Could not save the strategy. Please try again.")
+                            }
                         }
                     }
                 }

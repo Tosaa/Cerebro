@@ -259,7 +259,7 @@ fun CosyAppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        // typography = AppTypography,
+        typography = AppTypography,
         content = content
     )
 }
