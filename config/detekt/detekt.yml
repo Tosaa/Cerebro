@@ -130,12 +130,16 @@ style:
 
 formatting:
   # --- Batch 7 (docs/detekt-rule-review.md). ktlint rules, all auto-correctable. ---
-  # Trailing commas: a deliberate house-style choice. `detekt --auto-correct` applied
-  # them across the codebase in the same commit that enabled these.
+  # Trailing commas on call sites are house style; `detekt --auto-correct` applied
+  # them across the codebase.
   TrailingCommaOnCallSite:
     active: true
   TrailingCommaOnDeclarationSite:
-    active: true
+    # Left off deliberately. On an enum whose entries are followed by a body, ktlint
+    # formats the trailing comma as `Improvement,` then a bare `;` on its own line
+    # (see data/Category.kt). Valid Kotlin, but unpleasant to read, and the rule only
+    # accounted for 4 of the 45 trailing-comma findings.
+    active: false
 
   # Zero or trivial findings; enabled to hold the line rather than to clean up.
   EnumWrapping:

@@ -9,7 +9,7 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 
 ## State of play
 
-**Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 35 enabled, 2 disabled as duplicates.**
+**Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 34 enabled, 3 disabled.**
 
 ### Where the work lives
 
@@ -88,7 +88,7 @@ Generated from `config/detekt/detekt.yml`. Covers every rule the project makes a
 explicit decision about; the remaining rules follow detekt's defaults via
 `buildUponDefaultConfig = true`.
 
-### Enabled — turned on, were off by default (35)
+### Enabled — turned on, were off by default (34)
 
 | Rule | Set | Why |
 | --- | --- | --- |
@@ -112,7 +112,6 @@ explicit decision about; the remaining rules follow detekt's defaults via
 | `ExpressionBodySyntax` | style | `= expr` over `{ return expr }` |
 | `UseDataClass` | style | Data-only classes |
 | `TrailingCommaOnCallSite` | formatting | Trailing commas on calls — house style |
-| `TrailingCommaOnDeclarationSite` | formatting | Trailing commas on declarations — house style |
 | `EnumWrapping` | formatting | — |
 | `IfElseBracing` | formatting | — |
 | `IfElseWrapping` | formatting | — |
@@ -175,6 +174,7 @@ explicit decision about; the remaining rules follow detekt's defaults via
 | `PropertyName` | formatting | Wants SCREAMING_SNAKE for `ui/theme` colour tokens; Compose uses PascalCase |
 | `FunctionSignature` | formatting | Default `maxLineLength: 120` conflicts with the project's 140 |
 | `MultilineExpressionWrapping` | formatting | 24 findings; not adopted as house style |
+| `TrailingCommaOnDeclarationSite` | formatting | Produces a bare `;` on its own line in enums with a body; only 4 of 45 findings |
 
 ### Pending — reviewed, verdict "enable", not yet applied
 
@@ -189,8 +189,8 @@ Batch 6: `MultilineRawStringIndentation`, `SpacingBetweenPackageAndImports`,
 `StringShouldBeRawString`, `UnderscoresInNumericLiterals`, `CascadingCallWrapping`,
 `TrimMultilineRawString`, `DataClassContainsFunctions`.
 
-Batch 7 has been **applied**: 16 rules enabled, trailing commas adopted and
-auto-corrected across the codebase.
+Batch 7 has been **applied**: 15 rules enabled, and trailing commas adopted on
+call sites only, auto-corrected across the codebase.
 
 ### Android Lint, for completeness
 
@@ -734,9 +734,15 @@ codebase looks:
 
 | Rule | Findings | Question |
 | --- | ---: | --- |
-| `TrailingCommaOnCallSite` | 41 | Do you want trailing commas on calls? |
-| `TrailingCommaOnDeclarationSite` | 4 | ...and on declarations? |
-| `MultilineExpressionWrapping` | 24 | Multiline expressions must start on a new line |
+| `TrailingCommaOnCallSite` | 41 | Do you want trailing commas on calls? **Adopted.** |
+| `TrailingCommaOnDeclarationSite` | 4 | ...and on declarations? **Declined** — see below. |
+| `MultilineExpressionWrapping` | 24 | Multiline expressions must start on a new line. **Declined.** |
+
+`TrailingCommaOnDeclarationSite` was enabled, then dropped after seeing its output. On
+an enum whose entries are followed by a body it formats the trailing comma as
+`Improvement,` followed by a bare `;` on its own line. Valid Kotlin, but unpleasant to
+read, and the rule accounted for only 4 of the 45 trailing-comma findings — so the
+call-site rule carries almost all the value without the artefact.
 
 ### Needs config alignment first — 1
 

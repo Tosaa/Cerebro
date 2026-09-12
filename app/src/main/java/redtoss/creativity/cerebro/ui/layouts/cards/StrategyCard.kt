@@ -27,7 +27,7 @@ import redtoss.creativity.cerebro.data.Strategy
 fun EditableStrategyCard(
     strategy: Strategy,
     modifier: Modifier = Modifier,
-    onEditStrategy: (Strategy) -> Unit,
+    onEditStrategy: (Strategy) -> Unit
 ) = StrategyCard(strategy, modifier) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         IconButton({ onEditStrategy(strategy) }) {
