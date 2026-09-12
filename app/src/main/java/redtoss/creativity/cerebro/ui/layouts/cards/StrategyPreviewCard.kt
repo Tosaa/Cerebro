@@ -26,7 +26,6 @@ import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
 
 private val PreviewIconSize = 20.dp
 
-/** A strategy as a list item: title plus the one-line summary. */
 @Composable
 fun StrategyPreviewCard(strategy: Strategy, modifier: Modifier = Modifier, onClicked: () -> Unit) {
     Card(onClick = onClicked, modifier = modifier.fillMaxWidth()) {

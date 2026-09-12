@@ -24,8 +24,6 @@ import redtoss.creativity.cerebro.ui.layouts.LoadingState
 
 @Composable
 fun AppUi(strategyProvider: StrategyProvider) {
-    // null until the first emission arrives, so screens can distinguish "still loading"
-    // from "loaded, and there is genuinely nothing here".
     val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
 
     val navHost = rememberNavController()
@@ -39,8 +37,6 @@ fun AppUi(strategyProvider: StrategyProvider) {
         NavHost(
             navController = navHost,
             startDestination = Screens.Main.name,
-            // Only the scaffold insets here. Each screen owns its own content padding,
-            // rather than stacking another margin on top of the one it already applies.
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
@@ -81,10 +77,6 @@ fun AppUi(strategyProvider: StrategyProvider) {
                 popEnterTransition = { slideInHorizontally { -it } },
                 popExitTransition = { slideOutHorizontally { it } },
             ) { navBackStackEntry ->
-                // While the list is still null the strategy simply cannot be resolved
-                // yet. Popping here would kick the user off a screen they just opened —
-                // which is exactly what happened when restoring into this route after
-                // process death.
                 val loadedStrategies = strategies.value
                 val strategyHashCode = Screens.Strategy.strategyArgument(navBackStackEntry)
                 if (loadedStrategies == null) {
@@ -127,8 +119,6 @@ fun AppUi(strategyProvider: StrategyProvider) {
                         onSuccess { navHost.popBackStack() }
                         onFailure { error ->
                             Log.e(TAG, "Could not save the new strategy", error)
-                            // The user stays on the editor with their draft intact, so
-                            // they can retry rather than losing what they typed.
                             scope.launch {
                                 snackbarHostState.showSnackbar("Could not save the strategy. Please try again.")
                             }

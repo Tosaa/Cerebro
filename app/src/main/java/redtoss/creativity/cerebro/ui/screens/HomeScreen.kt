@@ -32,15 +32,11 @@ import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
 import java.time.LocalDate
 import kotlin.random.Random
 
-// Wide enough for "Experimentation" on two lines at a large font scale, narrow enough
-// that a phone still gets two columns while a tablet or an unfolded device gets more.
 private val CategoryTileMinWidth = 160.dp
 
 @Suppress("MagicNumber")
 @Composable
 internal fun HomeScreen(strategies: State<List<Strategy>?>, navHost: NavHostController) {
-    // Seeded by the date, so the suggestion holds for the whole day instead of changing
-    // every time the screen recomposes.
     val randomSeed = remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Random(LocalDate.now().hashCode())

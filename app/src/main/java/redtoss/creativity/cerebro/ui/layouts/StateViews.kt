@@ -21,12 +21,6 @@ import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
 
 private val EmptyIconSize = 48.dp
 
-/**
- * Shown while the strategy list is still resolving.
- *
- * The distinction matters: the flow starts at null and only then emits a list, so
- * without this a still-loading screen and a genuinely empty one look identical.
- */
 @Composable
 fun LoadingState(modifier: Modifier = Modifier) {
     Column(
@@ -39,7 +33,6 @@ fun LoadingState(modifier: Modifier = Modifier) {
     }
 }
 
-/** Shown when a list resolved successfully but has nothing in it. */
 @Composable
 fun EmptyState(message: String, modifier: Modifier = Modifier) {
     Column(

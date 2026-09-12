@@ -19,12 +19,6 @@ import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard
 import redtoss.creativity.cerebro.ui.screens.Screens
 import redtoss.creativity.cerebro.ui.screens.navigateToScreen
 
-/**
- * The shared list body behind both the Category and Library screens.
- *
- * [strategies] is null while the strategy list is still loading, which is why it is not
- * simply an empty list: the two states need different UI.
- */
 @Composable
 fun StrategyCardsList(
     title: String,
@@ -58,16 +52,10 @@ fun LazyListScope.strategyCardsList(
             modifier = Modifier.padding(bottom = Spacing.Small),
         )
     }
-    // distinct() before keying: a custom strategy can be typed to match a bundled one
-    // exactly, and two items sharing a key is a hard error in a lazy list. Showing the
-    // same strategy twice would be wrong anyway.
     val uniqueStrategies = strategies?.distinct()
     when {
         uniqueStrategies == null -> item(key = "loading") { LoadingState() }
         uniqueStrategies.isEmpty() -> item(key = "empty") { EmptyState(emptyMessage) }
-        // Keyed by hashCode, the same identity the navigation routes already use
-        // (see Screens.Strategy). Two strategies that collide here would already open
-        // each other's detail screen, so this introduces no new identity assumption.
         else -> items(uniqueStrategies, key = { it.hashCode() }) { strategy ->
             StrategyPreviewCard(
                 strategy = strategy,

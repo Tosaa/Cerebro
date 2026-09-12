@@ -48,14 +48,6 @@ fun EditableStrategyCard(
     }
 }
 
-/**
- * The full read view of a strategy: title, category badge, and the long description.
- *
- * Unlike [StrategyPreviewCard] this is never a list item, so the title is not truncated.
- * The short description is shown as a lead-in only when it says something the long
- * description does not — `Strategy.longDescription` defaults to `shortDescription`, so
- * for many strategies the two are the same string.
- */
 @Composable
 fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: @Composable () -> Unit = {}) {
     Card(modifier.fillMaxWidth()) {
@@ -99,12 +91,6 @@ fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: 
     }
 }
 
-/**
- * A static label for the strategy's category.
- *
- * Deliberately not a chip: chips are interactive controls, and a screen reader announces
- * a `FilterChip` as a selected filter the user can toggle. This one is only ever read.
- */
 @Composable
 private fun CategoryBadge(category: Category) {
     Surface(

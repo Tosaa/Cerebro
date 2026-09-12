@@ -3,10 +3,6 @@ package redtoss.creativity.cerebro.ui
 import redtoss.creativity.cerebro.data.Category
 import redtoss.creativity.cerebro.data.Strategy
 
-/**
- * Sample data for `@Preview` composables only. Mirrors the shape of the bundled
- * strategies in `assets/strategies/` so previews show realistic text lengths.
- */
 internal val sampleStrategy = Strategy(
     category = Category.Perspective,
     title = "Reframe the Question",

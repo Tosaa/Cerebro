@@ -68,10 +68,6 @@ class StrategyProvider(
                 )
             }.orEmpty()
         }
-        // filterNot, not filter: this is a replace-by-title write, matching the
-        // cachedCustomResolvedStrategies.removeIf below. With filter, saving a second
-        // custom strategy kept only the ones sharing the new title -- i.e. none -- and
-        // silently deleted every previously saved custom strategy from disk.
         val newCustomStrategies = existingStrategies.filterNot { it.title == strategy.title } + listOf(strategy)
 
         return try {

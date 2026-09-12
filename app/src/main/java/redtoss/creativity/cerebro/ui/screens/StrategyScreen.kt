@@ -47,8 +47,6 @@ private const val LONG_DESCRIPTION_MIN_LINES = 5
 
 @Composable
 internal fun StrategyScreen(strategy: Strategy) {
-    // Scrollable: long descriptions run past the bottom of the screen otherwise, with
-    // no way to reach the rest of the text.
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +60,6 @@ internal fun StrategyScreen(strategy: Strategy) {
 @Suppress("MagicNumber")
 @Composable
 internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
-    // rememberSaveable: a rotation used to wipe a half-written strategy outright.
     val editorState = rememberSaveable(saver = StrategyEditorState.Saver) { StrategyEditorState() }
     val selectedEditorStep = rememberSaveable { mutableIntStateOf(1) }
     val finalStrategyPreview = remember { mutableStateOf<Strategy?>(null) }
@@ -90,7 +87,6 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = Spacing.Small),
         ) {
-            // selectedTabIndex is 0-based while the steps are numbered from 1.
             SecondaryTabRow(selectedTabIndex = selectedEditorStep.intValue - 1, indicator = {}, divider = {}) {
                 for (stepId in 1..EDITOR_STEP_COUNT) {
                     val isStepSelected = selectedEditorStep.intValue == stepId

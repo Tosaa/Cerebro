@@ -8,7 +8,6 @@ import redtoss.creativity.cerebro.ui.layouts.lists.StrategyCardsList
 
 @Composable
 fun LibraryScreen(strategyProvider: StrategyProvider, navHost: NavHostController) {
-    // null until the first emission, so the list can tell "still loading" from "empty".
     val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
     StrategyCardsList(
         title = "Library",

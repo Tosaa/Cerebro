@@ -13,10 +13,6 @@ val provider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-// Every weight the M3 type scale actually asks for is requested explicitly. With a
-// single Regular face registered, Compose synthesises bold and medium by smearing the
-// outlines, which is why the scale reads flat. Downloadable fonts resolve
-// asynchronously; if the provider is unreachable the platform default is used instead.
 private fun googleFontFamily(name: String): FontFamily {
     val googleFont = GoogleFont(name)
     return FontFamily(

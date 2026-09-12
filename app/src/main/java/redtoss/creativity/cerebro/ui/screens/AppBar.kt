@@ -34,8 +34,6 @@ import redtoss.creativity.cerebro.ui.layouts.Spacing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(navHost: NavHostController) {
-    // Drives the back arrow: shown on every destination except the start one. Reading
-    // the back stack as state is what makes it appear and disappear as you navigate.
     val currentBackStackEntry by navHost.currentBackStackEntryAsState()
     val canNavigateBack = currentBackStackEntry != null && navHost.previousBackStackEntry != null
 

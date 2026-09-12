@@ -25,13 +25,6 @@ import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
 
 private val CategoryIconSize = 36.dp
 
-/**
- * A category tile for the home grid: the category's own icon above its title, with the
- * number of strategies it holds underneath.
- *
- * [strategyCount] is null while the strategy list is still loading, in which case the
- * count line is omitted rather than showing a misleading zero.
- */
 @Composable
 fun CategoryCard(
     category: Category,
