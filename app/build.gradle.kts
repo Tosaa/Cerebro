@@ -110,7 +110,16 @@ android {
         informational += "UnusedResources"        // leftover template colors, drawables and app_motto
         informational += "IconDuplicates"         // ic_launcher and ic_launcher_round are identical
         informational += "MonochromeLauncherIcon" // adaptive icon has no monochrome layer yet
-        informational += "IconLocation"           // cerebro_logo.png lives in densityless res/drawable
+        informational += "IconLocation"
+
+        // Non-deterministic by nature: these fire when a newer version of a
+        // dependency or of AGP exists, so the build can turn red with no change
+        // to the repository at all — as happened when compose-bom 2026.09.00 was
+        // published. With warningsAsErrors = true that breaks CI spontaneously.
+        // Dependency freshness is Dependabot's job (.github/dependabot.yml), not
+        // the build's; these stay visible in the report as hints instead.
+        informational += "GradleDependency"
+        informational += "AndroidGradlePluginVersion"           // cerebro_logo.png lives in densityless res/drawable
     }
     buildFeatures {
         compose = true
