@@ -6,9 +6,6 @@
     <ID>ExpressionBodySyntax:Screens.kt$Screens.Category.Companion$return it.arguments?.getString("category")?.let { redtoss.creativity.cerebro.data.Category.valueOf(it) }</ID>
     <ID>ExpressionBodySyntax:Screens.kt$Screens.Strategy.Companion$return it.arguments?.getInt("strategy")</ID>
     <ID>ForEachOnRange:StrategyScreen.kt$1..4</ID>
-    <ID>MaxLineLength:AppBar.kt$// Text(stringResource(R.string.app_motto), style = MaterialTheme.typography.titleSmall, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.secondary)</ID>
-    <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$class</ID>
-    <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$private suspend</ID>
     <ID>MaximumLineLength:StrategyProvider.kt$StrategyProvider$ </ID>
     <ID>MaximumLineLength:StrategyProvider.kt$StrategyProvider$class</ID>
     <ID>TooGenericExceptionCaught:StrategyProvider.kt$StrategyProvider$e: Exception</ID>

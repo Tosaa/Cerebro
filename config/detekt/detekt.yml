@@ -106,11 +106,6 @@ style:
     active: true
   UseDataClass:
     active: true
-  UnusedImports:
-    # Overlaps formatting/NoUnusedImports, which is also active, so an unused
-    # import is reported twice. Enabled deliberately; see MaxLineLength /
-    # MaximumLineLength below for the same duplication already in effect.
-    active: true
   MagicNumber:
     # Compose UI code is dense with layout literals (8.dp, 32.dp, 0.5f) and the
     # theme layer with colour tokens (Color(0xFF87521B)). Naming each one adds a
@@ -122,13 +117,16 @@ style:
     # idiomatic Kotlin alternative to a nested if-pyramid.
     excludeGuardClauses: true
   MaxLineLength:
-    # Matches `max_line_length = 140` in .editorconfig so editors, ktlint and
-    # detekt all agree on one number.
-    maxLineLength: 140
+    # Disabled as a duplicate of formatting/MaximumLineLength, which is kept and
+    # carries the 140 limit. Both fired at the identical line:column on a probe.
+    # The formatting twin is preferred throughout this file because ktlint-backed
+    # rules are auto-correctable by `detekt --auto-correct`; detekt's own style
+    # rules are not.
+    active: false
   WildcardImport:
-    # `import org.junit.Assert.*` is the conventional way to bring assertions
-    # into a test file.
-    excludes: ['**/test/**', '**/androidTest/**']
+    # Disabled as a duplicate of formatting/NoWildcardImports, which is kept and
+    # carries the test-source exclusion.
+    active: false
 
 formatting:
   MaximumLineLength:
