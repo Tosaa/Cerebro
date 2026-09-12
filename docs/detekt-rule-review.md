@@ -9,21 +9,18 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 
 ## State of play
 
-**Batch 6 done 2026-09-12. 60 of 115 inactive rules reviewed; 19 enabled, 2 disabled as duplicates. `style` is now complete.**
+**60 of 115 inactive rules reviewed; 19 enabled, 2 disabled as duplicates, 3 duplicate rules removed. `style` complete; `formatting` still to review.**
 
 ### Where the work lives
 
-This document travels with the config it describes: both live in the branch behind
-PR #18, so the rule list and `config/detekt/detekt.yml` cannot drift apart.
+This document travels with the config it describes: both live in `config/detekt/` and
+`docs/`, changed together, so the rule list and `config/detekt/detekt.yml` cannot drift
+apart.
 
-| Branch | PR | Contains | Status |
-| --- | --- | --- | --- |
-| `chore/detekt-autocorrect` | #17 | `detekt --auto-correct` over 18 files, baseline 119 -> 9 | green, ready to merge |
-| `chore/detekt-enable-rules` | #18 | the rule config **and this document** | **draft - hold until the review is finished** |
-
-PR #18 is stacked on #17, so #17 merges first. Until it does, #18 gets **no CI**: the
-workflow only triggers on pull requests into `main`. It has been verified locally with
-`./gradlew build`.
+The `style` rule set is fully reviewed. The remaining 21 usable `formatting` (ktlint)
+rules are **not** yet reviewed — see the Queue at the end. Given five confirmed
+style/formatting duplicate pairs, expect much of what `style` offered to already live
+there.
 
 ### What is enabled
 
