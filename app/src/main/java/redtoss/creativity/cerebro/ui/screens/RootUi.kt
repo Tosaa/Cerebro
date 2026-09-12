@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -19,11 +20,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
+import redtoss.creativity.cerebro.data.AppSettings
 import redtoss.creativity.cerebro.data.StrategyProvider
 import redtoss.creativity.cerebro.ui.layouts.LoadingState
 
 @Composable
-fun AppUi(strategyProvider: StrategyProvider) {
+fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
     val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
 
     val navHost = rememberNavController()
@@ -99,7 +101,8 @@ fun AppUi(strategyProvider: StrategyProvider) {
             }
 
             composable(route = Screens.Settings.name, arguments = Screens.Settings.arguments) {
-                SettingsScreen()
+                val themeMode by appSettings.themeMode.collectAsStateWithLifecycle()
+                SettingsScreen(themeMode = themeMode, onThemeModeSelected = appSettings::setThemeMode)
             }
 
             composable(route = Screens.UnlockAll.name, arguments = Screens.UnlockAll.arguments) {
