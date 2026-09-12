@@ -11,6 +11,49 @@
 # delete the entry rather than growing the file.
 # ---------------------------------------------------------------------------
 
+comments:
+  OutdatedDocumentation:
+    # Does not require KDoc anywhere; only checks that KDoc which *does* exist
+    # still matches its signature. Free today (the codebase has none) and stops
+    # future docs drifting away from the code they describe.
+    active: true
+
+coroutines:
+  GlobalCoroutineUsage:
+    # GlobalScope coroutines are tied to no lifecycle and are never cancelled.
+    # Note this matches `GlobalScope` literally: it does NOT catch the
+    # unstructured `CoroutineScope(Dispatchers.IO)` in StrategyProvider, which
+    # has the same hazard and needs fixing separately.
+    active: true
+
+exceptions:
+  NotImplementedDeclaration:
+    # TODO() throws NotImplementedError at runtime. Catches a stub reaching a
+    # release build.
+    active: true
+
+performance:
+  UnnecessaryPartOfBinaryExpression:
+    # Operands that cannot affect the result (`a && a`), usually a paste slip.
+    active: true
+
+potential-bugs:
+  CastToNullableType:
+    # `x as Foo?` is nearly always a confusion with the safe cast `x as? Foo`;
+    # the nullable-type cast still throws on a type mismatch.
+    active: true
+  LateinitUsage:
+    # lateinit trades compile-time null safety for a runtime
+    # UninitializedPropertyAccessException. The codebase has none today, so this
+    # holds the line rather than demanding cleanup.
+    active: true
+  MissingPackageDeclaration:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    # A break/continue/return that always fires on the first iteration, so the
+    # loop body runs exactly once. Almost always a real mistake.
+    active: true
+
 complexity:
   CyclomaticComplexMethod:
     # A Compose screen's complexity is dominated by flat `when` dispatch over
@@ -18,17 +61,51 @@ complexity:
     # logic, so counting them measures the number of UI states, not the code's
     # difficulty.
     ignoreSimpleWhenEntries: true
+  CognitiveComplexMethod:
+    # Nesting-weighted complexity, so it tracks how hard code is to follow rather
+    # than how many branches it has. Exempts Composables for the same reason
+    # LongMethod does.
+    active: true
+    ignoreAnnotated: ['Composable']
   LongMethod:
     # @Composable functions are declarative UI trees, not procedures. Splitting
     # them purely to satisfy a line budget produces indirection, not clarity.
     ignoreAnnotated: ['Composable']
 
 naming:
+  LambdaParameterNaming:
+    # camelCase, or `_` for a deliberately unused parameter.
+    active: true
   FunctionNaming:
     # @Composable functions are PascalCase by Compose convention.
     ignoreAnnotated: ['Composable']
 
 style:
+  # --- Batch 4 (docs/detekt-rule-review.md). Braces and structure. ---
+  BracesOnIfStatements:
+    # Defaults: no braces on a single-line if, braces always on a multi-line one.
+    active: true
+  BracesOnWhenStatements:
+    active: true
+  MandatoryBracesLoops:
+    active: true
+  ClassOrdering:
+    # properties -> initialisers -> constructors -> methods -> companion.
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  DataClassShouldBeImmutable:
+    # Preventive: Strategy is all `val` today.
+    active: true
+  RedundantVisibilityModifierRule:
+    # Measured limitation: catches `public` on classes and members, but NOT on
+    # top-level declarations, so it does not flag Screens.kt's
+    # `public fun NavHostController.navigateToScreen`.
+    active: true
+  ExpressionBodySyntax:
+    active: true
+  UseDataClass:
+    active: true
   MagicNumber:
     # Compose UI code is dense with layout literals (8.dp, 32.dp, 0.5f) and the
     # theme layer with colour tokens (Color(0xFF87521B)). Naming each one adds a
@@ -40,15 +117,63 @@ style:
     # idiomatic Kotlin alternative to a nested if-pyramid.
     excludeGuardClauses: true
   MaxLineLength:
-    # Matches `max_line_length = 140` in .editorconfig so editors, ktlint and
-    # detekt all agree on one number.
-    maxLineLength: 140
+    # Disabled as a duplicate of formatting/MaximumLineLength, which is kept and
+    # carries the 140 limit. Both fired at the identical line:column on a probe.
+    # The formatting twin is preferred throughout this file because ktlint-backed
+    # rules are auto-correctable by `detekt --auto-correct`; detekt's own style
+    # rules are not.
+    active: false
   WildcardImport:
-    # `import org.junit.Assert.*` is the conventional way to bring assertions
-    # into a test file.
-    excludes: ['**/test/**', '**/androidTest/**']
+    # Disabled as a duplicate of formatting/NoWildcardImports, which is kept and
+    # carries the test-source exclusion.
+    active: false
 
 formatting:
+  # --- Batch 7 (docs/detekt-rule-review.md). ktlint rules, all auto-correctable. ---
+  # Trailing commas on call sites are house style; `detekt --auto-correct` applied
+  # them across the codebase.
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    # Left off deliberately. On an enum whose entries are followed by a body, ktlint
+    # formats the trailing comma as `Improvement,` then a bare `;` on its own line
+    # (see data/Category.kt). Valid Kotlin, but unpleasant to read, and the rule only
+    # accounted for 4 of the 45 trailing-comma findings.
+    active: false
+
+  # Zero or trivial findings; enabled to hold the line rather than to clean up.
+  EnumWrapping:
+    active: true
+  IfElseBracing:
+    active: true
+  IfElseWrapping:
+    active: true
+  NoBlankLineInList:
+    active: true
+  NoEmptyFirstLineInClassBody:
+    active: true
+  NoSingleLineBlockComment:
+    active: true
+  StringTemplateIndent:
+    active: true
+  TryCatchFinallySpacing:
+    active: true
+  DiscouragedCommentLocation:
+    active: true
+  NoConsecutiveComments:
+    active: true
+  ParameterListSpacing:
+    active: true
+  TypeArgumentListSpacing:
+    active: true
+  TypeParameterListSpacing:
+    active: true
+  ContextReceiverMapping:
+    # Finds nothing today (no context receivers), but its default maxLineLength is
+    # 120. Set to 140 so it cannot introduce a third line-length number alongside
+    # .editorconfig and MaximumLineLength.
+    active: true
+    maxLineLength: 140
   MaximumLineLength:
     # Same source of truth as style>MaxLineLength above: .editorconfig.
     maxLineLength: 140

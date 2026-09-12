@@ -34,7 +34,7 @@ fun EditableStrategyCard(
             Icon(
                 imageVector = Icons.Default.Create,
                 contentDescription = "Edit button",
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
     }
@@ -52,7 +52,7 @@ fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: 
                     painter = strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle),
                     contentDescription = "Strategy preview card icon, ${strategy.title}",
                     modifier = Modifier.height(30.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
                     text = strategy.title,
@@ -61,19 +61,19 @@ fun StrategyCard(strategy: Strategy, modifier: Modifier = Modifier, cardFooter: 
                         .fillMaxWidth()
                         .padding(8.dp),
                     style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
             FilterChip(
                 selected = true,
                 onClick = {},
                 label = { Text(strategy.category.title, style = MaterialTheme.typography.labelMedium) },
-                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
+                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
             )
             Text(
                 text = strategy.longDescription,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 8.dp),
             )
             cardFooter()
         }

@@ -30,12 +30,12 @@ fun AppBar(navHost: NavHostController) {
         Column(
             Modifier.clickable {
                 navHost.popBackStack(Screens.Main.route, false)
-            }
+            },
         ) {
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
             // Not sure whether second line looks better
             // Text(stringResource(R.string.app_motto), style = MaterialTheme.typography.titleSmall, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.secondary)

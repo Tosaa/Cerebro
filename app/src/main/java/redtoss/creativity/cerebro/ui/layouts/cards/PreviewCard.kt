@@ -17,7 +17,7 @@ import redtoss.creativity.cerebro.data.Category
 fun CategoryCard(category: Category, modifier: Modifier = Modifier, onClicked: () -> Unit) = PreviewCard(
     title = category.title,
     modifier = modifier,
-    onClicked = onClicked
+    onClicked = onClicked,
 )
 
 @Composable
@@ -33,7 +33,7 @@ fun PreviewCard(title: String, modifier: Modifier = Modifier, onClicked: () -> U
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                maxLines = 1
+                maxLines = 1,
             )
         }
     }

@@ -57,7 +57,7 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
     } else {
         Column(Modifier.padding(horizontal = 8.dp)) {
             SecondaryTabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
-                (1..4).forEach { stepId ->
+                for (stepId in 1..4) {
                     val isStepSelected = selectedEditorStep.value == stepId
                     val isStepCompleted = when (stepId) {
                         1 -> !editorState.value.newTitle.value.isNullOrBlank()
@@ -79,13 +79,13 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
                                     isStepSelected -> MaterialTheme.colorScheme.onPrimaryContainer
                                     else -> MaterialTheme.colorScheme.onSurface
                                 },
-                            )
+                            ),
                         ) {
                             Column {
                                 Text(
                                     text = "$stepId",
                                     modifier = Modifier.padding(horizontal = 8.dp),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
                                 )
                             }
                         }
@@ -104,11 +104,11 @@ internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
             Spacer(Modifier.height(32.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 Button(
                     onClick = { finalStrategyPreview.value = editorState.value.buildStrategy() },
-                    enabled = editorState.value.buildStrategy() != null
+                    enabled = editorState.value.buildStrategy() != null,
                 ) { Text("Preview") }
             }
         }
@@ -156,13 +156,3 @@ fun CategoryStep(index: Int, editorState: StrategyEditorState) {
         }
     }
 }
-
-@Suppress("MagicNumber")
-private val Int.stepName: String
-    get() = when (this) {
-        1 -> "Title"
-        2 -> "Short Description"
-        3 -> "Long Description"
-        4 -> "Category"
-        else -> "Unknown"
-    }

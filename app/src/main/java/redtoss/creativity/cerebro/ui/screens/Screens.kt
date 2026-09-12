@@ -22,7 +22,7 @@ sealed interface Screens {
 
     object Main : Screens
 
-    class Category(val category: redtoss.creativity.cerebro.data.Category) : Screens {
+    data class Category(val category: redtoss.creativity.cerebro.data.Category) : Screens {
         override val route: String
             get() = "category/${category.name}"
 
@@ -33,13 +33,12 @@ sealed interface Screens {
             override val arguments: List<NamedNavArgument>
                 get() = listOf(navArgument("category") { type = NavType.StringType })
 
-            fun categoryArgument(it: NavBackStackEntry): redtoss.creativity.cerebro.data.Category? {
-                return it.arguments?.getString("category")?.let { redtoss.creativity.cerebro.data.Category.valueOf(it) }
-            }
+            fun categoryArgument(it: NavBackStackEntry): redtoss.creativity.cerebro.data.Category? =
+                it.arguments?.getString("category")?.let { redtoss.creativity.cerebro.data.Category.valueOf(it) }
         }
     }
 
-    class Strategy(val strategy: redtoss.creativity.cerebro.data.Strategy) : Screens {
+    data class Strategy(val strategy: redtoss.creativity.cerebro.data.Strategy) : Screens {
         override val route: String
             get() = "strategy/${strategy.hashCode()}"
 
@@ -51,12 +50,10 @@ sealed interface Screens {
                 get() = listOf(
                     navArgument("strategy") {
                         type = NavType.IntType
-                    }
+                    },
                 )
 
-            fun strategyArgument(it: NavBackStackEntry): Int? {
-                return it.arguments?.getInt("strategy")
-            }
+            fun strategyArgument(it: NavBackStackEntry): Int? = it.arguments?.getInt("strategy")
         }
     }
 

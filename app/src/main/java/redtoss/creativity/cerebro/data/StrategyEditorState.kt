@@ -18,7 +18,7 @@ class StrategyEditorState(
             category = newCategory,
             title = newTitle,
             shortDescription = newShortDescription,
-            longDescription = newLongDescription
+            longDescription = newLongDescription,
         )
     }
 }
