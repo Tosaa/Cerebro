@@ -2,124 +2,14 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>ArgumentListWrapping:AboutScreen.kt$(R.string.about_screen_app_description)</ID>
-    <ID>ArgumentListWrapping:AboutScreen.kt$(text = "About", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>ArgumentListWrapping:AboutScreen.kt$(text = stringResource(R.string.about_screen_app_description), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodyLarge)</ID>
-    <ID>ArgumentListWrapping:AppBar.kt$(R.string.app_name)</ID>
-    <ID>ArgumentListWrapping:AppBar.kt$(text = stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$( category, modifier = Modifier .weight(1f) )</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$(Screens.Strategy(it))</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$(it)</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$(start = 8.dp, end = 8.dp)</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$(strategy = it, modifier = Modifier.padding(start = 8.dp, end = 8.dp))</ID>
-    <ID>ArgumentListWrapping:HomeScreen.kt$(text = "Strategy of the day:", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleSmall)</ID>
-    <ID>ArgumentListWrapping:PreviewCard.kt$(text = title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, maxLines = 1)</ID>
-    <ID>ArgumentListWrapping:PreviewCard.kt$(title = category.title, modifier = modifier, onClicked = onClicked)</ID>
-    <ID>ArgumentListWrapping:RootUi.kt$( navController = navHost, startDestination = Screens.Main.name, modifier = Modifier .padding(paddingValues) .padding(8.dp) .fillMaxWidth() )</ID>
-    <ID>ArgumentListWrapping:RootUi.kt$( route = Screens.About.name, arguments = Screens.About.arguments, popExitTransition = { slideOutVertically() { -1 * it } }, enterTransition = { slideInVertically() })</ID>
-    <ID>ArgumentListWrapping:RootUi.kt$( route = Screens.Category.name, arguments = Screens.Category.arguments, popExitTransition = { slideOutHorizontally { -1 * it } }, enterTransition = { slideInHorizontally() { it } })</ID>
-    <ID>ArgumentListWrapping:RootUi.kt$( route = Screens.Strategy.name, arguments = Screens.Strategy.arguments, popExitTransition = { slideOutHorizontally { -1 * it } }, enterTransition = { slideInHorizontally() { it } })</ID>
-    <ID>ArgumentListWrapping:RootUi.kt$(route = Screens.StrategyLibrary.name, arguments = Screens.StrategyLibrary.arguments, enterTransition = { slideInVertically() })</ID>
-    <ID>ArgumentListWrapping:StrategyCard.kt$(imageVector = Icons.Default.Create, contentDescription = "Edit button", tint = MaterialTheme.colorScheme.primary)</ID>
-    <ID>ArgumentListWrapping:StrategyCard.kt$(painter = strategy.category.icon?.let { painterResource(it) } ?: rememberVectorPainter(Icons.Default.AccountCircle), contentDescription = "Strategy preview card icon, ${strategy.title}", modifier = Modifier.height(30.dp), tint = MaterialTheme.colorScheme.primary)</ID>
-    <ID>ArgumentListWrapping:StrategyCard.kt$(start = 8.dp)</ID>
-    <ID>ArgumentListWrapping:StrategyCard.kt$(strategy, modifier)</ID>
-    <ID>ArgumentListWrapping:StrategyCard.kt$(text = strategy.longDescription, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 8.dp))</ID>
-    <ID>ArgumentListWrapping:StrategyCardsList.kt$( strategy = strategy, modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp) )</ID>
-    <ID>ArgumentListWrapping:StrategyCardsList.kt$(bottom = 8.dp)</ID>
-    <ID>ArgumentListWrapping:StrategyCardsList.kt$(text = title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 8.dp))</ID>
-    <ID>ArgumentListWrapping:StrategyEditorState.kt$StrategyEditorState$(category = newCategory, title = newTitle, shortDescription = newShortDescription, longDescription = newLongDescription)</ID>
-    <ID>ArgumentListWrapping:StrategyPreviewCard.kt$(text = strategy.shortDescription, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxSize())</ID>
-    <ID>ArgumentListWrapping:StrategyProvider.kt$StrategyProvider$(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)</ID>
-    <ID>ArgumentListWrapping:StrategyProvider.kt$StrategyProvider$(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies)</ID>
-    <ID>ArgumentListWrapping:StrategyProvider.kt$StrategyProvider$(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies)</ID>
-    <ID>ArgumentListWrapping:StrategyScreen.kt$(horizontal = 8.dp)</ID>
-    <ID>ArgumentListWrapping:StrategyScreen.kt$(text = "$stepId", modifier = Modifier.padding(horizontal = 8.dp), textAlign = TextAlign.Center)</ID>
-    <ID>ArgumentListWrapping:StrategyScreen.kt$(value = editorState.newLongDescription.value.orEmpty(), onValueChange = { editorState.newLongDescription.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>ArgumentListWrapping:StrategyScreen.kt$(value = editorState.newShortDescription.value.orEmpty(), onValueChange = { editorState.newShortDescription.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>ArgumentListWrapping:StrategyScreen.kt$(value = editorState.newTitle.value.orEmpty(), onValueChange = { editorState.newTitle.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>BlockCommentInitialStarAlignment:Theme.kt$/* Other default colors to override background = Color(0xFFFFFBFE), surface = Color(0xFFFFFBFE), onPrimary = Color.White, onSecondary = Color.White, onTertiary = Color.White, onBackground = Color(0xFF1C1B1F), onSurface = Color(0xFF1C1B1F), */</ID>
-    <ID>BlockCommentInitialStarAlignment:Type.kt$/* Other default text styles to override titleLarge = TextStyle( fontFamily = FontFamily.Default, fontWeight = FontWeight.Normal, fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = 0.sp ), labelSmall = TextStyle( fontFamily = FontFamily.Default, fontWeight = FontWeight.Medium, fontSize = 11.sp, lineHeight = 16.sp, letterSpacing = 0.5.sp ) */</ID>
-    <ID>FinalNewline:Color.kt$redtoss.creativity.cerebro.ui.theme.Color.kt</ID>
-    <ID>FinalNewline:ExampleUnitTest.kt$redtoss.creativity.cerebro.ExampleUnitTest.kt</ID>
-    <ID>FinalNewline:StrategyScreen.kt$redtoss.creativity.cerebro.ui.screens.StrategyScreen.kt</ID>
-    <ID>FinalNewline:Theme.kt$redtoss.creativity.cerebro.ui.theme.Theme.kt</ID>
-    <ID>FinalNewline:Type.kt$redtoss.creativity.cerebro.ui.theme.Type.kt</ID>
     <ID>ForEachOnRange:StrategyScreen.kt$1..4</ID>
-    <ID>ImportOrdering:ExampleUnitTest.kt$import org.junit.Test import org.junit.Assert.*</ID>
-    <ID>ImportOrdering:HomeScreen.kt$import android.os.Build import androidx.compose.foundation.layout.Column import androidx.compose.foundation.layout.Row import androidx.compose.foundation.layout.Spacer import androidx.compose.foundation.layout.fillMaxWidth import androidx.compose.foundation.layout.height import androidx.compose.foundation.layout.padding import androidx.compose.foundation.layout.width import androidx.compose.foundation.lazy.LazyColumn import androidx.compose.material3.MaterialTheme import androidx.compose.material3.Text import androidx.compose.runtime.Composable import androidx.compose.runtime.State import androidx.compose.runtime.remember import androidx.compose.ui.Modifier import androidx.compose.ui.unit.dp import androidx.compose.ui.unit.sp import androidx.navigation.NavHostController import java.time.LocalDate import kotlin.random.Random import redtoss.creativity.cerebro.data.Category import redtoss.creativity.cerebro.data.Strategy import redtoss.creativity.cerebro.ui.layouts.cards.CategoryCard import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard</ID>
-    <ID>Indentation:StrategyPreviewCard.kt$ </ID>
-    <ID>MaxLineLength:AboutScreen.kt$Text(text = "About", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>MaxLineLength:AboutScreen.kt$Text(text = stringResource(R.string.about_screen_app_description), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodyLarge)</ID>
     <ID>MaxLineLength:AppBar.kt$// Text(stringResource(R.string.app_motto), style = MaterialTheme.typography.titleSmall, fontStyle = FontStyle.Italic, color = MaterialTheme.colorScheme.secondary)</ID>
-    <ID>MaxLineLength:AppBar.kt$Text(text = stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)</ID>
-    <ID>MaxLineLength:HomeScreen.kt$StrategyPreviewCard(strategy = it, modifier = Modifier.padding(start = 8.dp, end = 8.dp)) { navHost.navigateToScreen(Screens.Strategy(it)) }</ID>
-    <ID>MaxLineLength:PreviewCard.kt$Text(text = title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, maxLines = 1)</ID>
-    <ID>MaxLineLength:PreviewCard.kt$fun</ID>
-    <ID>MaxLineLength:RootUi.kt$composable</ID>
-    <ID>MaxLineLength:StrategyCard.kt$fun</ID>
-    <ID>MaxLineLength:StrategyEditorState.kt$StrategyEditorState$return Strategy(category = newCategory, title = newTitle, shortDescription = newShortDescription, longDescription = newLongDescription)</ID>
     <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$class</ID>
-    <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()</ID>
-    <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$customStrategyInputStream?.let { resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies) }.orEmpty()</ID>
     <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$private suspend</ID>
-    <ID>MaxLineLength:StrategyProvider.kt$StrategyProvider$val existingStrategies = resolveStrategies(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)</ID>
-    <ID>MaxLineLength:StrategyScreen.kt$TextField(value = editorState.newLongDescription.value.orEmpty(), onValueChange = { editorState.newLongDescription.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>MaxLineLength:StrategyScreen.kt$TextField(value = editorState.newShortDescription.value.orEmpty(), onValueChange = { editorState.newShortDescription.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>MaxLineLength:StrategyScreen.kt$TextField(value = editorState.newTitle.value.orEmpty(), onValueChange = { editorState.newTitle.value = it }, modifier = Modifier.fillMaxWidth())</ID>
-    <ID>MaximumLineLength:AboutScreen.kt$ </ID>
-    <ID>MaximumLineLength:AppBar.kt$ </ID>
-    <ID>MaximumLineLength:HomeScreen.kt$ </ID>
-    <ID>MaximumLineLength:PreviewCard.kt$ </ID>
-    <ID>MaximumLineLength:PreviewCard.kt$fun</ID>
-    <ID>MaximumLineLength:RootUi.kt$ </ID>
-    <ID>MaximumLineLength:StrategyCard.kt$fun</ID>
-    <ID>MaximumLineLength:StrategyEditorState.kt$StrategyEditorState$ </ID>
     <ID>MaximumLineLength:StrategyProvider.kt$StrategyProvider$ </ID>
     <ID>MaximumLineLength:StrategyProvider.kt$StrategyProvider$class</ID>
-    <ID>MaximumLineLength:StrategyScreen.kt$ </ID>
-    <ID>NewLineAtEndOfFile:Color.kt$redtoss.creativity.cerebro.ui.theme.Color.kt</ID>
-    <ID>NewLineAtEndOfFile:ExampleUnitTest.kt$redtoss.creativity.cerebro.ExampleUnitTest.kt</ID>
-    <ID>NewLineAtEndOfFile:StrategyScreen.kt$redtoss.creativity.cerebro.ui.screens.StrategyScreen.kt</ID>
-    <ID>NewLineAtEndOfFile:Theme.kt$redtoss.creativity.cerebro.ui.theme.Theme.kt</ID>
-    <ID>NewLineAtEndOfFile:Type.kt$redtoss.creativity.cerebro.ui.theme.Type.kt</ID>
-    <ID>NoBlankLineBeforeRbrace:HomeScreen.kt$ </ID>
-    <ID>NoBlankLineBeforeRbrace:Screens.kt$Screens.StrategyLibrary$ </ID>
-    <ID>NoBlankLineBeforeRbrace:StrategyProvider.kt$StrategyProvider$ </ID>
-    <ID>NoConsecutiveBlankLines:LibraryScreen.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:RootUi.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:Screens.kt$Screens$ </ID>
-    <ID>NoConsecutiveBlankLines:Screens.kt$Screens.Strategy$ </ID>
-    <ID>NoConsecutiveBlankLines:StrategyPreviewCard.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:StrategyProvider.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:StrategyScreen.kt$ </ID>
-    <ID>NoUnusedImports:HomeScreen.kt$redtoss.creativity.cerebro.ui.screens.HomeScreen.kt</ID>
-    <ID>NoUnusedImports:MainActivity.kt$redtoss.creativity.cerebro.MainActivity.kt</ID>
-    <ID>NoUnusedImports:RootUi.kt$redtoss.creativity.cerebro.ui.screens.RootUi.kt</ID>
-    <ID>NoUnusedImports:Screens.kt$redtoss.creativity.cerebro.ui.screens.Screens.kt</ID>
-    <ID>NoUnusedImports:StrategyCard.kt$redtoss.creativity.cerebro.ui.layouts.cards.StrategyCard.kt</ID>
-    <ID>NoUnusedImports:StrategyScreen.kt$redtoss.creativity.cerebro.ui.screens.StrategyScreen.kt</ID>
-    <ID>ParameterListWrapping:PreviewCard.kt$(category: Category, modifier: Modifier = Modifier, onClicked: () -&gt; Unit)</ID>
-    <ID>ParameterListWrapping:StrategyCard.kt$(Strategy)</ID>
-    <ID>ParameterListWrapping:StrategyCard.kt$(strategy: Strategy, modifier: Modifier = Modifier, onEditStrategy: (Strategy) -&gt; Unit)</ID>
-    <ID>PropertyWrapping:StrategyProvider.kt$StrategyProvider$val existingStrategies = resolveStrategies(fileInputStream = existingStrategyInputStream, forceReload = forceReload, strategyCache = cachedExistingResolvedStrategies)</ID>
     <ID>TooGenericExceptionCaught:StrategyProvider.kt$StrategyProvider$e: Exception</ID>
-    <ID>UnnecessaryParenthesesBeforeTrailingLambda:RootUi.kt$()</ID>
     <ID>UnusedPrivateMember:HomeScreen.kt$@Composable private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostController)</ID>
     <ID>UnusedPrivateProperty:StrategyScreen.kt$@Suppress("MagicNumber") private val Int.stepName: String get() = when (this) { 1 -&gt; "Title" 2 -&gt; "Short Description" 3 -&gt; "Long Description" 4 -&gt; "Category" else -&gt; "Unknown" }</ID>
-    <ID>Wrapping:AppBar.kt$(</ID>
-    <ID>Wrapping:HomeScreen.kt$( category, modifier = Modifier .weight(1f) )</ID>
-    <ID>Wrapping:HomeScreen.kt$navHost.navigateToScreen(Screens.Strategy(it))</ID>
-    <ID>Wrapping:RootUi.kt$(</ID>
-    <ID>Wrapping:RootUi.kt$( navController = navHost, startDestination = Screens.Main.name, modifier = Modifier .padding(paddingValues) .padding(8.dp) .fillMaxWidth() )</ID>
-    <ID>Wrapping:RootUi.kt$slideInVertically()</ID>
-    <ID>Wrapping:Screens.kt$Screens.Strategy.Companion$(</ID>
-    <ID>Wrapping:StrategyCard.kt$(</ID>
-    <ID>Wrapping:StrategyCard.kt$painterResource(it)</ID>
-    <ID>Wrapping:StrategyProvider.kt$StrategyProvider$resolveStrategies(fileInputStream = it, forceReload = false, strategyCache = cachedCustomResolvedStrategies)</ID>
-    <ID>Wrapping:StrategyProvider.kt$StrategyProvider$resolveStrategies(fileInputStream = it, forceReload = forceReload, strategyCache = cachedCustomResolvedStrategies)</ID>
-    <ID>Wrapping:StrategyScreen.kt$editorState.newLongDescription.value = it</ID>
-    <ID>Wrapping:StrategyScreen.kt$editorState.newShortDescription.value = it</ID>
-    <ID>Wrapping:StrategyScreen.kt$editorState.newTitle.value = it</ID>
   </CurrentIssues>
 </SmellBaseline>
