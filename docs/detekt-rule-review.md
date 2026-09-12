@@ -9,7 +9,7 @@ rule does, whether it is worth enabling *here*, and what can be tuned.
 
 ## State of play
 
-**60 of 115 inactive rules reviewed; 19 enabled, 2 disabled as duplicates, 3 duplicate rules removed. `style` complete; `formatting` still to review.**
+**Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 19 enabled, 2 disabled as duplicates.**
 
 ### Where the work lives
 
@@ -17,10 +17,8 @@ This document travels with the config it describes: both live in `config/detekt/
 `docs/`, changed together, so the rule list and `config/detekt/detekt.yml` cannot drift
 apart.
 
-The `style` rule set is fully reviewed. The remaining 21 usable `formatting` (ktlint)
-rules are **not** yet reviewed — see the Queue at the end. Given five confirmed
-style/formatting duplicate pairs, expect much of what `style` offered to already live
-there.
+Every rule that *can* be enabled has now been reviewed. The 34 inactive rules that
+require type resolution are inert in this project and were not assessed individually.
 
 ### What is enabled
 
@@ -685,6 +683,75 @@ suppressions start accumulating.
 
 46 inactive rules: 15 inert (type resolution), 31 reviewed across batches 4-6. Of those
 31 - 10 enabled, 7 more recommended, 5 duplicates, 4 no-ops, the rest optional.
+
+---
+
+## Batch 7 — `formatting` (ktlint), all 21 (completes the review)
+
+**109 findings across 7 rules; the other 14 are silent.** Eight of the silent ones were
+confirmed live by probe, six could not be triggered.
+
+The defining property of this set: **17 of the 21 carry `autoCorrect: true`**, so
+`detekt --auto-correct` fixes them mechanically. Enabling them is cheap in a way the
+`style` rules were not.
+
+### Skip — 3
+
+| Rule | Findings | Why |
+| --- | ---: | --- |
+| `FunctionName` | 20 | **Duplicate** of active `naming/FunctionNaming`, and every finding is a `@Composable`. Enabling it would undo the `ignoreAnnotated: ['Composable']` exemption that exists precisely to allow PascalCase Composables. |
+| `ClassName` | 0 | **Duplicate** of active `naming/ClassNaming` — both fired on the same class in a probe. Sixth confirmed duplicate pair. |
+| `PropertyName` | 9 | Demands SCREAMING_SNAKE_CASE for immutable properties. All nine are `ui/theme/Color.kt` colour tokens, where Compose convention is PascalCase. Conflicts with the framework, and that package appears dead anyway. |
+
+### House-style decision — 3
+
+Auto-correctable, so the cost is one `--auto-correct` run, but they change how the
+codebase looks:
+
+| Rule | Findings | Question |
+| --- | ---: | --- |
+| `TrailingCommaOnCallSite` | 41 | Do you want trailing commas on calls? |
+| `TrailingCommaOnDeclarationSite` | 4 | ...and on declarations? |
+| `MultilineExpressionWrapping` | 24 | Multiline expressions must start on a new line |
+
+### Needs config alignment first — 1
+
+`FunctionSignature` (9 findings) ships `maxLineLength: 120`, contradicting the project's
+140 in `.editorconfig` and `formatting/MaximumLineLength`. Enabling it as-is introduces a
+third, inconsistent line-length number. Set it to 140 or leave it off.
+
+`ContextReceiverMapping` carries the same 120 default, though it finds nothing (no
+context receivers in the codebase).
+
+### Enable — 14
+
+Zero or trivial findings, all auto-correctable.
+
+**Confirmed live by probe (8):** `EnumWrapping`, `IfElseBracing`, `IfElseWrapping`,
+`NoEmptyFirstLineInClassBody`, `NoSingleLineBlockComment`, `StringTemplateIndent`,
+`TryCatchFinallySpacing`, plus `NoBlankLineInList` (2 trivial findings).
+
+**Untriggered by the probe (6):** `ContextReceiverMapping`, `DiscouragedCommentLocation`,
+`NoConsecutiveComments`, `ParameterListSpacing`, `TypeArgumentListSpacing`,
+`TypeParameterListSpacing`. Their silence is explained — the codebase has no context
+receivers, no consecutive comments, and no explicit type-argument lists to misformat.
+
+### Tested and disproven: the `ktlint_code_style` shortcut
+
+These 21 are largely the rules ktlint enables only under its `ktlint_official` code
+style, which suggested a shortcut: set `ktlint_code_style = ktlint_official` in
+`.editorconfig` and get the coherent set instead of 21 individual switches.
+
+**That does not work.** Adding it to `.editorconfig` and re-running produced **zero**
+additional findings. detekt-formatting gates these rules on its own `active:` flags and
+does not consult ktlint's code-style setting. They must be enabled individually in
+`config/detekt/detekt.yml`.
+
+### The review is now complete
+
+81 enableable inactive rules assessed across seven batches. The remaining 34 require
+type resolution and are inert here, so there is nothing to decide about them until
+detekt 2.0 makes type resolution practical.
 
 ---
 
