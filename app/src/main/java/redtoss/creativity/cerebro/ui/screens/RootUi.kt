@@ -1,10 +1,6 @@
 package redtoss.creativity.cerebro.ui.screens
 
 import android.util.Log
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -39,6 +35,12 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
         NavHost(
             navController = navHost,
             startDestination = Screens.Main.name,
+            // Declared once for every destination rather than per route: the transitions
+            // used to differ screen by screen, which is what made navigation feel ad hoc.
+            enterTransition = { ForwardEnter },
+            exitTransition = { ForwardExit },
+            popEnterTransition = { BackEnter },
+            popExitTransition = { BackExit },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
@@ -50,10 +52,6 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             composable(
                 route = Screens.StrategyLibrary.name,
                 arguments = Screens.StrategyLibrary.arguments,
-                enterTransition = { slideInVertically { it } },
-                exitTransition = { slideOutVertically { it } },
-                popEnterTransition = { slideInVertically { it } },
-                popExitTransition = { slideOutVertically { it } },
             ) {
                 LibraryScreen(strategyProvider, navHost)
             }
@@ -61,10 +59,6 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             composable(
                 route = Screens.Category.name,
                 arguments = Screens.Category.arguments,
-                enterTransition = { slideInHorizontally { it } },
-                exitTransition = { slideOutHorizontally { -it } },
-                popEnterTransition = { slideInHorizontally { -it } },
-                popExitTransition = { slideOutHorizontally { it } },
             ) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
@@ -74,10 +68,6 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             composable(
                 route = Screens.Strategy.name,
                 arguments = Screens.Strategy.arguments,
-                enterTransition = { slideInHorizontally { it } },
-                exitTransition = { slideOutHorizontally { -it } },
-                popEnterTransition = { slideInHorizontally { -it } },
-                popExitTransition = { slideOutHorizontally { it } },
             ) { navBackStackEntry ->
                 val loadedStrategies = strategies.value
                 val strategyHashCode = Screens.Strategy.strategyArgument(navBackStackEntry)
@@ -92,10 +82,6 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             composable(
                 route = Screens.About.name,
                 arguments = Screens.About.arguments,
-                enterTransition = { slideInVertically { it } },
-                exitTransition = { slideOutVertically { it } },
-                popEnterTransition = { slideInVertically { it } },
-                popExitTransition = { slideOutVertically { it } },
             ) {
                 AboutScreen()
             }
@@ -118,10 +104,6 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             composable(
                 route = Screens.NewStrategy.name,
                 arguments = Screens.NewStrategy.arguments,
-                enterTransition = { slideInVertically { it } },
-                exitTransition = { slideOutVertically { it } },
-                popEnterTransition = { slideInVertically { it } },
-                popExitTransition = { slideOutVertically { it } },
             ) {
                 StrategyEditorScreen { strategy ->
                     with(strategyProvider.addCustomStrategy(strategy)) {

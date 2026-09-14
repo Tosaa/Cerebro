@@ -1,6 +1,11 @@
 package redtoss.creativity.cerebro.ui.screens
 
 import android.os.Build
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +38,7 @@ import java.time.LocalDate
 import kotlin.random.Random
 
 private val CategoryTileMinWidth = 160.dp
+private const val CONTENT_FADE_MILLIS = 200
 
 @Suppress("MagicNumber")
 @Composable
@@ -82,10 +88,17 @@ private fun StrategyOfTheDay(randomStrategy: Strategy?, isLoading: Boolean, navH
         verticalArrangement = Arrangement.spacedBy(Spacing.Small),
     ) {
         Text(text = "Strategy of the day", style = MaterialTheme.typography.headlineMedium)
-        when {
-            isLoading -> LoadingState()
-            randomStrategy != null -> StrategyPreviewCard(strategy = randomStrategy) {
-                navHost.navigateToScreen(Screens.Strategy(randomStrategy))
+        AnimatedContent(
+            targetState = if (isLoading) null else randomStrategy,
+            transitionSpec = { fadeIn(tween(CONTENT_FADE_MILLIS)) togetherWith fadeOut(tween(CONTENT_FADE_MILLIS)) },
+            label = "Strategy of the day",
+        ) { strategy ->
+            when {
+                strategy != null -> StrategyPreviewCard(strategy = strategy) {
+                    navHost.navigateToScreen(Screens.Strategy(strategy))
+                }
+
+                isLoading -> LoadingState()
             }
         }
     }

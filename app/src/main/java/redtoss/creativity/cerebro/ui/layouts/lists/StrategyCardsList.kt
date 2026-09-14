@@ -59,7 +59,9 @@ fun LazyListScope.strategyCardsList(
         else -> items(uniqueStrategies, key = { it.hashCode() }) { strategy ->
             StrategyPreviewCard(
                 strategy = strategy,
-                modifier = Modifier.padding(bottom = Spacing.Small),
+                modifier = Modifier
+                    .animateItem()
+                    .padding(bottom = Spacing.Small),
             ) { navHost.navigateToScreen(Screens.Strategy(strategy)) }
         }
     }

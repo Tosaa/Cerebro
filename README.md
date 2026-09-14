@@ -25,7 +25,7 @@ The app is a single-activity Compose app with these screens:
 | Category | [`ui/screens/CategoryScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/CategoryScreen.kt) | Every strategy in one category |
 | Strategy | [`ui/screens/StrategyScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/StrategyScreen.kt) | A single strategy in full |
 | Library | [`ui/screens/LibraryScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/LibraryScreen.kt) | All strategies, bundled and custom, sorted by title |
-| New Strategy | [`ui/screens/StrategyScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/StrategyScreen.kt) | A four-step editor (title, short description, long description, category) with a preview before saving |
+| New Strategy | [`ui/screens/StrategyEditorScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/StrategyEditorScreen.kt) | A four-step editor (title, short description, long description, category) with a preview before saving |
 | About | [`ui/screens/AboutScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AboutScreen.kt) | App description |
 | Settings | [`ui/screens/SettingsScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/SettingsScreen.kt) | Appearance and colour theme |
 | Unlock all | [`ui/screens/UnlockAllScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/UnlockAllScreen.kt) | Placeholder — see below |
