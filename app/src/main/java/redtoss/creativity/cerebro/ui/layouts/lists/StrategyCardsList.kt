@@ -17,7 +17,7 @@ import redtoss.creativity.cerebro.ui.layouts.LoadingState
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyPreviewCard
 import redtoss.creativity.cerebro.ui.screens.Screens
 import redtoss.creativity.cerebro.ui.screens.navigateToScreen
-import redtoss.creativity.cerebro.ui.theme2.Spacing
+import redtoss.creativity.cerebro.ui.theme.Spacing
 
 @Composable
 fun StrategyCardsList(

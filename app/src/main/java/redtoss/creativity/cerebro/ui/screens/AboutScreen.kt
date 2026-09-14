@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import redtoss.creativity.cerebro.R
-import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
-import redtoss.creativity.cerebro.ui.theme2.Spacing
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.Spacing
 
 @Composable
 fun AboutScreen() {

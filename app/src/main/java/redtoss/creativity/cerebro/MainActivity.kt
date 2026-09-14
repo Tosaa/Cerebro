@@ -14,7 +14,7 @@ import redtoss.creativity.cerebro.data.AppSettings
 import redtoss.creativity.cerebro.data.StrategyProvider
 import redtoss.creativity.cerebro.data.ThemeMode
 import redtoss.creativity.cerebro.ui.screens.AppUi
-import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

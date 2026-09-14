@@ -1,4 +1,4 @@
-package redtoss.creativity.cerebro.ui.theme2
+package redtoss.creativity.cerebro.ui.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

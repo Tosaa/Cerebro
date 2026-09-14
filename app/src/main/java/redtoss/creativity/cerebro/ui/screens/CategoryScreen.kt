@@ -11,7 +11,7 @@ import redtoss.creativity.cerebro.data.Category
 import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.ui.layouts.lists.StrategyCardsList
 import redtoss.creativity.cerebro.ui.sampleStrategies
-import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
 
 @Composable
 internal fun CategoryScreen(category: Category, strategies: State<List<Strategy>?>, navHost: NavHostController) {

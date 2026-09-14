@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import redtoss.creativity.cerebro.data.ColorTheme
 import redtoss.creativity.cerebro.data.LabelledChoice
 import redtoss.creativity.cerebro.data.ThemeMode
-import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
-import redtoss.creativity.cerebro.ui.theme2.Spacing
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.Spacing
 
 // Rough ideas for what else could live here:
 //

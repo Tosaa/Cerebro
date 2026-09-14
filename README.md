@@ -40,7 +40,7 @@ light/dark setting, or override it) and the colour theme (**Cosy** warm amber,
 [`data/AppSettings.kt`](app/src/main/java/redtoss/creativity/cerebro/data/AppSettings.kt).
 Each colour theme has a full light and dark scheme; the Cosy one is the
 Material Theme Builder export in `ui/theme2/Color.kt`, the other two are in
-[`ui/theme2/ColorThemes.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/theme2/ColorThemes.kt).
+[`ui/theme2/ColorThemes.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/theme/ColorThemes.kt).
 Unlock all is deliberately **not implemented**. Both files carry a comment block
 sketching what else could go there and what it would cost; read those before
 building on either one.
@@ -123,11 +123,9 @@ generated from the strategy JSONs at build time; see [`site/`](site/) for detail
 
 Application ID and namespace are both `redtoss.creativity.cerebro`.
 
-Note that two theme packages exist side by side (`ui/theme` and `ui/theme2`);
-both are present in the source tree. Only `ui/theme2` is wired up — it is a
+`ui/theme2` is a
 Material Theme Builder export (a warm amber palette, with Montserrat Alternates
-and Roboto Mono pulled in as downloadable Google Fonts). `ui/theme` is the
-untouched Android Studio template and is not referenced by anything.
+and Roboto Mono pulled in as downloadable Google Fonts). 
 
 ## License
 

@@ -39,8 +39,8 @@ import redtoss.creativity.cerebro.data.Strategy
 import redtoss.creativity.cerebro.data.StrategyEditorState
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyCard
 import redtoss.creativity.cerebro.ui.sampleStrategy
-import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
-import redtoss.creativity.cerebro.ui.theme2.Spacing
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.Spacing
 
 private const val EDITOR_STEP_COUNT = 4
 private const val LONG_DESCRIPTION_MIN_LINES = 5
