@@ -8,6 +8,11 @@ import redtoss.creativity.cerebro.ui.layouts.lists.StrategyCardsList
 
 @Composable
 fun LibraryScreen(strategyProvider: StrategyProvider, navHost: NavHostController) {
-    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(emptyList())
-    StrategyCardsList(title = "Library", strategies = strategies.value.sortedBy { it.title }, navHost = navHost)
+    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
+    StrategyCardsList(
+        title = "Library",
+        strategies = strategies.value?.sortedBy { it.title },
+        navHost = navHost,
+        emptyMessage = "The library is empty.",
+    )
 }

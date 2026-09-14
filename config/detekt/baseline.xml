@@ -3,6 +3,5 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>TooGenericExceptionCaught:StrategyProvider.kt$StrategyProvider$e: Exception</ID>
-    <ID>UnusedPrivateMember:HomeScreen.kt$@Composable private fun StrategyOfTheDay(randomStrategy: Strategy?, navHost: NavHostController)</ID>
   </CurrentIssues>
 </SmellBaseline>

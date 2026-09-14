@@ -68,7 +68,7 @@ class StrategyProvider(
                 )
             }.orEmpty()
         }
-        val newCustomStrategies = existingStrategies.filter { it.title == strategy.title } + listOf(strategy)
+        val newCustomStrategies = existingStrategies.filterNot { it.title == strategy.title } + listOf(strategy)
 
         return try {
             with(OutputStreamWriter(context.openFileOutput(customStrategyFilename, Context.MODE_PRIVATE))) {

@@ -1,35 +1,49 @@
 package redtoss.creativity.cerebro.ui.screens
 
 import android.util.Log
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
+import redtoss.creativity.cerebro.data.AppSettings
 import redtoss.creativity.cerebro.data.StrategyProvider
+import redtoss.creativity.cerebro.ui.layouts.LoadingState
 
 @Composable
-fun AppUi(strategyProvider: StrategyProvider) {
-    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(emptyList())
+fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
+    val strategies = strategyProvider.resolvedStrategies.collectAsStateWithLifecycle(null)
 
     val navHost = rememberNavController()
-    Scaffold(topBar = { AppBar(navHost) }) { paddingValues ->
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = { AppBar(navHost) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+    ) { paddingValues ->
         NavHost(
             navController = navHost,
             startDestination = Screens.Main.name,
+            // Declared once for every destination rather than per route: the transitions
+            // used to differ screen by screen, which is what made navigation feel ad hoc.
+            enterTransition = { ForwardEnter },
+            exitTransition = { ForwardExit },
+            popEnterTransition = { BackEnter },
+            popExitTransition = { BackExit },
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(8.dp)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .padding(paddingValues),
         ) {
             composable(Screens.Main.name) {
                 HomeScreen(strategies, navHost)
@@ -38,7 +52,6 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.StrategyLibrary.name,
                 arguments = Screens.StrategyLibrary.arguments,
-                enterTransition = { slideInVertically() },
             ) {
                 LibraryScreen(strategyProvider, navHost)
             }
@@ -46,8 +59,6 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.Category.name,
                 arguments = Screens.Category.arguments,
-                popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally { it } },
             ) {
                 Screens.Category.categoryArgument(it)?.let { category ->
                     CategoryScreen(category = category, strategies = strategies, navHost = navHost)
@@ -57,31 +68,51 @@ fun AppUi(strategyProvider: StrategyProvider) {
             composable(
                 route = Screens.Strategy.name,
                 arguments = Screens.Strategy.arguments,
-                popExitTransition = { slideOutHorizontally { -1 * it } },
-                enterTransition = { slideInHorizontally { it } },
             ) { navBackStackEntry ->
-                Screens.Strategy.strategyArgument(navBackStackEntry)?.let { strategyHashCode ->
-                    strategies.value.firstOrNull { it.hashCode() == strategyHashCode }?.let {
-                        StrategyScreen(it)
-                    }
-                } ?: navHost.popBackStack()
+                val loadedStrategies = strategies.value
+                val strategyHashCode = Screens.Strategy.strategyArgument(navBackStackEntry)
+                if (loadedStrategies == null) {
+                    LoadingState()
+                } else {
+                    val strategy = loadedStrategies.firstOrNull { it.hashCode() == strategyHashCode }
+                    strategy?.let { StrategyScreen(it) } ?: navHost.popBackStack()
+                }
             }
 
             composable(
                 route = Screens.About.name,
                 arguments = Screens.About.arguments,
-                popExitTransition = { slideOutVertically { -1 * it } },
-                enterTransition = { slideInVertically() },
             ) {
                 AboutScreen()
             }
 
-            composable(route = Screens.NewStrategy.name, arguments = Screens.NewStrategy.arguments) {
+            composable(route = Screens.Settings.name, arguments = Screens.Settings.arguments) {
+                val themeMode by appSettings.themeMode.collectAsStateWithLifecycle()
+                val colorTheme by appSettings.colorTheme.collectAsStateWithLifecycle()
+                SettingsScreen(
+                    themeMode = themeMode,
+                    colorTheme = colorTheme,
+                    onThemeModeSelected = appSettings::setThemeMode,
+                    onColorThemeSelected = appSettings::setColorTheme,
+                )
+            }
+
+            composable(route = Screens.UnlockAll.name, arguments = Screens.UnlockAll.arguments) {
+                UnlockAllScreen()
+            }
+
+            composable(
+                route = Screens.NewStrategy.name,
+                arguments = Screens.NewStrategy.arguments,
+            ) {
                 StrategyEditorScreen { strategy ->
                     with(strategyProvider.addCustomStrategy(strategy)) {
                         onSuccess { navHost.popBackStack() }
                         onFailure { error ->
                             Log.e(TAG, "Could not save the new strategy", error)
+                            scope.launch {
+                                snackbarHostState.showSnackbar("Could not save the strategy. Please try again.")
+                            }
                         }
                     }
                 }

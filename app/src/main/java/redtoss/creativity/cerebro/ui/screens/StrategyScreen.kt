@@ -1,158 +1,33 @@
 package redtoss.creativity.cerebro.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import redtoss.creativity.cerebro.data.Category
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import redtoss.creativity.cerebro.data.Strategy
-import redtoss.creativity.cerebro.data.StrategyEditorState
 import redtoss.creativity.cerebro.ui.layouts.cards.StrategyCard
+import redtoss.creativity.cerebro.ui.sampleStrategy
+import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
+import redtoss.creativity.cerebro.ui.theme.Spacing
 
 @Composable
 internal fun StrategyScreen(strategy: Strategy) {
-    StrategyCard(strategy, Modifier.padding(8.dp))
-}
-
-@Suppress("MagicNumber")
-@Composable
-internal fun StrategyEditorScreen(onStrategyFinished: (Strategy) -> Unit) {
-    val editorState = remember { mutableStateOf(StrategyEditorState()) }
-    val selectedEditorStep = remember { mutableStateOf(1) }
-    val finalStrategyPreview = remember { mutableStateOf<Strategy?>(null) }
-    val finalStrategyPreviewValue = finalStrategyPreview.value
-    if (finalStrategyPreviewValue != null) {
-        Column(Modifier.padding(horizontal = 8.dp)) {
-            StrategyCard(finalStrategyPreviewValue)
-            Spacer(Modifier.height(32.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                Button({ finalStrategyPreview.value = null }) { Text("Edit") }
-                Button({ onStrategyFinished(finalStrategyPreviewValue) }) { Text("Finished") }
-            }
-        }
-    } else {
-        Column(Modifier.padding(horizontal = 8.dp)) {
-            SecondaryTabRow(selectedTabIndex = selectedEditorStep.value, indicator = {}, divider = {}) {
-                for (stepId in 1..4) {
-                    val isStepSelected = selectedEditorStep.value == stepId
-                    val isStepCompleted = when (stepId) {
-                        1 -> !editorState.value.newTitle.value.isNullOrBlank()
-                        2 -> !editorState.value.newShortDescription.value.isNullOrBlank()
-                        3 -> !editorState.value.newLongDescription.value.isNullOrBlank()
-                        4 -> editorState.value.newCategory.value != null
-                        else -> false
-                    }
-                    Tab(isStepSelected, { selectedEditorStep.value = stepId }) {
-                        Card(
-                            colors = CardDefaults.cardColors(
-                                containerColor = when {
-                                    isStepCompleted && !isStepSelected -> MaterialTheme.colorScheme.tertiaryContainer
-                                    isStepSelected -> MaterialTheme.colorScheme.primaryContainer
-                                    else -> Color.Transparent
-                                },
-                                contentColor = when {
-                                    isStepCompleted && !isStepSelected -> MaterialTheme.colorScheme.onTertiaryContainer
-                                    isStepSelected -> MaterialTheme.colorScheme.onPrimaryContainer
-                                    else -> MaterialTheme.colorScheme.onSurface
-                                },
-                            ),
-                        ) {
-                            Column {
-                                Text(
-                                    text = "$stepId",
-                                    modifier = Modifier.padding(horizontal = 8.dp),
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            Spacer(Modifier.height(32.dp))
-            Column(Modifier.height(IntrinsicSize.Max)) {
-                when (selectedEditorStep.value) {
-                    1 -> TitleStep(1, editorState.value)
-                    2 -> ShortDescriptionStep(2, editorState.value)
-                    3 -> LongDescriptionStep(3, editorState.value)
-                    4 -> CategoryStep(4, editorState.value)
-                }
-            }
-            Spacer(Modifier.height(32.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                Button(
-                    onClick = { finalStrategyPreview.value = editorState.value.buildStrategy() },
-                    enabled = editorState.value.buildStrategy() != null,
-                ) { Text("Preview") }
-            }
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(Spacing.Small),
+    ) {
+        StrategyCard(strategy)
     }
 }
 
+@PreviewLightDark
 @Composable
-fun TitleStep(index: Int, editorState: StrategyEditorState) {
-    Text("Step $index: Title")
-    TextField(value = editorState.newTitle.value.orEmpty(), onValueChange = {
-        editorState.newTitle.value = it
-    }, modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-fun ShortDescriptionStep(index: Int, editorState: StrategyEditorState) {
-    Text("Step $index: ShortDescription")
-    TextField(value = editorState.newShortDescription.value.orEmpty(), onValueChange = {
-        editorState.newShortDescription.value = it
-    }, modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-fun LongDescriptionStep(index: Int, editorState: StrategyEditorState) {
-    Text("Step $index: LongDescription")
-    TextField(value = editorState.newLongDescription.value.orEmpty(), onValueChange = {
-        editorState.newLongDescription.value = it
-    }, modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-fun CategoryStep(index: Int, editorState: StrategyEditorState) {
-    Text("Step $index: Category")
-    val expanded = remember { mutableStateOf(false) }
-    Button({ expanded.value = !expanded.value }) {
-        Icon(Icons.Default.ArrowDropDown, "Dropdown icon")
-        Text(editorState.newCategory.value?.title ?: "Category")
-    }
-    DropdownMenu(expanded.value, { expanded.value = false }) {
-        Category.entries.forEach {
-            DropdownMenuItem({ Text(it.title) }, {
-                editorState.newCategory.value = it
-                expanded.value = false
-            })
-        }
-    }
+private fun StrategyScreenPreview() = CosyAppTheme {
+    StrategyScreen(sampleStrategy)
 }

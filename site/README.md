@@ -19,7 +19,7 @@ python3 -m http.server 8000 -d site/_build
 ## Structure
 
 - **`generate.py`** — Python 3.9+, no external dependencies. Reads strategy JSONs, validates them, and writes HTML + CSS to `site/_build/`.
-- **`static/site.css`** — Responsive stylesheet using the app's theme colors (warm amber/brown palette from `ui/theme2/Color.kt`).
+- **`static/site.css`** — Responsive stylesheet using the app's theme colors (warm amber/brown palette from `ui/theme/Color.kt`).
 - **`static/icons/`** — Strategy category icons, copied from `app/svgAssets/` at generation time.
 - **`_build/`** — Generated output (ignored by git); published to GitHub Pages.
 

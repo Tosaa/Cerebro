@@ -76,4 +76,18 @@ sealed interface Screens {
 
         override val arguments: List<NamedNavArgument> = emptyList()
     }
+
+    object Settings : Screens {
+        override val route: String
+            get() = name
+
+        override val arguments: List<NamedNavArgument> = emptyList()
+    }
+
+    object UnlockAll : Screens {
+        override val route: String
+            get() = name
+
+        override val arguments: List<NamedNavArgument> = emptyList()
+    }
 }
