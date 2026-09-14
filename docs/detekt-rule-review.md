@@ -7,6 +7,11 @@ The point is to decide deliberately which rules are on, rather than inheriting
 `buildUponDefaultConfig` and never looking at the rest. Each batch records what a
 rule does, whether it is worth enabling *here*, and what can be tuned.
 
+> **Note on paths (2026-09-14):** entries below that name `ui/theme` were recorded
+> against the old Android Studio template package, which has since been deleted. The
+> Material Theme Builder export that was `ui/theme2` took over the name. Paths in the
+> historical entries are left as they were written at the time.
+
 ## State of play
 
 **Review complete: all 81 enableable inactive rules assessed (81 of 115; the other 34 are inert without type resolution). 34 enabled, 3 disabled.**
@@ -669,8 +674,9 @@ two stayed silent for explainable reasons.
   escapes reads better as a raw string. **Config:** `maxEscapedCharacterCount` (2),
   `ignoredCharacters`.
 - **`UnderscoresInNumericLiterals`** - `1234567` should be `1_234_567`. **Config:**
-  `acceptableLength` (4), `allowNonStandardGrouping`. The colour literals in
-  `ui/theme2` are excluded from detekt anyway, and `ui/theme` produced no findings.
+  `acceptableLength` (4), `allowNonStandardGrouping`. The colour literals in the
+  generated `ui/theme` files are excluded from detekt anyway, and the hand-written
+  ones alongside them produced no findings.
 - **`CascadingCallWrapping`** - if one call in a chain is wrapped, all should be.
   **Config:** `includeElvis` (true). Distinct from the active
   `formatting/ChainWrapping`: only this one fired on the probe chain.

@@ -21,22 +21,6 @@ import redtoss.creativity.cerebro.data.ThemeMode
 import redtoss.creativity.cerebro.ui.theme.CosyAppTheme
 import redtoss.creativity.cerebro.ui.theme.Spacing
 
-// Rough ideas for what else could live here:
-//
-//  - Dynamic colour (Material You) as a fourth colour theme. CosyAppTheme already takes
-//    a `dynamicColor` parameter, hardcoded to false at the call site. It needs an API 31
-//    guard and a decision about what it falls back to below that.
-//  - Contrast level: normal / medium / high. theme2/Theme.kt generates mediumContrast
-//    and highContrast schemes for the Cosy palette; Forest and Ocean have no contrast
-//    variants, so this needs those authored first.
-//  - A daily "Strategy of the day" reminder notification. Needs POST_NOTIFICATIONS on
-//    API 33+, a WorkManager dependency, and a time picker.
-//  - Export custom strategies to a JSON file, and import them back. The storage format
-//    in StrategyProvider is already JSON, so this is mostly a SAF document picker.
-//  - Reset custom strategies: delete the private custom_strategies.json. Needs a
-//    confirmation dialog; it is destructive and unrecoverable.
-//  - Which screen the app opens on: Home or Library.
-
 @Composable
 fun SettingsScreen(
     themeMode: ThemeMode,
