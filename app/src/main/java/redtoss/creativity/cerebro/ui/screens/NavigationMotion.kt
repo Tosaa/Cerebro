@@ -1,5 +1,6 @@
 package redtoss.creativity.cerebro.ui.screens
 
+import androidx.activity.BackEventCompat
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -44,3 +45,36 @@ internal val ForwardExit = exit(toRight = false)
 /** Coming back: the reverse, so a screen retraces the path it took getting here. */
 internal val BackEnter = enter(fromRight = false)
 internal val BackExit = exit(toRight = true)
+
+// While a back gesture is being dragged the fade is scrubbed by finger position rather
+// than played, so the staggered 90ms timing above would empty the screen a third of the
+// way through the swipe. These span the whole gesture instead. The geometry is identical
+// to the committed transitions, so releasing mid-swipe continues rather than jumps.
+private val predictiveFadeSpec = tween<Float>(SLIDE_DURATION_MILLIS, easing = LinearEasing)
+
+private fun predictiveEnter(fromRight: Boolean): EnterTransition {
+    val sign = if (fromRight) 1 else -1
+    return slideInHorizontally(slideSpec) { width -> sign * width / SLIDE_FRACTION } +
+        fadeIn(predictiveFadeSpec)
+}
+
+private fun predictiveExit(toRight: Boolean): ExitTransition {
+    val sign = if (toRight) 1 else -1
+    return slideOutHorizontally(slideSpec) { width -> sign * width / SLIDE_FRACTION } +
+        fadeOut(predictiveFadeSpec)
+}
+
+/**
+ * Navigation Compose keeps the in-progress back gesture on its own pair of transitions,
+ * separate from popEnter/popExit, and defaults them to a scaleOut. Left unset, the app
+ * shrinks into the middle of the screen while the finger is down no matter what the pop
+ * transitions say.
+ *
+ * The swipe edge decides the direction so the content tracks the finger: dragging from
+ * the left edge pushes the screen right, dragging from the right edge pushes it left.
+ */
+internal fun predictivePopEnter(swipeEdge: Int): EnterTransition =
+    predictiveEnter(fromRight = swipeEdge != BackEventCompat.EDGE_LEFT)
+
+internal fun predictivePopExit(swipeEdge: Int): ExitTransition =
+    predictiveExit(toRight = swipeEdge == BackEventCompat.EDGE_LEFT)

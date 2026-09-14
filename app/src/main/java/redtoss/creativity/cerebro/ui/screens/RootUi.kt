@@ -41,6 +41,8 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
             exitTransition = { ForwardExit },
             popEnterTransition = { BackEnter },
             popExitTransition = { BackExit },
+            predictivePopEnterTransition = { swipeEdge -> predictivePopEnter(swipeEdge) },
+            predictivePopExitTransition = { swipeEdge -> predictivePopExit(swipeEdge) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
