@@ -1,6 +1,6 @@
 package redtoss.creativity.cerebro.data
 
-enum class ThemeMode(val label: String) {
+enum class ThemeMode(override val label: String) : LabelledChoice {
     System("System"),
     Light("Light"),
     Dark("Dark"),

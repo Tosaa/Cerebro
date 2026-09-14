@@ -27,16 +27,20 @@ The app is a single-activity Compose app with these screens:
 | Library | [`ui/screens/LibraryScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/LibraryScreen.kt) | All strategies, bundled and custom, sorted by title |
 | New Strategy | [`ui/screens/StrategyScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/StrategyScreen.kt) | A four-step editor (title, short description, long description, category) with a preview before saving |
 | About | [`ui/screens/AboutScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AboutScreen.kt) | App description |
-| Settings | [`ui/screens/SettingsScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/SettingsScreen.kt) | Theme: system, light or dark |
+| Settings | [`ui/screens/SettingsScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/SettingsScreen.kt) | Appearance and colour theme |
 | Unlock all | [`ui/screens/UnlockAllScreen.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/UnlockAllScreen.kt) | Placeholder — see below |
 
 Library, About, New Strategy, Settings and Unlock all are reached from the
 overflow menu in the top app bar
 ([`ui/screens/AppBar.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/screens/AppBar.kt)).
 
-Settings holds a single preference so far — whether to follow the system's
-light/dark setting or override it — stored in SharedPreferences via
+Settings holds two preferences so far — the appearance (follow the system's
+light/dark setting, or override it) and the colour theme (**Cosy** warm amber,
+**Forest** green, **Ocean** blue) — stored in SharedPreferences via
 [`data/AppSettings.kt`](app/src/main/java/redtoss/creativity/cerebro/data/AppSettings.kt).
+Each colour theme has a full light and dark scheme; the Cosy one is the
+Material Theme Builder export in `ui/theme2/Color.kt`, the other two are in
+[`ui/theme2/ColorThemes.kt`](app/src/main/java/redtoss/creativity/cerebro/ui/theme2/ColorThemes.kt).
 Unlock all is deliberately **not implemented**. Both files carry a comment block
 sketching what else could go there and what it would cost; read those before
 building on either one.

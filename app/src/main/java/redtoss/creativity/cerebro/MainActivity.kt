@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val appSettings = remember { AppSettings(applicationContext) }
             val themeMode by appSettings.themeMode.collectAsStateWithLifecycle()
+            val colorTheme by appSettings.colorTheme.collectAsStateWithLifecycle()
             val darkTheme = when (themeMode) {
                 ThemeMode.System -> isSystemInDarkTheme()
                 ThemeMode.Light -> false
@@ -40,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            CosyAppTheme(darkTheme = darkTheme) {
+            CosyAppTheme(darkTheme = darkTheme, colorTheme = colorTheme) {
                 val strategyProvider = remember { StrategyProvider(assetManager, baseContext) }
                 AppUi(strategyProvider, appSettings)
             }

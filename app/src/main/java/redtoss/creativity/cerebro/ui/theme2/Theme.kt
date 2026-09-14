@@ -11,6 +11,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import redtoss.creativity.cerebro.data.ColorTheme
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -243,6 +244,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
 @Composable
 fun CosyAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colorTheme: ColorTheme = ColorTheme.Cosy,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable() () -> Unit
@@ -253,8 +255,11 @@ fun CosyAppTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> darkScheme
-        else -> lightScheme
+        else -> when (colorTheme) {
+            ColorTheme.Cosy -> if (darkTheme) darkScheme else lightScheme
+            ColorTheme.Forest -> if (darkTheme) forestDarkScheme else forestLightScheme
+            ColorTheme.Ocean -> if (darkTheme) oceanDarkScheme else oceanLightScheme
+        }
     }
 
     MaterialTheme(

@@ -102,7 +102,13 @@ fun AppUi(strategyProvider: StrategyProvider, appSettings: AppSettings) {
 
             composable(route = Screens.Settings.name, arguments = Screens.Settings.arguments) {
                 val themeMode by appSettings.themeMode.collectAsStateWithLifecycle()
-                SettingsScreen(themeMode = themeMode, onThemeModeSelected = appSettings::setThemeMode)
+                val colorTheme by appSettings.colorTheme.collectAsStateWithLifecycle()
+                SettingsScreen(
+                    themeMode = themeMode,
+                    colorTheme = colorTheme,
+                    onThemeModeSelected = appSettings::setThemeMode,
+                    onColorThemeSelected = appSettings::setColorTheme,
+                )
             }
 
             composable(route = Screens.UnlockAll.name, arguments = Screens.UnlockAll.arguments) {

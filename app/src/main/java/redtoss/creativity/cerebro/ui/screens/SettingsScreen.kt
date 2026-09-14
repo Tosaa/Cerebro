@@ -15,18 +15,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import redtoss.creativity.cerebro.data.ColorTheme
+import redtoss.creativity.cerebro.data.LabelledChoice
 import redtoss.creativity.cerebro.data.ThemeMode
 import redtoss.creativity.cerebro.ui.theme2.CosyAppTheme
 import redtoss.creativity.cerebro.ui.theme2.Spacing
 
 // Rough ideas for what else could live here:
 //
-//  - Dynamic colour (Material You) toggle. CosyAppTheme already takes a `dynamicColor`
-//    parameter, hardcoded to false at the call site. It discards the warm amber palette
-//    in favour of the system wallpaper colours, which is an identity trade-off.
+//  - Dynamic colour (Material You) as a fourth colour theme. CosyAppTheme already takes
+//    a `dynamicColor` parameter, hardcoded to false at the call site. It needs an API 31
+//    guard and a decision about what it falls back to below that.
 //  - Contrast level: normal / medium / high. theme2/Theme.kt generates mediumContrast
-//    and highContrast schemes for both light and dark; all four are declared and never
-//    referenced. Mostly plumbing.
+//    and highContrast schemes for the Cosy palette; Forest and Ocean have no contrast
+//    variants, so this needs those authored first.
 //  - A daily "Strategy of the day" reminder notification. Needs POST_NOTIFICATIONS on
 //    API 33+, a WorkManager dependency, and a time picker.
 //  - Export custom strategies to a JSON file, and import them back. The storage format
@@ -36,7 +38,12 @@ import redtoss.creativity.cerebro.ui.theme2.Spacing
 //  - Which screen the app opens on: Home or Library.
 
 @Composable
-fun SettingsScreen(themeMode: ThemeMode, onThemeModeSelected: (ThemeMode) -> Unit) {
+fun SettingsScreen(
+    themeMode: ThemeMode,
+    colorTheme: ColorTheme,
+    onThemeModeSelected: (ThemeMode) -> Unit,
+    onColorThemeSelected: (ColorTheme) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,37 +55,73 @@ fun SettingsScreen(themeMode: ThemeMode, onThemeModeSelected: (ThemeMode) -> Uni
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
         )
-        ThemeSetting(themeMode = themeMode, onThemeModeSelected = onThemeModeSelected)
+        ChoiceSetting(
+            title = "Appearance",
+            description = "System follows your device's light or dark setting.",
+            options = ThemeMode.entries,
+            selected = themeMode,
+            onSelected = onThemeModeSelected,
+        )
+        ChoiceSetting(
+            title = "Colour theme",
+            description = "Cosy is warm amber, Forest is green, Ocean is blue.",
+            options = ColorTheme.entries,
+            selected = colorTheme,
+            onSelected = onColorThemeSelected,
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ThemeSetting(themeMode: ThemeMode, onThemeModeSelected: (ThemeMode) -> Unit) {
+private fun <T : LabelledChoice> ChoiceSetting(
+    title: String,
+    description: String,
+    options: List<T>,
+    selected: T,
+    onSelected: (T) -> Unit,
+) {
     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-        Text(text = "Theme", style = MaterialTheme.typography.titleMedium)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
-            text = "System follows your device's light or dark setting.",
+            text = description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            ThemeMode.entries.forEachIndexed { index, mode ->
+            options.forEachIndexed { index, option ->
                 SegmentedButton(
-                    selected = mode == themeMode,
-                    onClick = { onThemeModeSelected(mode) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
+                    selected = option == selected,
+                    onClick = { onSelected(option) },
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
                 ) {
-                    Text(mode.label)
+                    Text(option.label)
                 }
             }
         }
     }
 }
 
+@Composable
+private fun SettingsScreenPreviewBody(colorTheme: ColorTheme) = CosyAppTheme(colorTheme = colorTheme) {
+    val themeMode = remember { mutableStateOf(ThemeMode.System) }
+    val selectedColorTheme = remember { mutableStateOf(colorTheme) }
+    SettingsScreen(
+        themeMode = themeMode.value,
+        colorTheme = selectedColorTheme.value,
+        onThemeModeSelected = { themeMode.value = it },
+        onColorThemeSelected = { selectedColorTheme.value = it },
+    )
+}
+
 @PreviewLightDark
 @Composable
-private fun SettingsScreenPreview() = CosyAppTheme {
-    val themeMode = remember { mutableStateOf(ThemeMode.System) }
-    SettingsScreen(themeMode = themeMode.value) { themeMode.value = it }
-}
+private fun SettingsScreenCosyPreview() = SettingsScreenPreviewBody(ColorTheme.Cosy)
+
+@PreviewLightDark
+@Composable
+private fun SettingsScreenForestPreview() = SettingsScreenPreviewBody(ColorTheme.Forest)
+
+@PreviewLightDark
+@Composable
+private fun SettingsScreenOceanPreview() = SettingsScreenPreviewBody(ColorTheme.Ocean)
